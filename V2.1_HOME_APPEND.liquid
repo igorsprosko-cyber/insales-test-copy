@@ -1,15 +1,13 @@
 {% comment %}
-  VELES LEGS — V2.1 TEST LAYER / corrected
-  This file is the single test layer used on the copied homepage.
-  Does NOT replace or modify the existing calculator logic.
-  V2 DESIGN RULE: strict geometry, zero rounded corners.
-  V2 INTERACTION RULE: primary accent hover is green for all CTA buttons.
+VELES LEGS — V2.1 TEST LAYER
+Single homepage test layer. Existing calculator logic in index.liquid is untouched.
+Strict 90-degree geometry. Green hover for all V2 CTAs.
 {% endcomment %}
 
 {% assign VL_CATALOG_URL = '/collection/all' %}
 {% assign VL_WOOD_URL = '/collection/derevyannye-nozhki-dlya-mebeli' %}
 {% assign VL_METAL_URL = '/collection/metallicheskie-nozhki-dlya-mebeli' %}
-{% assign VL_FURNITURE_URL = '/collection/new' %}
+{% assign VL_NEW_URL = '/collection/new' %}
 {% assign VL_CUSTOM_URL = '/collection/raboty-na-zakaz' %}
 {% assign VL_HITS_URL = '/collection/hits' %}
 {% assign VL_SALE_URL = '/collection/aktsii' %}
@@ -17,482 +15,137 @@
 {% assign VL_PHONE_URL = 'tel:+74992905200' %}
 
 <style>
-  :root {
-    --vl21-black: #0a0a0a;
-    --vl21-white: #fff;
-    --vl21-soft: #f5f5f2;
-    --vl21-line: #d8d8d4;
-    --vl21-green: #2f9e44;
-    --vl21-max: 1240px;
-  }
-
-  .vl21-layer,
-  .vl21-layer * { box-sizing: border-box; }
-
-  .vl21-layer,
-  .vl21-layer * { border-radius: 0 !important; }
-
-  .vl-v2-hero,
-  .vl-v2-hero * { border-radius: 0 !important; }
-
-  /* Remove the old duplicate homepage blocks. The V2 layer replaces them. */
-  .vl-v2-section:has(.vl-v2-category-grid) { display: none !important; }
-  .vl-v2-final { display: none !important; }
-
-  /* Calculator: keep the existing logic, but force its visual controls to the same 90-degree geometry. */
-  .vl-v2,
-  .vl-v2 * { border-radius: 0 !important; }
-  .vl-v2 .vl-tab,
-  .vl-v2 .vl-column,
-  .vl-v2 .vl-select-group select,
-  .vl-v2 .vl-select-group input,
-  .vl-v2 .vl-select-group textarea,
-  .vl-v2 .vl-calc-result,
-  .vl-v2 button,
-  .vl-v2 input,
-  .vl-v2 select,
-  .vl-v2 textarea { border-radius: 0 !important; }
-
-  /* Keep the same green interaction rule on the original V2 hero buttons. */
-  .vl-v2 .vl-v2-btn:hover {
-    background: var(--vl21-green) !important;
-    border-color: var(--vl21-green) !important;
-    color: #fff !important;
-  }
-
-  .vl21-layer {
-    width: 100%;
-    color: var(--vl21-black);
-    background: var(--vl21-white);
-    font-family: Arial, Helvetica, sans-serif;
-  }
-
-  .vl21-wrap {
-    width: min(calc(100% - 40px), var(--vl21-max));
-    margin: 0 auto;
-  }
-
-  .vl21-section { padding: 88px 0; }
-
-  .vl21-section--soft {
-    background: var(--vl21-soft);
-    border-top: 1px solid var(--vl21-line);
-    border-bottom: 1px solid var(--vl21-line);
-  }
-
-  .vl21-kicker {
-    margin-bottom: 14px;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-  }
-
-  .vl21-title {
-    margin: 0;
-    max-width: 760px;
-    font-family: Georgia, 'Times New Roman', serif;
-    font-size: clamp(38px, 6vw, 70px);
-    line-height: .98;
-    letter-spacing: -1.5px;
-  }
-
-  .vl21-copy {
-    max-width: 680px;
-    margin: 20px 0 0;
-    color: #444;
-    font-size: 17px;
-    line-height: 1.7;
-  }
-
-  .vl21-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 30px;
-  }
-
-  .vl21-btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 50px;
-    padding: 0 25px;
-    border: 1px solid #000;
-    background: #000;
-    color: #fff !important;
-    text-decoration: none !important;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 1.4px;
-    text-transform: uppercase;
-    transition: .2s ease;
-  }
-
-  .vl21-btn:hover {
-    background: var(--vl21-green);
-    border-color: var(--vl21-green);
-    color: #fff !important;
-    transform: translateY(-2px);
-  }
-
-  .vl21-btn--light {
-    background: #fff;
-    color: #000 !important;
-  }
-
-  /* Universal V2 CTA rule: light buttons use the same green hover as the catalog CTA. */
-  .vl21-btn--light:hover {
-    background: var(--vl21-green);
-    border-color: var(--vl21-green);
-    color: #fff !important;
-  }
-
-  .vl21-catalog-head {
-    display: flex;
-    align-items: end;
-    justify-content: space-between;
-    gap: 30px;
-    margin-bottom: 42px;
-  }
-
-  .vl21-catalog-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-  }
-
-  .vl21-catalog-card {
-    min-height: 250px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 28px;
-    border: 1px solid #000;
-    background: #fff;
-    color: #000;
-    text-decoration: none !important;
-    transition: .25s ease;
-  }
-
-  .vl21-catalog-card:hover {
-    background: #000;
-    color: #fff;
-    transform: translateY(-4px);
-  }
-
-  .vl21-catalog-num {
-    font-family: Georgia, serif;
-    font-size: 30px;
-    color: #aaa;
-  }
-
-  .vl21-catalog-card h3 {
-    margin: 0 0 8px;
-    font-family: Georgia, serif;
-    font-size: 27px;
-  }
-
-  .vl21-catalog-card p {
-    margin: 0;
-    color: #555;
-    font-size: 13px;
-    line-height: 1.5;
-  }
-
-  .vl21-catalog-card:hover p { color: #ccc; }
-
-  .vl21-catalog-arrow {
-    margin-top: 20px;
-    font-size: 20px;
-  }
-
-  .vl21-catalog-main {
-    display: block;
-    margin-top: 18px;
-    padding: 22px 25px;
-    border: 1px solid #000;
-    background: #000;
-    color: #fff !important;
-    text-decoration: none !important;
-    transition: .2s ease;
-  }
-
-  .vl21-catalog-main:hover {
-    background: var(--vl21-green);
-    border-color: var(--vl21-green);
-    color: #fff !important;
-    transform: translateY(-2px);
-  }
-
-  .vl21-catalog-main strong {
-    display: block;
-    margin-bottom: 7px;
-    font-size: 13px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-
-  .vl21-catalog-main span {
-    display: block;
-    color: #ccc;
-    font-size: 14px;
-  }
-
-  .vl21-catalog-main:hover span { color: #fff; }
-
-  .vl21-light {
-    display: grid;
-    grid-template-columns: 1.1fr .9fr;
-    min-height: 420px;
-    border: 1px solid #000;
-    background: #000;
-    color: #fff;
-  }
-
-  .vl21-light-copy { padding: 55px; }
-  .vl21-light-copy .vl21-kicker { color: #aaa; }
-  .vl21-light-copy .vl21-title { color: #fff; }
-  .vl21-light-copy .vl21-copy { color: #c7c7c7; }
-
-  .vl21-light-visual {
-    position: relative;
-    min-height: 360px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background:
-      linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px),
-      #111;
-    background-size: 46px 46px;
-  }
-
-  .vl21-lamp-orbit {
-    width: 230px;
-    height: 230px;
-    border: 1px solid rgba(255,255,255,.35);
-    position: relative;
-  }
-
-  .vl21-lamp-orbit::before,
-  .vl21-lamp-orbit::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: 0;
-    width: 1px;
-    height: 100%;
-    background: rgba(255,255,255,.16);
-    transform: translateX(-50%);
-  }
-
-  .vl21-lamp-orbit::after { transform: translateX(-50%) rotate(90deg); }
-
-  .vl21-lamp-core {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 70px;
-    height: 110px;
-    transform: translate(-50%, -50%);
-    background: #eee;
-    box-shadow: 0 0 55px rgba(255,255,255,.65);
-  }
-
-  .vl21-lamp-core::before {
-    content: '';
-    position: absolute;
-    left: 50%;
-    top: -55px;
-    width: 5px;
-    height: 58px;
-    transform: translateX(-50%);
-    background: #eee;
-  }
-
-  .vl21-lamp-core::after {
-    content: '';
-    position: absolute;
-    left: 50%;
-    bottom: -12px;
-    width: 105px;
-    height: 10px;
-    transform: translateX(-50%);
-    background: #eee;
-  }
-
-  .vl-v2-hero h1 { max-width: 820px; }
-  .vl-v2-hero h1 span { letter-spacing: 2px; }
-
-  @media (max-width: 900px) {
-    .vl21-catalog-grid { grid-template-columns: repeat(2, 1fr); }
-    .vl21-light { grid-template-columns: 1fr; }
-  }
-
-  @media (max-width: 640px) {
-    .vl21-wrap { width: min(calc(100% - 28px), var(--vl21-max)); }
-    .vl21-section { padding: 62px 0; }
-    .vl21-catalog-head { align-items: start; flex-direction: column; }
-    .vl21-catalog-grid { grid-template-columns: 1fr; }
-    .vl21-light-copy { padding: 35px 25px; }
-    .vl21-light-visual { min-height: 300px; }
-  }
+:root{--vl21-black:#0a0a0a;--vl21-white:#fff;--vl21-soft:#f5f5f2;--vl21-line:#d8d8d4;--vl21-green:#2f9e44;--vl21-max:1240px}
+.vl21-layer,.vl21-layer *{box-sizing:border-box;border-radius:0!important}
+.vl-v2-hero,.vl-v2-hero *{border-radius:0!important}
+.vl-v2-section:has(.vl-v2-category-grid),.vl-v2-final{display:none!important}
+.vl-v2,.vl-v2 *,.vl-v2 button,.vl-v2 input,.vl-v2 select,.vl-v2 textarea{border-radius:0!important}
+.vl21-layer{width:100%;color:var(--vl21-black);background:#fff;font-family:Arial,Helvetica,sans-serif}
+.vl21-wrap{width:min(calc(100% - 40px),var(--vl21-max));margin:0 auto}
+.vl21-section{padding:82px 0}
+.vl21-soft{background:#f5f5f2;border-top:1px solid var(--vl21-line);border-bottom:1px solid var(--vl21-line)}
+.vl21-kicker{margin-bottom:14px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
+.vl21-title{margin:0;max-width:800px;font-family:Georgia,'Times New Roman',serif;font-size:clamp(38px,6vw,70px);line-height:.98;letter-spacing:-1.5px}
+.vl21-copy{max-width:700px;margin:20px 0 0;color:#444;font-size:17px;line-height:1.65}
+.vl21-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+.vl21-btn{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:0 25px;border:1px solid #000;background:#000;color:#fff!important;text-decoration:none!important;font-size:11px;font-weight:700;letter-spacing:1.4px;text-transform:uppercase;transition:.2s ease}
+.vl21-btn:hover,.vl21-btn--light:hover{background:var(--vl21-green);border-color:var(--vl21-green);color:#fff!important;transform:translateY(-2px)}
+.vl21-btn--light{background:#fff;color:#000!important}
+.vl21-catalog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
+.vl21-card{min-height:245px;display:flex;flex-direction:column;justify-content:space-between;padding:28px;border:1px solid #000;background:#fff;color:#000;text-decoration:none!important;transition:.25s ease}
+.vl21-card:hover{background:#000;color:#fff;transform:translateY(-4px)}
+.vl21-num{font-family:Georgia,serif;font-size:30px;color:#aaa}
+.vl21-card h3{margin:0 0 8px;font-family:Georgia,serif;font-size:27px}
+.vl21-card p{margin:0;color:#555;font-size:13px;line-height:1.5}.vl21-card:hover p{color:#ccc}
+.vl21-arrow{margin-top:18px;font-size:20px}
+.vl21-catalog-main{display:block;margin-top:18px;padding:22px 25px;border:1px solid #000;background:#000;color:#fff!important;text-decoration:none!important}
+.vl21-catalog-main:hover{background:var(--vl21-green);border-color:var(--vl21-green)}
+.vl21-catalog-main strong,.vl21-catalog-main span{display:block}.vl21-catalog-main strong{margin-bottom:7px;font-size:13px;letter-spacing:1px;text-transform:uppercase}.vl21-catalog-main span{color:#ccc;font-size:14px}
+.vl21-light{display:grid;grid-template-columns:1.1fr .9fr;min-height:420px;border:1px solid #000;background:#000;color:#fff}
+.vl21-light-copy{padding:55px}.vl21-light-copy .vl21-kicker{color:#aaa}.vl21-light-copy .vl21-title{color:#fff}.vl21-light-copy .vl21-copy{color:#c7c7c7}
+.vl21-light-visual{position:relative;min-height:360px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#111}
+.vl21-lamp-grid{position:absolute;inset:0;background:linear-gradient(rgba(255,255,255,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.055) 1px,transparent 1px);background-size:46px 46px}
+.vl21-lamp-orbit{width:230px;height:230px;position:relative;border:1px solid rgba(255,255,255,.35)}
+.vl21-lamp-orbit:before,.vl21-lamp-orbit:after{content:'';position:absolute;left:50%;top:0;width:1px;height:100%;background:rgba(255,255,255,.16);transform:translateX(-50%)}.vl21-lamp-orbit:after{transform:translateX(-50%) rotate(90deg)}
+.vl21-lamp-core{position:absolute;left:50%;top:50%;width:70px;height:110px;transform:translate(-50%,-50%);background:#eee;box-shadow:0 0 55px rgba(255,255,255,.65)}
+.vl21-lamp-core:before{content:'';position:absolute;left:50%;top:-55px;width:5px;height:58px;transform:translateX(-50%);background:#eee}.vl21-lamp-core:after{content:'';position:absolute;left:50%;bottom:-12px;width:105px;height:10px;transform:translateX(-50%);background:#eee}
+.vl21-proof-grid,.vl21-b2b-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:40px}
+.vl21-proof,.vl21-b2b{padding:28px;border:1px solid #000;background:#fff}.vl21-proof{min-height:190px}.vl21-proof strong,.vl21-b2b h3{display:block;margin-bottom:12px;font-family:Georgia,serif;font-size:25px}.vl21-proof p,.vl21-b2b p{margin:0;color:#555;font-size:14px;line-height:1.6}
+.vl21-production{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:40px}.vl21-production-card{padding:40px;border:1px solid #000;background:#000;color:#fff}.vl21-production-card--light{background:#fff;color:#000}.vl21-production-card h3{margin:0 0 14px;font-family:Georgia,serif;font-size:34px}.vl21-production-card p{margin:0;color:#c7c7c7;line-height:1.7}.vl21-production-card--light p{color:#444}
+.vl21-b2b-grid{grid-template-columns:1fr 1fr}.vl21-b2b--dark{background:#000;color:#fff}.vl21-b2b--dark p{color:#c7c7c7}.vl21-list{margin:24px 0 0;padding:0;list-style:none}.vl21-list li{padding:12px 0;border-top:1px solid #d8d8d4;font-size:14px}.vl21-b2b--dark .vl21-list li{border-color:#333}
+@media(max-width:900px){.vl21-catalog-grid,.vl21-proof-grid{grid-template-columns:repeat(2,1fr)}.vl21-light,.vl21-production,.vl21-b2b-grid{grid-template-columns:1fr}}
+@media(max-width:640px){.vl21-wrap{width:min(calc(100% - 28px),var(--vl21-max))}.vl21-section{padding:62px 0}.vl21-catalog-grid,.vl21-proof-grid{grid-template-columns:1fr}.vl21-light-copy{padding:35px 25px}.vl21-light-visual{min-height:300px}.vl21-production-card,.vl21-b2b{padding:30px 25px}}
 </style>
 
 <div class="vl21-layer" id="vl21-layer">
-
-  <section class="vl21-section vl21-section--soft" id="vl21-catalog">
-    <div class="vl21-wrap">
-      <div class="vl21-catalog-head">
-        <div>
-          <div class="vl21-kicker">01 / Каталог продукции</div>
-          <h2 class="vl21-title">Вся продукция — в одном каталоге</h2>
-          <p class="vl21-copy">
-            Выбирайте направление, готовое изделие или решение под индивидуальную задачу.
-          </p>
-        </div>
-      </div>
-
-      <div class="vl21-catalog-grid">
-        <a class="vl21-catalog-card" href="{{ VL_WOOD_URL }}">
-          <span class="vl21-catalog-num">01</span>
-          <div>
-            <h3>Деревянные опоры</h3>
-            <p>Дуб, бук, ясень. Круглые, квадратные и резные модели.</p>
-            <div class="vl21-catalog-arrow">→</div>
-          </div>
-        </a>
-
-        <a class="vl21-catalog-card" href="{{ VL_METAL_URL }}">
-          <span class="vl21-catalog-num">02</span>
-          <div>
-            <h3>Металлические опоры</h3>
-            <p>Стандартные и регулируемые решения для мебели.</p>
-            <div class="vl21-catalog-arrow">→</div>
-          </div>
-        </a>
-
-        <a class="vl21-catalog-card" href="{{ VL_FURNITURE_URL }}">
-          <span class="vl21-catalog-num">03</span>
-          <div>
-            <h3>Мебельная фурнитура</h3>
-            <p>Крепления, заглушки, подпятники и дополнительные элементы.</p>
-            <div class="vl21-catalog-arrow">→</div>
-          </div>
-        </a>
-
-        <a class="vl21-catalog-card" href="{{ VL_CUSTOM_URL }}">
-          <span class="vl21-catalog-num">04</span>
-          <div>
-            <h3>Под заказ</h3>
-            <p>Нестандартные размеры, материалы и конструкции.</p>
-            <div class="vl21-catalog-arrow">→</div>
-          </div>
-        </a>
-
-        <a class="vl21-catalog-card" href="{{ VL_HITS_URL }}">
-          <span class="vl21-catalog-num">05</span>
-          <div>
-            <h3>Хиты</h3>
-            <p>Модели, которые чаще всего выбирают мебельные производства.</p>
-            <div class="vl21-catalog-arrow">→</div>
-          </div>
-        </a>
-
-        <a class="vl21-catalog-card" href="{{ VL_SALE_URL }}">
-          <span class="vl21-catalog-num">06</span>
-          <div>
-            <h3>Акции</h3>
-            <p>Специальные цены и предложения для оптовых заказчиков.</p>
-            <div class="vl21-catalog-arrow">→</div>
-          </div>
-        </a>
-      </div>
-
-      <a class="vl21-catalog-main" href="{{ VL_CATALOG_URL }}">
-        <strong>Перейти в каталог</strong>
-        <span>Все товары и категории тестового магазина →</span>
-      </a>
-    </div>
-  </section>
-
-  <section class="vl21-section" id="vl21-light">
-    <div class="vl21-wrap">
-      <div class="vl21-light">
-        <div class="vl21-light-copy">
-          <div class="vl21-kicker">02 / Новое производство</div>
-          <h2 class="vl21-title">Настольные лампы Veles Light</h2>
-          <p class="vl21-copy">
-            Отдельное направление собственного производства — дизайнерские настольные лампы из натурального дерева.
-            Показываем его отдельно, чтобы новое производство было заметно посетителю.
-          </p>
-          <div class="vl21-actions">
-            <a class="vl21-btn vl21-btn--light" href="{{ VL_LIGHT_URL }}" target="_blank" rel="noopener noreferrer">
-              Перейти на Veles Light
-            </a>
-          </div>
-        </div>
-        <div class="vl21-light-visual" aria-hidden="true">
-          <div class="vl21-lamp-orbit">
-            <div class="vl21-lamp-core"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="vl21-section vl21-section--soft" id="vl21-final-cta">
-    <div class="vl21-wrap">
-      <div class="vl21-kicker">03 / Следующий шаг</div>
-      <h2 class="vl21-title">Подберём решение под ваш проект</h2>
-      <p class="vl21-copy">
-        Готовые модели, оптовые партии и производство по техническому заданию.
-      </p>
-      <div class="vl21-actions">
-        <a class="vl21-btn" href="{{ VL_CATALOG_URL }}">Перейти в каталог</a>
-        <a class="vl21-btn vl21-btn--light" href="{{ VL_PHONE_URL }}">Связаться с нами</a>
-      </div>
-    </div>
-  </section>
+<section class="vl21-section vl21-soft" id="vl21-catalog"><div class="vl21-wrap">
+<div class="vl21-kicker">01 / Каталог продукции</div>
+<h2 class="vl21-title">Вся продукция — в одном каталоге</h2>
+<p class="vl21-copy">Выбирайте направление, готовое изделие или решение под индивидуальную задачу.</p>
+<div class="vl21-catalog-grid">
+<a class="vl21-card" href="{{ VL_WOOD_URL }}"><span class="vl21-num">01</span><div><h3>Деревянные опоры</h3><p>Деревянные ножки и опоры для мебели.</p><div class="vl21-arrow">→</div></div></a>
+<a class="vl21-card" href="{{ VL_METAL_URL }}"><span class="vl21-num">02</span><div><h3>Металлические опоры</h3><p>Металлические ножки и конструкции для мебели.</p><div class="vl21-arrow">→</div></div></a>
+<a class="vl21-card" href="{{ VL_NEW_URL }}"><span class="vl21-num">03</span><div><h3>Новинки</h3><p>Новые изделия и направления производства.</p><div class="vl21-arrow">→</div></div></a>
+<a class="vl21-card" href="{{ VL_CUSTOM_URL }}"><span class="vl21-num">04</span><div><h3>Работы на заказ</h3><p>Нестандартные размеры, материалы и решения под техническое задание.</p><div class="vl21-arrow">→</div></div></a>
+<a class="vl21-card" href="{{ VL_HITS_URL }}"><span class="vl21-num">05</span><div><h3>Хиты</h3><p>Модели, которые чаще всего выбирают мебельные производства.</p><div class="vl21-arrow">→</div></div></a>
+<a class="vl21-card" href="{{ VL_SALE_URL }}"><span class="vl21-num">06</span><div><h3>Акции</h3><p>Специальные предложения для оптовых заказчиков.</p><div class="vl21-arrow">→</div></div></a>
 </div>
+<a class="vl21-catalog-main" href="{{ VL_CATALOG_URL }}"><strong>Перейти в каталог</strong><span>Все товары и категории — в одном разделе →</span></a>
+</div></section>
+
+<section class="vl21-section" id="vl21-light"><div class="vl21-wrap"><div class="vl21-light"><div class="vl21-light-copy">
+<div class="vl21-kicker">02 / Новое производство</div><h2 class="vl21-title">Настольные лампы Veles Light</h2>
+<p class="vl21-copy">Новое направление собственного производства. Этот блок оставляем отдельным и заметным, чтобы производство ламп не потерялось среди мебельных направлений.</p>
+<div class="vl21-actions"><a class="vl21-btn" href="{{ VL_LIGHT_URL }}" target="_blank" rel="noopener">Перейти на Veles Light</a><a class="vl21-btn vl21-btn--light" href="{{ VL_PHONE_URL }}">Обсудить производство</a></div>
+</div><div class="vl21-light-visual"><div class="vl21-lamp-grid"></div><div class="vl21-lamp-orbit"><div class="vl21-lamp-core"></div></div></div></div></div></section>
+
+<section class="vl21-section vl21-soft" id="vl21-next"><div class="vl21-wrap"><div class="vl21-kicker">03 / Следующий шаг</div><h2 class="vl21-title">Подберём решение под ваш проект</h2><p class="vl21-copy">Готовые модели, оптовые партии и производство по техническому заданию.</p><div class="vl21-actions"><a class="vl21-btn" href="{{ VL_CATALOG_URL }}">Перейти в каталог</a></div></div></section>
+
+<section class="vl21-section" id="vl21-why"><div class="vl21-wrap"><div class="vl21-kicker">Почему Veles Legs</div><h2 class="vl21-title">Производитель, а не просто магазин</h2><p class="vl21-copy">Мы контролируем производство, материалы и повторяемость результата — от единичного заказа до серийной партии.</p><div class="vl21-proof-grid">
+<div class="vl21-proof"><strong>Собственное производство</strong><p>Контролируем ключевые этапы изготовления и можем менять конструкцию под задачу.</p></div>
+<div class="vl21-proof"><strong>Стабильное качество</strong><p>Одинаковые размеры, материалы и требования к партии — важная часть B2B-поставки.</p></div>
+<div class="vl21-proof"><strong>Работаем с производствами</strong><p>Подстраиваем решение под серийное изготовление мебели и технические требования.</p></div>
+</div></div></section>
+
+<section class="vl21-section vl21-soft" id="vl21-production"><div class="vl21-wrap"><div class="vl21-kicker">Собственное производство</div><h2 class="vl21-title">Если стандартной опоры нет — сделаем её под вас</h2><p class="vl21-copy">Нестандартная высота, форма, материал или крепление — обсуждаем техническое задание и подбираем способ производства.</p><div class="vl21-production">
+<div class="vl21-production-card"><h3>От идеи до партии</h3><p>От эскиза и образца до повторяемого серийного изделия.</p></div>
+<div class="vl21-production-card vl21-production-card--light"><h3>Под вашу задачу</h3><p>Меняем параметры изделия там, где стандартный каталог уже не подходит.</p><div class="vl21-actions"><a class="vl21-btn" href="{{ VL_CUSTOM_URL }}">Работы на заказ</a></div></div>
+</div></div></section>
+
+<section class="vl21-section" id="vl21-b2b-tool"><div class="vl21-wrap"><div class="vl21-kicker">B2B инструмент</div><h2 class="vl21-title">Рассчитайте стоимость партии</h2><p class="vl21-copy">Калькулятор остаётся существующим и рабочим. Здесь только визуальный вход в него; программную логику не меняем.</p><div class="vl21-actions"><a class="vl21-btn" href="#vl-v2-calculator">Открыть калькулятор</a></div></div></section>
+
+<section class="vl21-section vl21-soft" id="vl21-b2b"><div class="vl21-wrap"><div class="vl21-kicker">B2B</div><h2 class="vl21-title">Для производств, которым важна стабильность</h2><div class="vl21-b2b-grid">
+<div class="vl21-b2b vl21-b2b--dark"><h3>Серийные поставки</h3><p>Согласовываем параметры и работаем на повторяемый результат партии.</p><ul class="vl21-list"><li>Стабильные размеры и спецификация</li><li>Поставка партиями</li><li>Работа по техническому заданию</li></ul></div>
+<div class="vl21-b2b"><h3>Когда нужен не просто товар</h3><p>Если требуется постоянная модель, нестандартная опора или решение под конкретную мебельную серию — обсуждаем задачу напрямую.</p><ul class="vl21-list"><li>Индивидуальные параметры</li><li>Производство под заказ</li><li>Связь напрямую с поставщиком</li></ul><div class="vl21-actions"><a class="vl21-btn" href="{{ VL_PHONE_URL }}">Связаться с нами</a></div></div>
+</div></div></section>
+
+<section class="vl21-section" id="vl21-final-cta"><div class="vl21-wrap"><div class="vl21-kicker">Финальный шаг</div><h2 class="vl21-title">Готовы подобрать решение?</h2><p class="vl21-copy">Откройте каталог или свяжитесь с нами, если задача требует индивидуального решения.</p><div class="vl21-actions"><a class="vl21-btn" href="{{ VL_CATALOG_URL }}">Перейти в каталог</a><a class="vl21-btn vl21-btn--light" href="{{ VL_PHONE_URL }}">Связаться с нами</a></div></div></section>
+</div>
+
+<script>
+(function(){'use strict';var hero=document.querySelector('.vl-v2-hero');if(!hero)return;var title=hero.querySelector('h1');if(title){title.innerHTML='МЕБЕЛЬНЫЕ ОПОРЫ<br>ДЛЯ ФАБРИК <span>СОБСТВЕННОЕ ПРОИЗВОДСТВО · B2B · РОССИЯ</span>';}})();
+</script>
 
 <script>
 (function () {
   'use strict';
 
-  var catalogUrl = {{ VL_CATALOG_URL | json }};
+  function arrangeV21Dom() {
+    var root = document.querySelector('.vl-v2');
+    var layer = document.getElementById('vl21-layer');
+    if (!root || !layer) return false;
 
-  function upgradeHero() {
-    var hero = document.querySelector('.vl-v2-hero');
-    if (!hero) return;
+    var calculator = document.getElementById('vl-v2-calculator');
+    var oldCustom = document.getElementById('vl-v2-custom');
+    var oldClients = root.querySelector('.vl-v2-section:has(.vl-v2-client-grid)');
+    var oldWhy = root.querySelector('.vl-v2-section:has(.vl-v2-why-grid)');
+    var oldFinal = root.querySelector('.vl-v2-final');
 
-    var title = hero.querySelector('h1');
-    if (title) {
-      title.innerHTML = 'МЕБЕЛЬНЫЕ ОПОРЫ<br>ДЛЯ ФАБРИК <span>СОБСТВЕННОЕ ПРОИЗВОДСТВО · B2B · РОССИЯ</span>';
+    [oldCustom, oldClients, oldWhy, oldFinal].forEach(function (el) {
+      if (el) el.style.display = 'none';
+    });
+
+    if (calculator) {
+      root.insertBefore(layer, calculator);
+      root.appendChild(calculator);
+    } else {
+      root.appendChild(layer);
     }
 
-    var description = hero.querySelector('.vl-v2-hero-description');
-    if (description) {
-      description.textContent = 'Деревянные и металлические опоры собственного производства. Готовые решения, оптовые партии и изготовление по вашему техническому заданию.';
-    }
-
-    var buttons = hero.querySelectorAll('.vl-v2-btn');
-    if (buttons.length) {
-      buttons[0].textContent = 'Смотреть каталог';
-      buttons[0].setAttribute('href', catalogUrl);
-    }
-    if (buttons.length > 1) {
-      buttons[1].textContent = 'Получить прайс';
-      buttons[1].setAttribute('href', '/contact');
-    }
+    return true;
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', upgradeHero);
-  } else {
-    upgradeHero();
-  }
+  if (arrangeV21Dom()) return;
+
+  var observer = new MutationObserver(function () {
+    if (arrangeV21Dom()) observer.disconnect();
+  });
+
+  observer.observe(document.documentElement, { childList: true, subtree: true });
+
+  setTimeout(function () {
+    observer.disconnect();
+    arrangeV21Dom();
+  }, 5000);
 })();
 </script>
