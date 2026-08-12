@@ -2,6 +2,7 @@
   VELES LEGS — V2.1 TEST LAYER / corrected
   This file is the single test layer used on the copied homepage.
   Does NOT replace or modify the existing calculator logic.
+  V2 DESIGN RULE: strict geometry, zero rounded corners.
 {% endcomment %}
 
 {% assign VL_CATALOG_URL = '/collection/all' %}
@@ -20,11 +21,20 @@
     --vl21-white: #fff;
     --vl21-soft: #f5f5f2;
     --vl21-line: #d8d8d4;
+    --vl21-green: #2f9e44;
     --vl21-max: 1240px;
   }
 
   .vl21-layer,
   .vl21-layer * { box-sizing: border-box; }
+
+  /* V2 visual language: every interface surface is geometric, never pill-shaped. */
+  .vl21-layer,
+  .vl21-layer * { border-radius: 0 !important; }
+
+  /* Apply the same geometry to the existing V2 hero without touching its logic. */
+  .vl-v2-hero,
+  .vl-v2-hero * { border-radius: 0 !important; }
 
   .vl21-layer {
     width: 100%;
@@ -184,8 +194,8 @@
   }
 
   .vl21-catalog-main:hover {
-    background: #2f9e44;
-    border-color: #2f9e44;
+    background: var(--vl21-green);
+    border-color: var(--vl21-green);
     color: #fff !important;
     transform: translateY(-2px);
   }
@@ -229,16 +239,17 @@
     justify-content: center;
     overflow: hidden;
     background:
-      radial-gradient(circle at center, rgba(255,255,255,.18), transparent 28%),
-      radial-gradient(circle at center, rgba(255,255,255,.06), transparent 55%),
+      linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px),
       #111;
+    background-size: 46px 46px;
   }
 
+  /* Geometric lamp visual: square frame instead of a circle. */
   .vl21-lamp-orbit {
     width: 230px;
     height: 230px;
     border: 1px solid rgba(255,255,255,.35);
-    border-radius: 50%;
     position: relative;
   }
 
@@ -263,7 +274,6 @@
     width: 70px;
     height: 110px;
     transform: translate(-50%, -50%);
-    border-radius: 45% 45% 12% 12%;
     background: #eee;
     box-shadow: 0 0 55px rgba(255,255,255,.65);
   }
@@ -287,7 +297,6 @@
     width: 105px;
     height: 10px;
     transform: translateX(-50%);
-    border-radius: 50%;
     background: #eee;
   }
 
