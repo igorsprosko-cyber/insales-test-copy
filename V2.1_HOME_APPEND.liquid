@@ -23,7 +23,7 @@ Strict 90-degree geometry. Green hover for all V2 CTAs.
 .vl21-layer{width:100%;color:var(--vl21-black);background:#fff;font-family:Arial,Helvetica,sans-serif}
 .vl21-wrap{width:min(calc(100% - 40px),var(--vl21-max));margin:0 auto}
 .vl21-section{padding:82px 0}
-.vl21-soft{background:#f5f5f2;border-top:1px solid var(--vl21-line);border-bottom:1px solid var(--vl21-line)}
+.vl21-soft{background:var(--vl21-soft);border-top:1px solid var(--vl21-line);border-bottom:1px solid var(--vl21-line)}
 .vl21-kicker{margin-bottom:14px;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase}
 .vl21-title{margin:0;max-width:800px;font-family:Georgia,'Times New Roman',serif;font-size:clamp(38px,6vw,70px);line-height:.98;letter-spacing:-1.5px}
 .vl21-copy{max-width:700px;margin:20px 0 0;color:#444;font-size:17px;line-height:1.65}
@@ -103,49 +103,29 @@ Strict 90-degree geometry. Green hover for all V2 CTAs.
 </div>
 
 <script>
-(function(){'use strict';var hero=document.querySelector('.vl-v2-hero');if(!hero)return;var title=hero.querySelector('h1');if(title){title.innerHTML='МЕБЕЛЬНЫЕ ОПОРЫ<br>ДЛЯ ФАБРИК <span>СОБСТВЕННОЕ ПРОИЗВОДСТВО · B2B · РОССИЯ</span>';}})();
-</script>
-
-<script>
 (function () {
   'use strict';
-
-  function arrangeV21Dom() {
+  function arrangeV2() {
     var root = document.querySelector('.vl-v2');
     var layer = document.getElementById('vl21-layer');
-    if (!root || !layer) return false;
-
-    var calculator = document.getElementById('vl-v2-calculator');
-    var oldCustom = document.getElementById('vl-v2-custom');
-    var oldClients = root.querySelector('.vl-v2-section:has(.vl-v2-client-grid)');
-    var oldWhy = root.querySelector('.vl-v2-section:has(.vl-v2-why-grid)');
-    var oldFinal = root.querySelector('.vl-v2-final');
-
-    [oldCustom, oldClients, oldWhy, oldFinal].forEach(function (el) {
-      if (el) el.style.display = 'none';
+    if (!root || !layer) return;
+    var trust = root.querySelector('.vl-v2-trust');
+    var calculator = root.querySelector('#vl-v2-calculator');
+    if (!trust) return;
+    root.querySelectorAll('.vl-v2-section').forEach(function (section) {
+      if (section !== calculator) section.style.display = 'none';
     });
-
+    trust.style.display = '';
+    trust.insertAdjacentElement('afterend', layer);
     if (calculator) {
-      root.insertBefore(layer, calculator);
-      root.appendChild(calculator);
-    } else {
-      root.appendChild(layer);
+      calculator.style.display = '';
+      layer.insertAdjacentElement('afterend', calculator);
     }
-
-    return true;
   }
-
-  if (arrangeV21Dom()) return;
-
-  var observer = new MutationObserver(function () {
-    if (arrangeV21Dom()) observer.disconnect();
-  });
-
-  observer.observe(document.documentElement, { childList: true, subtree: true });
-
-  setTimeout(function () {
-    observer.disconnect();
-    arrangeV21Dom();
-  }, 5000);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', arrangeV2);
+  } else {
+    arrangeV2();
+  }
 })();
 </script>
