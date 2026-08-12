@@ -35,6 +35,10 @@
   .vl-v2-hero,
   .vl-v2-hero * { border-radius: 0 !important; }
 
+  /* Remove the old duplicate homepage blocks. The V2 layer replaces them. */
+  .vl-v2-section:has(.vl-v2-category-grid) { display: none !important; }
+  .vl-v2-final { display: none !important; }
+
   /* Calculator: keep the existing logic, but force its visual controls to the same 90-degree geometry. */
   .vl-v2,
   .vl-v2 * { border-radius: 0 !important; }
@@ -48,6 +52,13 @@
   .vl-v2 input,
   .vl-v2 select,
   .vl-v2 textarea { border-radius: 0 !important; }
+
+  /* Keep the same green interaction rule on the original V2 hero buttons. */
+  .vl-v2 .vl-v2-btn:hover {
+    background: var(--vl21-green) !important;
+    border-color: var(--vl21-green) !important;
+    color: #fff !important;
+  }
 
   .vl21-layer {
     width: 100%;
