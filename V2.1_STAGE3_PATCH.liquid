@@ -1,0 +1,107 @@
+{% comment %}
+VELES LEGS — V2.1 STAGE 3 PATCH
+Load this file immediately after V2.1_HOME_APPEND.liquid in the test homepage.
+It does not modify the original calculator implementation.
+{% endcomment %}
+
+<style>
+  /* Keep the V2.1 test layer independent of :has() browser support. */
+  .vl-v2-final { display: none !important; }
+</style>
+
+<script>
+(function () {
+  'use strict';
+
+  function patchCalculatorRequests() {
+    var woodSubmit = document.getElementById('wood-submit-final-btn');
+    var metalSubmit = document.querySelector('#panel-metal .btn-final');
+    var sendButton = document.getElementById('wood-send-btn');
+    var formBlock = document.getElementById('wood-form-block');
+    var comment = document.getElementById('wood-comment');
+
+    if (!woodSubmit || !metalSubmit || !sendButton || !formBlock || !comment) return;
+
+    if (!woodSubmit.dataset.vl21Patched) {
+      woodSubmit.dataset.vl21Patched = '1';
+      woodSubmit.addEventListener('click', function () {
+        var shape = document.getElementById('wood-shape-1');
+        var form = document.getElementById('wood-form-1');
+        if (!shape || !form || shape.value !== 'square') return;
+
+        var top = document.getElementById('wood-top-s-1');
+        var bottom = document.getElementById('wood-bottom-s-1');
+        var topOther = document.getElementById('wood-dim-other-1');
+        var bottomOther = document.getElementById('wood-bottom-dim-other-1');
+        if (!top || !bottom) return;
+
+        var topValue = top.value === 'other'
+          ? (topOther ? topOther.value + ' мм (под заказ)' : 'не указан')
+          : top.value + ' мм';
+
+        var text = comment.value;
+        text = text.replace(/- Верхний размер: [^\n]*/, '- Верхний размер: ' + topValue);
+
+        if (form.value === 'cone') {
+          var bottomValue = bottom.value === 'other'
+            ? (bottomOther ? bottomOther.value + ' мм (под заказ)' : 'не указан')
+            : bottom.value + ' мм';
+          text = text.replace(/- Нижний размер: [^\n]*/, '- Нижний размер: ' + bottomValue);
+        }
+
+        comment.value = text;
+      });
+    }
+
+    if (!metalSubmit.dataset.vl21Patched) {
+      metalSubmit.dataset.vl21Patched = '1';
+      metalSubmit.addEventListener('click', function () {
+        formBlock.dataset.vl21RequestType = 'metal';
+        var title = formBlock.querySelector('h4');
+        if (title) title.textContent = 'Запрос по металлическим опорам';
+        comment.value = 'Запрос по металлическим опорам. Требуется подбор решения менеджером.\n\n[Технические параметры и стоимость подтверждаются менеджером]';
+      });
+    }
+
+    if (!sendButton.dataset.vl21Patched) {
+      sendButton.dataset.vl21Patched = '1';
+      sendButton.addEventListener('click', function (event) {
+        if (formBlock.dataset.vl21RequestType !== 'metal') return;
+
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        var name = document.getElementById('wood-name').value.trim();
+        var phone = document.getElementById('wood-phone').value.trim();
+        var email = document.getElementById('wood-email').value.trim();
+        var org = document.getElementById('wood-org').value.trim();
+        if (!name || !phone || !email) {
+          alert('Пожалуйста, заполните обязательные поля: Имя, Телефон и Email');
+          return;
+        }
+
+        var body = 'Здравствуйте!\n\n';
+        body += 'Имя: ' + name + '\n';
+        body += 'Телефон: ' + phone + '\n';
+        body += 'Email: ' + email + '\n';
+        if (org) body += 'Компания: ' + org + '\n';
+        body += '\n' + comment.value + '\n\nПрошу связаться для подбора металлических опор.';
+
+        window.location.href = 'mailto:veles.mf@yandex.ru' +
+          '?subject=' + encodeURIComponent('Запрос по металлическим опорам с сайта') +
+          '&body=' + encodeURIComponent(body);
+      }, true);
+    }
+  }
+
+  function init() {
+    patchCalculatorRequests();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
