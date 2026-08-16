@@ -1,5 +1,4 @@
 from pathlib import Path
-import re
 
 text = Path('V2.1_STAGE3_PATCH.liquid').read_text(encoding='utf-8')
 
@@ -16,7 +15,7 @@ for token in required:
     assert token in text, f'missing required token: {token}'
 
 assert ':has(' not in text, 'patch contains an unsupported parent-selector dependency'
-assert len(re.findall(r'<script\\b', text, flags=re.I)) == 1
-assert len(re.findall(r'</script>', text, flags=re.I)) == 1
+assert text.count('<script') == 1
+assert text.count('</script>') == 1
 
 print('V2.1 Stage 3 patch validation: PASS')
