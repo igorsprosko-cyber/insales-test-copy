@@ -15,8 +15,8 @@ required = [
 for token in required:
     assert token in text, f'missing required token: {token}'
 
-assert ':has(' not in text, 'patch must not introduce :has() dependency'
-assert len(re.findall(r'<script\b', text, flags=re.I)) == 1
+assert ':has(' not in text, 'patch contains an unsupported parent-selector dependency'
+assert len(re.findall(r'<script\\b', text, flags=re.I)) == 1
 assert len(re.findall(r'</script>', text, flags=re.I)) == 1
 
 print('V2.1 Stage 3 patch validation: PASS')
