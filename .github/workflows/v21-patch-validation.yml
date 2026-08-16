@@ -1,0 +1,26 @@
+name: V2.1 Stage 3 patch validation
+
+on:
+  push:
+    paths:
+      - 'V2.1_HOME_APPEND.liquid'
+      - 'V2.1_STAGE3_PATCH.liquid'
+      - 'scripts/validate_v21_patch.py'
+      - '.github/workflows/v21-patch-validation.yml'
+  pull_request:
+    paths:
+      - 'V2.1_HOME_APPEND.liquid'
+      - 'V2.1_STAGE3_PATCH.liquid'
+      - 'scripts/validate_v21_patch.py'
+      - '.github/workflows/v21-patch-validation.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - name: Validate V2.1 Stage 3 patch
+        run: python scripts/validate_v21_patch.py
