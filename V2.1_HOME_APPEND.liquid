@@ -1069,6 +1069,412 @@
     }
   }
 
+
+
+  /* =========================================================
+     V2.3 DESIGN FOUNDATION — STAGE 1
+     Visual layer only. No HTML, Liquid or JavaScript changes.
+     No product images are introduced at this stage.
+  ========================================================= */
+
+  :root {
+    --vl-black: #0b0b0a;
+    --vl-white: #ffffff;
+    --vl-gray-50: #f3f2ee;
+    --vl-gray-100: #e8e7e2;
+    --vl-gray-300: #c9c8c2;
+    --vl-gray-500: #6b6a65;
+    --vl-max: 1280px;
+    --vl-radius: 0px;
+  }
+
+  .vl-v2 {
+    background: var(--vl-white);
+    color: var(--vl-black);
+    font-family: 'Montserrat', Arial, sans-serif;
+    --vl-rule: rgba(11,11,10,.18);
+  }
+
+  .vl-v2-container {
+    width: min(calc(100% - 48px), var(--vl-max));
+  }
+
+  .vl-v2 > section {
+    position: relative;
+  }
+
+  .vl-v2 > section::before {
+    position: absolute;
+    top: 22px;
+    left: max(24px, calc((100% - var(--vl-max)) / 2));
+    z-index: 3;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 2px;
+    color: #77756f;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+
+  .vl-v2 > section:nth-of-type(1)::before { content: '01 / HERO'; }
+  .vl-v2 > section:nth-of-type(2)::before { content: '02 / MATERIAL · TASK · PRODUCTION'; }
+  .vl-v2 > section:nth-of-type(3)::before { content: '03 / CATALOG'; }
+  .vl-v2 > section:nth-of-type(4)::before { content: '04 / VELES LIGHT'; }
+  .vl-v2 > section:nth-of-type(5)::before { content: '05 / CALCULATOR'; }
+  .vl-v2 > section:nth-of-type(6)::before { content: '06 / CUSTOM PRODUCTION'; }
+  .vl-v2 > section:nth-of-type(7)::before { content: '07 / B2B'; }
+  .vl-v2 > section:nth-of-type(8)::before { content: '08 / WHY VELES LEGS'; }
+
+  .vl-v2-section {
+    padding: 108px 0;
+    border-bottom: 1px solid var(--vl-rule);
+  }
+
+  .vl-v2-section--gray {
+    background: var(--vl-gray-50);
+  }
+
+  .vl-v2-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-weight: 700;
+    letter-spacing: -1.5px;
+  }
+
+  .vl-v2-title--small {
+    letter-spacing: -1px;
+  }
+
+  .vl-v2-eyebrow {
+    gap: 12px;
+    margin-bottom: 20px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2.8px;
+  }
+
+  .vl-v2-eyebrow::before {
+    width: 34px;
+    background: var(--vl-black);
+  }
+
+  .vl-v2-text {
+    color: #4d4c48;
+  }
+
+  .vl-v2-hero {
+    min-height: min(760px, 88vh);
+    border-bottom: 1px solid var(--vl-black);
+    background:
+      linear-gradient(90deg, transparent 0, transparent calc(100% - 1px), rgba(11,11,10,.06) calc(100% - 1px)),
+      radial-gradient(circle at 82% 30%, rgba(214,211,201,.46) 0, transparent 29%),
+      var(--vl-white);
+  }
+
+  .vl-v2-hero::after {
+    content: 'WOOD / METAL / CUSTOM';
+    position: absolute;
+    right: max(24px, calc((100% - var(--vl-max)) / 2));
+    bottom: 24px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #85837d;
+  }
+
+  .vl-v2-hero-grid {
+    gap: clamp(42px, 6vw, 90px);
+  }
+
+  .vl-v2-hero h1 {
+    font-size: clamp(58px, 8.4vw, 112px);
+    line-height: .87;
+    letter-spacing: -4.5px;
+  }
+
+  .vl-v2-hero h1 span {
+    margin-top: 28px;
+    font-size: clamp(10px, 1.15vw, 14px);
+    font-weight: 600;
+    letter-spacing: 3px;
+    color: #66645e;
+  }
+
+  .vl-v2-hero-description {
+    margin: 34px 0;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.75;
+  }
+
+  .vl-v2-btn {
+    min-height: 50px;
+    padding: 0 24px;
+    border-radius: 0;
+    font-size: 9px;
+    letter-spacing: 1.8px;
+    transition: transform .25s ease, background-color .25s ease, color .25s ease;
+  }
+
+  .vl-v2-btn:hover {
+    transform: translateY(-3px);
+  }
+
+  .vl-v2-hero-card {
+    padding: 38px;
+    border-radius: 0;
+    box-shadow: 12px 12px 0 var(--vl-black);
+  }
+
+  .vl-v2-hero-card-number {
+    font-size: 86px;
+  }
+
+  .vl-v2-hero-meta {
+    margin-top: 56px;
+  }
+
+  .vl-v2-hero-meta-item strong {
+    font-size: 22px;
+  }
+
+  .vl-v2-trust {
+    min-height: 148px;
+    border-bottom: 1px solid var(--vl-rule);
+    background: var(--vl-white);
+  }
+
+  .vl-v2-trust-grid {
+    min-height: 148px;
+  }
+
+  .vl-v2-trust-item {
+    min-height: 148px;
+    padding: 26px 24px;
+    border-right: 1px solid var(--vl-rule);
+  }
+
+  .vl-v2-trust-item strong {
+    font-size: 11px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .vl-v2-trust-item span {
+    font-size: 12px;
+    color: #676660;
+  }
+
+  .vl-v2-heading {
+    margin-bottom: 52px;
+  }
+
+  .vl-v2-category-grid {
+    gap: 12px;
+  }
+
+  .vl-v2-category {
+    min-height: 300px;
+    padding: 30px;
+    border-radius: 0;
+    border-color: var(--vl-black);
+    transition: transform .3s ease, background-color .3s ease, color .3s ease;
+  }
+
+  .vl-v2-category::before {
+    top: 22px;
+    right: 24px;
+    font-family: 'Montserrat', Arial, sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: #85837d;
+  }
+
+  .vl-v2-category-icon {
+    top: 54px;
+    left: 30px;
+    font-size: 42px;
+    opacity: .65;
+  }
+
+  .vl-v2-category h3 {
+    font-size: 30px;
+    letter-spacing: -1px;
+  }
+
+  .vl-v2-category p {
+    color: #66645e;
+  }
+
+  .vl-v2-category:hover {
+    transform: translateY(-4px);
+  }
+
+  .vl-v2-calculator-intro {
+    gap: 70px;
+    margin-bottom: 54px;
+  }
+
+  .vl-v2-calculator-note {
+    padding: 28px;
+    border-radius: 0;
+    border-color: var(--vl-black);
+  }
+
+  .vl-v2-calculator-note strong {
+    font-size: 10px;
+    letter-spacing: 1.8px;
+  }
+
+  .vl-v2-calculator-note p {
+    font-size: 12px;
+  }
+
+  /* Keep calculator mechanics untouched; only change its visual shell. */
+  .vl-selector,
+  .vl-selector-panel,
+  .vl-column,
+  .vl-calc-result,
+  .vl-selector-panel .vl-column {
+    border-radius: 0;
+  }
+
+  .vl-selector-tabs {
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  .vl-tab {
+    border-radius: 0;
+    padding: 11px 22px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 1.4px;
+    text-transform: uppercase;
+  }
+
+  .vl-column {
+    border-color: var(--vl-black);
+  }
+
+  .vl-select-group select,
+  .vl-select-group input,
+  .vl-select-group textarea {
+    border-radius: 0;
+  }
+
+  .vl-calc-result {
+    border-radius: 0;
+  }
+
+  .vl-v2 > section:nth-of-type(4) .vl-light {
+    border-radius: 0;
+  }
+
+  .vl-v2 > section:nth-of-type(4) {
+    background: #0c0c0b;
+    color: #fff;
+  }
+
+  .vl-v2 > section:nth-of-type(4) .vl-light-copy {
+    padding: clamp(42px, 6vw, 72px);
+  }
+
+  .vl-v2 > section:nth-of-type(4) .vl-v2-eyebrow::before {
+    background: #fff;
+  }
+
+  .vl-v2 > section:nth-of-type(4) .vl-v2-eyebrow,
+  .vl-v2 > section:nth-of-type(4) .vl-v2-title {
+    color: #fff;
+  }
+
+  .vl-v2 > section:nth-of-type(4) .vl-v2-text {
+    color: #c8c7c1;
+  }
+
+  @media (max-width: 900px) {
+    .vl-v2-container {
+      width: min(calc(100% - 36px), var(--vl-max));
+    }
+
+    .vl-v2 > section::before {
+      left: 18px;
+    }
+
+    .vl-v2-section {
+      padding: 88px 0;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .vl-v2-container {
+      width: calc(100% - 28px);
+    }
+
+    .vl-v2 > section::before {
+      top: 16px;
+      left: 14px;
+      font-size: 8px;
+      letter-spacing: 1.5px;
+    }
+
+    .vl-v2-hero {
+      min-height: auto;
+      padding: 86px 0 72px;
+    }
+
+    .vl-v2-hero h1 {
+      font-size: clamp(48px, 15vw, 72px);
+      letter-spacing: -2.8px;
+    }
+
+    .vl-v2-hero::after {
+      right: 14px;
+      bottom: 14px;
+      font-size: 7px;
+    }
+
+    .vl-v2-section {
+      padding: 78px 0;
+    }
+
+    .vl-v2-trust,
+    .vl-v2-trust-grid,
+    .vl-v2-trust-item {
+      min-height: 0;
+    }
+
+    .vl-v2-trust-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .vl-v2-trust-item {
+      min-height: 118px;
+      border-bottom: 1px solid var(--vl-rule);
+    }
+
+    .vl-v2-trust-item:nth-child(2n) {
+      border-right: 0;
+    }
+
+    .vl-v2-trust-item:nth-last-child(-n + 2) {
+      border-bottom: 0;
+    }
+
+    .vl-v2-calculator-intro {
+      gap: 28px;
+    }
+
+    .vl-v2 > section:nth-of-type(4) .vl-light-copy {
+      padding: 38px 24px;
+    }
+  }
+
 </style>
 
 
