@@ -1,9 +1,58 @@
 {% assign search_size = settings.search_count | default: "12" %}
 
-{% paginate search.results by search_size %}
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600;700&display=swap');
 
-{% for widgetDrop in widget_lists.search-list.widgets %}
-  {% widget widgetDrop %}
-{% endfor %}
+  .vl-search-page,
+  .vl-search-page * { box-sizing: border-box; }
 
-{% endpaginate %}
+  .vl-search-page {
+    width: min(100% - 40px, 1200px);
+    margin: 0 auto;
+    padding: 64px 0;
+    background: #fff;
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .vl-search-title {
+    margin: 0 0 40px;
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: #000;
+  }
+
+  .vl-search-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 2px;
+    margin: 16px auto 0;
+    background: #000;
+  }
+
+  .vl-search-content { width: 100%; }
+
+  @media (max-width: 768px) {
+    .vl-search-page {
+      width: min(100% - 30px, 1200px);
+      padding: 48px 0;
+    }
+
+    .vl-search-title { font-size: 28px; margin-bottom: 32px; }
+  }
+</style>
+
+<section class="vl-search-page">
+  <h1 class="vl-search-title">Поиск</h1>
+  <div class="vl-search-content">
+    {% paginate search.results by search_size %}
+      {% for widgetDrop in widget_lists.search-list.widgets %}
+        {% widget widgetDrop %}
+      {% endfor %}
+    {% endpaginate %}
+  </div>
+</section>
