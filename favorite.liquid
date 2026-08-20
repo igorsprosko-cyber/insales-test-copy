@@ -1,3 +1,57 @@
-{% for widgetDrop in widget_lists.favorite-list.widgets %}
-  {% widget widgetDrop %}
-{% endfor %}
+<!-- СТРАНИЦА ИЗБРАННОГО -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+  .vl-favorite-page,
+  .vl-favorite-page * { box-sizing: border-box; }
+
+  .vl-favorite-page {
+    width: min(100% - 40px, 1200px);
+    margin: 0 auto;
+    padding: 64px 0;
+    background: #fff;
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  .vl-favorite-title {
+    margin: 0 0 40px;
+    font-family: 'Playfair Display', serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+    color: #000;
+  }
+
+  .vl-favorite-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 2px;
+    margin: 16px auto 0;
+    background: #000;
+  }
+
+  .vl-favorite-content {
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .vl-favorite-page {
+      width: min(100% - 30px, 1200px);
+      padding: 48px 0;
+    }
+
+    .vl-favorite-title { font-size: 28px; margin-bottom: 32px; }
+  }
+</style>
+
+<section class="vl-favorite-page">
+  <h1 class="vl-favorite-title">Избранное</h1>
+  <div class="vl-favorite-content">
+    {% for widgetDrop in widget_lists.favorite-list.widgets %}
+      {% widget widgetDrop %}
+    {% endfor %}
+  </div>
+</section>
