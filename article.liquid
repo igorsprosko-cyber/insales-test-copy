@@ -14,7 +14,8 @@
         "name": "Veles Legs",
         "logo": { "@type": "ImageObject", "url": "https://veles-legs.ru/logo.png" }
       },
-      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://veles-legs.ru{{ article.url }}" }
+      "mainEntityOfPage": { "@type": "WebPage", "@id": "https://veles-legs.ru{{ article.url }}" },
+      "image": "{{ img_url | default: '' }}"
     }
   </script>
 
@@ -40,8 +41,10 @@
     </figure>
   {% endif %}
 
-  <div class="vl-article-content">
-    {{ article.content }}
+  <div class="vl-article-products">
+    {% for widgetDrop in widget_lists.article-list.widgets %}
+      {% widget widgetDrop %}
+    {% endfor %}
   </div>
 
   <div class="vl-related-articles">
@@ -97,9 +100,7 @@
     font-size: 13px;
   }
 
-  .vl-article-cover {
-    margin: 0 0 40px;
-  }
+  .vl-article-cover { margin: 0 0 40px; }
 
   .vl-article-cover img {
     display: block;
@@ -109,29 +110,30 @@
     border-radius: 12px;
   }
 
-  .vl-article-content {
-    font-size: 16px;
-    line-height: 1.8;
-    color: #222;
+  .vl-article-products {
+    margin-top: 40px;
+    padding-top: 32px;
+    border-top: 1px solid #000;
   }
 
-  .vl-article-content h2 {
-    margin: 32px 0 16px;
-    font-family: 'Playfair Display', serif;
-    font-size: 28px;
-    line-height: 1.2;
-    color: #000;
+  .vl-article-products h1,
+  .vl-article-products .vl-article-title,
+  .vl-article-products .vl-article-meta,
+  .vl-article-products .vl-article-cover { display: none !important; }
+
+  .vl-article-products .product-preview {
+    background: #fff !important;
+    border: 1px solid #000 !important;
+    border-radius: 12px !important;
+    box-shadow: none !important;
   }
 
-  .vl-article-content h3 {
-    margin: 24px 0 12px;
-    font-size: 20px;
-    font-weight: 600;
-    color: #000;
+  .vl-article-products .product-preview__title a,
+  .vl-article-products .product-preview__price,
+  .vl-article-products .product-preview__price-cur {
+    font-family: 'Montserrat', sans-serif !important;
+    color: #000 !important;
   }
-
-  .vl-article-content a { color: #000; }
-  .vl-article-content img { max-width: 100%; height: auto; }
 
   .vl-related-articles {
     margin-top: 48px;
@@ -143,6 +145,7 @@
     margin: 0 0 24px;
     font-family: 'Playfair Display', serif;
     font-size: 28px;
+    font-weight: 700;
     line-height: 1.2;
   }
 
