@@ -1,117 +1,127 @@
-<!-- СТРАНИЦА (универсальный шаблон) -->
-<div class="vl-page-wrapper">
-  <h1 class="vl-page-title">{{ page.title }}</h1>
-  <div class="vl-page-content">
-    {{ page.content }}
-  </div>
-</div>
-
+<!-- УНИВЕРСАЛЬНЫЙ ШАБЛОН СТРАНИЦЫ -->
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@300;500&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600;700&display=swap');
+
+  .vl-page-wrapper,
+  .vl-page-wrapper * { box-sizing: border-box; }
 
   .vl-page-wrapper {
-    max-width: 1000px;
+    width: min(100% - 40px, 1200px);
     margin: 0 auto;
-    padding: 40px 20px;
-    font-family: 'Montserrat', sans-serif;
+    padding: 64px 0;
     background: #fff;
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
   }
 
   .vl-page-title {
+    margin: 0 0 40px;
     font-family: 'Playfair Display', serif;
     font-size: 36px;
     font-weight: 700;
-    color: #000;
+    line-height: 1.2;
     text-align: center;
-    margin-bottom: 30px;
-    letter-spacing: 1px;
+    color: #000;
+  }
+
+  .vl-page-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 2px;
+    margin: 16px auto 0;
+    background: #000;
   }
 
   .vl-page-content {
-    background: #fff;
+    padding: 32px;
     border: 1px solid #000;
     border-radius: 12px;
-    padding: 30px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+    background: #fff;
     font-size: 16px;
+    font-weight: 400;
     line-height: 1.8;
     color: #222;
   }
 
   .vl-page-content h2 {
+    margin: 32px 0 16px;
     font-family: 'Playfair Display', serif;
     font-size: 28px;
     font-weight: 700;
+    line-height: 1.2;
     color: #000;
-    margin: 30px 0 15px;
   }
 
   .vl-page-content h3 {
+    margin: 24px 0 12px;
     font-family: 'Montserrat', sans-serif;
     font-size: 20px;
     font-weight: 600;
+    line-height: 1.2;
     color: #000;
-    margin: 25px 0 10px;
   }
+
+  .vl-page-content p { margin: 0 0 16px; }
 
   .vl-page-content ul,
   .vl-page-content ol {
-    padding-left: 25px;
-    margin: 10px 0;
+    margin: 16px 0;
+    padding-left: 24px;
   }
 
-  .vl-page-content li {
-    margin-bottom: 6px;
-  }
+  .vl-page-content li { margin-bottom: 8px; }
 
   .vl-page-content a {
     color: #000;
     text-decoration: underline;
+    transition: opacity .2s ease;
   }
-  .vl-page-content a:hover {
-    opacity: 0.7;
-  }
+
+  .vl-page-content a:hover { opacity: .6; }
 
   .vl-page-content table {
     width: 100%;
+    margin: 24px 0;
     border-collapse: collapse;
-    margin: 20px 0;
   }
-  .vl-page-content table th,
-  .vl-page-content table td {
+
+  .vl-page-content th,
+  .vl-page-content td {
+    padding: 12px;
     border: 1px solid #000;
-    padding: 8px 12px;
     text-align: left;
   }
-  .vl-page-content table th {
-    background: #f9f9f9;
+
+  .vl-page-content th {
+    font-weight: 600;
+    background: #f7f7f5;
   }
 
   .vl-page-content img {
+    display: block;
     max-width: 100%;
     height: auto;
-    border-radius: 12px;
+    margin: 24px auto;
     border: 1px solid #000;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    display: block;
-    margin: 20px auto;
+    border-radius: 8px;
   }
 
   @media (max-width: 768px) {
     .vl-page-wrapper {
-      padding: 20px 15px;
+      width: min(100% - 30px, 1200px);
+      padding: 48px 0;
     }
-    .vl-page-title {
-      font-size: 28px;
-    }
-    .vl-page-content {
-      padding: 20px;
-    }
-    .vl-page-content h2 {
-      font-size: 24px;
-    }
-    .vl-page-content h3 {
-      font-size: 18px;
-    }
+
+    .vl-page-title { font-size: 28px; margin-bottom: 32px; }
+    .vl-page-content { padding: 24px; }
+    .vl-page-content h2 { font-size: 28px; }
   }
 </style>
+
+<main class="vl-page-wrapper">
+  <h1 class="vl-page-title">{{ page.title }}</h1>
+  <div class="vl-page-content">
+    {{ page.content }}
+  </div>
+</main>
