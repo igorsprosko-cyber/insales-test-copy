@@ -190,3 +190,169 @@
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
 }
 /* ===== КОНЕЦ СТИЛЕЙ КНОПОК ===== */
+
+/* =========================================================
+   V2.3 PAGE STANDARDIZATION — VISUAL TEST FIXES
+   Главная index.* намеренно исключена: V2.1_HOME_APPEND.liquid не трогаем.
+========================================================= */
+
+body[data-theme-template]:not([data-theme-template^="index"]) {
+  --vl-accent: #5E8C31;
+  --color-btn-bg: #000000;
+  --color-accent-text: #5E8C31;
+  --color-text-dark: #000000;
+  --color-text-light: #ffffff;
+}
+
+body[data-theme-template]:not([data-theme-template^="index"]) main,
+body[data-theme-template]:not([data-theme-template^="index"]) footer,
+body[data-theme-template]:not([data-theme-template^="index"]) .header__content,
+body[data-theme-template]:not([data-theme-template^="index"]) .side-panel__content {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+/* Меню и служебный текст: только Montserrat */
+body[data-theme-template]:not([data-theme-template^="index"]) .header__collections-link,
+body[data-theme-template]:not([data-theme-template^="index"]) .header__collections-head,
+body[data-theme-template]:not([data-theme-template^="index"]) .header__show-menu-btn,
+body[data-theme-template]:not([data-theme-template^="index"]) .side-panel .menu__link,
+body[data-theme-template]:not([data-theme-template^="index"]) .side-panel .menu__title,
+body[data-theme-template]:not([data-theme-template^="index"]) .expo-participant-card,
+body[data-theme-template]:not([data-theme-template^="index"]) .expo-participant-card * {
+  font-family: 'Montserrat', sans-serif !important;
+}
+
+/* Единственный акцент для страниц кроме главной */
+body[data-theme-template]:not([data-theme-template^="index"]) main a:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) footer a:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .side-panel a:hover {
+  color: #5E8C31 !important;
+}
+
+/* Единый стандарт рамок карточек и информационных блоков */
+body[data-theme-template]:not([data-theme-template^="index"]) .product-preview,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-auto-description,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-related-card,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-article-cover img,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .cart-item,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .cart-table tr,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .cart-items > div,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .item,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-collection .filter__content,
+body[data-theme-template]:not([data-theme-template^="index"]) .page-content .text-widget {
+  border: 1px solid #000 !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+/* Карточка товара: чёрная кнопка корзины, акцент только при hover */
+body[data-theme-template]:not([data-theme-template^="index"]) .add-cart-counter__btn,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__cart,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__buy,
+body[data-theme-template]:not([data-theme-template^="index"]) .add-cart,
+body[data-theme-template]:not([data-theme-template^="index"]) .btn-buy,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__add-to-cart button,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__buy-button,
+body[data-theme-template]:not([data-theme-template^="index"]) .cart-checkout-btn,
+body[data-theme-template]:not([data-theme-template^="index"]) .checkout-btn {
+  background: #000 !important;
+  color: #fff !important;
+  border: 1px solid #000 !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+}
+
+body[data-theme-template]:not([data-theme-template^="index"]) .add-cart-counter__btn:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__cart:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__buy:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .add-cart:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .btn-buy:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__add-to-cart button:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__buy-button:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .cart-checkout-btn:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .checkout-btn:hover {
+  background: #5E8C31 !important;
+  color: #fff !important;
+  border-color: #5E8C31 !important;
+}
+
+/* Подвал: кнопки блога и каталога в том же геометрическом стандарте */
+body[data-theme-template]:not([data-theme-template^="index"]) .footer__blog-link a,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-footer-catalog-link {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  min-height: 44px !important;
+  padding: 0 24px !important;
+  background: #000 !important;
+  color: #fff !important;
+  border: 1px solid #000 !important;
+  border-radius: 3px !important;
+  box-shadow: none !important;
+  font-family: 'Montserrat', sans-serif !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 1.5px !important;
+  text-decoration: none !important;
+  text-transform: uppercase !important;
+  transition: background-color .2s ease, border-color .2s ease, color .2s ease !important;
+}
+
+body[data-theme-template]:not([data-theme-template^="index"]) .footer__blog-link a:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-footer-catalog-link:hover {
+  background: #5E8C31 !important;
+  color: #fff !important;
+  border-color: #5E8C31 !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* Блок участника выставки: тот же шрифт, без старой серой рамки */
+body[data-theme-template]:not([data-theme-template^="index"]) .expo-participant-card {
+  border: 1px solid #000 !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+  background: #fff !important;
+  color: #000 !important;
+}
+
+body[data-theme-template]:not([data-theme-template^="index"]) .expo-details a {
+  color: #000 !important;
+  text-decoration: none !important;
+}
+
+body[data-theme-template]:not([data-theme-template^="index"]) .expo-details a:hover {
+  color: #5E8C31 !important;
+}
+
+/* Не превращаем внутренние текстовые ссылки страниц в старые pill-кнопки */
+body[data-theme-template]:not([data-theme-template^="index"]) .widget-type_text a:not(.vl-category-btn),
+body[data-theme-template]:not([data-theme-template^="index"]) .widget-type_menu a:not(.vl-category-btn),
+body[data-theme-template]:not([data-theme-template^="index"]) .widget-type_html a:not(.vl-category-btn),
+body[data-theme-template]:not([data-theme-template^="index"]) .page-content .text-widget a:not(.vl-category-btn) {
+  display: inline !important;
+  background: transparent !important;
+  color: inherit !important;
+  padding: 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+  box-shadow: none !important;
+  font-weight: inherit !important;
+  font-size: inherit !important;
+  letter-spacing: inherit !important;
+  text-transform: none !important;
+}
+
+body[data-theme-template]:not([data-theme-template^="index"]) .widget-type_text a:not(.vl-category-btn):hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .widget-type_menu a:not(.vl-category-btn):hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .widget-type_html a:not(.vl-category-btn):hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .page-content .text-widget a:not(.vl-category-btn):hover {
+  background: transparent !important;
+  color: #5E8C31 !important;
+  border: 0 !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+
+/* ===== КОНЕЦ V2.3 PAGE STANDARDIZATION ===== */
