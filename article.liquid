@@ -1,5 +1,14 @@
 <!-- СТРАНИЦА СТАТЬИ -->
 <div class="vl-article-page">
+  {% assign img_url = '' %}
+  {% if article.image and article.image.url != blank %}
+    {% assign raw = article.image.url %}
+    {% if raw contains 'http' %}{% assign img_url = raw %}{% else %}{% assign img_url = raw | prepend: 'https:' %}{% endif %}
+  {% elsif article.image and article.image.src != blank %}
+    {% assign raw = article.image.src %}
+    {% if raw contains 'http' %}{% assign img_url = raw %}{% else %}{% assign img_url = raw | prepend: 'https:' %}{% endif %}
+  {% endif %}
+
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -15,7 +24,7 @@
         "logo": { "@type": "ImageObject", "url": "https://veles-legs.ru/logo.png" }
       },
       "mainEntityOfPage": { "@type": "WebPage", "@id": "https://veles-legs.ru{{ article.url }}" },
-      "image": "{{ img_url | default: '' }}"
+      "image": "{{ img_url }}"
     }
   </script>
 
@@ -25,15 +34,6 @@
     {% if article.author %}<span>{{ article.author }}</span>{% endif %}
     <span>{{ article.published_at | date: "%d.%m.%Y" }}</span>
   </div>
-
-  {% assign img_url = '' %}
-  {% if article.image and article.image.url != blank %}
-    {% assign raw = article.image.url %}
-    {% if raw contains 'http' %}{% assign img_url = raw %}{% else %}{% assign img_url = raw | prepend: 'https:' %}{% endif %}
-  {% elsif article.image and article.image.src != blank %}
-    {% assign raw = article.image.src %}
-    {% if raw contains 'http' %}{% assign img_url = raw %}{% else %}{% assign img_url = raw | prepend: 'https:' %}{% endif %}
-  {% endif %}
 
   {% if img_url != blank %}
     <figure class="vl-article-cover">
