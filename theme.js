@@ -4,6 +4,14 @@
 
   var CATALOG_URL = '/collection/all';
 
+  function isStandardizationPage() {
+    var body = document.body;
+    if (!body) return true;
+
+    var template = body.getAttribute('data-theme-template') || '';
+    return template.indexOf('index') !== 0;
+  }
+
   function isSameOrigin(url) {
     try {
       return url.origin === window.location.origin;
@@ -13,7 +21,7 @@
   }
 
   function normalizeFooterCatalogLinks(root) {
-    if (!root || !root.querySelectorAll) return;
+    if (!root || !root.querySelectorAll || !isStandardizationPage()) return;
 
     root.querySelectorAll('footer a').forEach(function (link) {
       var label = (link.textContent || '').replace(/\s+/g, ' ').trim().toLowerCase();
@@ -29,7 +37,7 @@
   }
 
   function normalizeInternalBlankTargets(root) {
-    if (!root || !root.querySelectorAll) return;
+    if (!root || !root.querySelectorAll || !isStandardizationPage()) return;
 
     root.querySelectorAll('a[target="_blank"]').forEach(function (link) {
       var href = link.getAttribute('href');
@@ -47,6 +55,7 @@
   }
 
   function normalizePageLinks(root) {
+    if (!isStandardizationPage()) return;
     normalizeFooterCatalogLinks(root);
     normalizeInternalBlankTargets(root);
   }
@@ -58,8 +67,10 @@
   /*
    * Safety net for system widgets that may render links after DOMContentLoaded.
    * External links keep their original target="_blank" behavior.
+   * Homepage/index.* is intentionally excluded.
    */
   document.addEventListener('click', function (event) {
+    if (!isStandardizationPage()) return;
     if (event.defaultPrevented || event.button !== 0) return;
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
 
@@ -82,7 +93,7 @@
 
   if (window.MutationObserver) {
     document.addEventListener('DOMContentLoaded', function () {
-      if (!document.body) return;
+      if (!document.body || !isStandardizationPage()) return;
 
       var observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
