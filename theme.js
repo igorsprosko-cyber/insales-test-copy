@@ -60,7 +60,74 @@
     normalizeInternalBlankTargets(root);
   }
 
+  function installNonHomeVisualOverrides() {
+    if (!isStandardizationPage() || document.getElementById('vl-v23-visual-overrides')) return;
+
+    var style = document.createElement('style');
+    style.id = 'vl-v23-visual-overrides';
+    style.textContent = '\n' +
+      '/* V2.3 visual corrections: keep product controls light and unobtrusive. */\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .add-cart-counter__btn,\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview .add-cart-counter__btn,\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls .button,\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls-left .button {\n' +
+      '  background: transparent !important;\n' +
+      '  color: #000 !important;\n' +
+      '  border: 0 !important;\n' +
+      '  box-shadow: none !important;\n' +
+      '  border-radius: 0 !important;\n' +
+      '}\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview .add-cart-counter__btn:hover,\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls .button:hover,\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls-left .button:hover {\n' +
+      '  background: transparent !important;\n' +
+      '  color: #5E8C31 !important;\n' +
+      '  border: 0 !important;\n' +
+      '  box-shadow: none !important;\n' +
+      '  transform: none !important;\n' +
+      '}\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__area-bottom {\n' +
+      '  min-width: 0 !important;\n' +
+      '  overflow: visible !important;\n' +
+      '}\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls,\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls-left {\n' +
+      '  min-width: 0 !important;\n' +
+      '  overflow: visible !important;\n' +
+      '}\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__title,\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__price {\n' +
+      '  min-width: 0 !important;\n' +
+      '  overflow-wrap: anywhere !important;\n' +
+      '}\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__price {\n' +
+      '  padding-left: 4px !important;\n' +
+      '  padding-right: 4px !important;\n' +
+      '}\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__image,\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__photo,\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__area-image {\n' +
+      '  min-width: 0 !important;\n' +
+      '  overflow: hidden !important;\n' +
+      '}\n' +
+      '/* Article/blog product rows: prevent clipping and preserve card geometry. */\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .vl-article-products,\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .vl-article-products .splide,\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .vl-article-products .splide__track,\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .vl-article-products .splide__list {\n' +
+      '  min-width: 0 !important;\n' +
+      '  overflow: visible !important;\n' +
+      '}\n' +
+      'body[data-theme-template]:not([data-theme-template^="index"]) .vl-article-products .splide__slide {\n' +
+      '  min-width: 0 !important;\n' +
+      '  box-sizing: border-box !important;\n' +
+      '  padding: 4px !important;\n' +
+      '}\n';
+    document.head.appendChild(style);
+  }
+
   document.addEventListener('DOMContentLoaded', function () {
+    installNonHomeVisualOverrides();
     normalizePageLinks(document);
   });
 
