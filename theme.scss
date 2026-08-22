@@ -198,7 +198,7 @@
 
 body[data-theme-template]:not([data-theme-template^="index"]) {
   --vl-accent: #5E8C31;
-  --color-btn-bg: #000000;
+  --color-btn-bg: transparent;
   --color-accent-text: #5E8C31;
   --color-text-dark: #000000;
   --color-text-light: #ffffff;
@@ -245,38 +245,45 @@ body[data-theme-template]:not([data-theme-template^="index"]) .page-content .tex
   box-shadow: none !important;
 }
 
-/* Карточка товара: чёрная кнопка корзины, акцент только при hover */
+/* Кнопки управления товарами: прозрачные, без заливки и без перекрытия содержимого.
+   Акцент #5E8C31 используется только для состояния hover. */
 body[data-theme-template]:not([data-theme-template^="index"]) .add-cart-counter__btn,
+body[data-theme-template]:not([data-theme-template^="index"]) .product-preview .add-cart-counter__btn,
+body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls .button,
+body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls-left .button,
 body[data-theme-template]:not([data-theme-template^="index"]) .product__cart,
 body[data-theme-template]:not([data-theme-template^="index"]) .product__buy,
 body[data-theme-template]:not([data-theme-template^="index"]) .add-cart,
 body[data-theme-template]:not([data-theme-template^="index"]) .btn-buy,
 body[data-theme-template]:not([data-theme-template^="index"]) .product__add-to-cart button,
-body[data-theme-template]:not([data-theme-template^="index"]) .product__buy-button,
-body[data-theme-template]:not([data-theme-template^="index"]) .cart-checkout-btn,
-body[data-theme-template]:not([data-theme-template^="index"]) .checkout-btn {
-  background: #000 !important;
-  color: #fff !important;
-  border: 1px solid #000 !important;
-  border-radius: 3px !important;
+body[data-theme-template]:not([data-theme-template^="index"]) .product__buy-button {
+  background: transparent !important;
+  color: #000 !important;
+  border: 0 !important;
+  border-color: transparent !important;
   box-shadow: none !important;
+  border-radius: 0 !important;
 }
 
 body[data-theme-template]:not([data-theme-template^="index"]) .add-cart-counter__btn:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product-preview .add-cart-counter__btn:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls .button:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls-left .button:hover,
 body[data-theme-template]:not([data-theme-template^="index"]) .product__cart:hover,
 body[data-theme-template]:not([data-theme-template^="index"]) .product__buy:hover,
 body[data-theme-template]:not([data-theme-template^="index"]) .add-cart:hover,
 body[data-theme-template]:not([data-theme-template^="index"]) .btn-buy:hover,
 body[data-theme-template]:not([data-theme-template^="index"]) .product__add-to-cart button:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .product__buy-button:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .cart-checkout-btn:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .checkout-btn:hover {
-  background: #5E8C31 !important;
-  color: #fff !important;
-  border-color: #5E8C31 !important;
+body[data-theme-template]:not([data-theme-template^="index"]) .product__buy-button:hover {
+  background: transparent !important;
+  color: #5E8C31 !important;
+  border: 0 !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
-/* Подвал: кнопки блога и каталога в том же геометрическом стандарте */
+/* Подвал: кнопки блога и каталога — светлые, без чёрной заливки */
 body[data-theme-template]:not([data-theme-template^="index"]) .footer__blog-link a,
 body[data-theme-template]:not([data-theme-template^="index"]) .vl-footer-catalog-link {
   display: inline-flex !important;
@@ -284,10 +291,10 @@ body[data-theme-template]:not([data-theme-template^="index"]) .vl-footer-catalog
   justify-content: center !important;
   min-height: 44px !important;
   padding: 0 24px !important;
-  background: #000 !important;
-  color: #fff !important;
+  background: transparent !important;
+  color: #000 !important;
   border: 1px solid #000 !important;
-  border-radius: 3px !important;
+  border-radius: 12px !important;
   box-shadow: none !important;
   font-family: 'Montserrat', sans-serif !important;
   font-size: 12px !important;
@@ -300,8 +307,8 @@ body[data-theme-template]:not([data-theme-template^="index"]) .vl-footer-catalog
 
 body[data-theme-template]:not([data-theme-template^="index"]) .footer__blog-link a:hover,
 body[data-theme-template]:not([data-theme-template^="index"]) .vl-footer-catalog-link:hover {
-  background: #5E8C31 !important;
-  color: #fff !important;
+  background: transparent !important;
+  color: #5E8C31 !important;
   border-color: #5E8C31 !important;
   transform: none !important;
   box-shadow: none !important;
