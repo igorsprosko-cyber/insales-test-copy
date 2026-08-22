@@ -229,7 +229,8 @@ body[data-theme-template]:not([data-theme-template^="index"]) .side-panel a:hove
   color: #5E8C31 !important;
 }
 
-/* Единый стандарт рамок карточек и информационных блоков */
+/* Единый стандарт рамок карточек и информационных блоков.
+   ВАЖНО: рамки относятся к контейнерам карточек/блоков, а не к кнопкам внутри них. */
 body[data-theme-template]:not([data-theme-template^="index"]) .product-preview,
 body[data-theme-template]:not([data-theme-template^="index"]) .vl-auto-description,
 body[data-theme-template]:not([data-theme-template^="index"]) .vl-related-card,
@@ -239,13 +240,27 @@ body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .cart-tab
 body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .cart-items > div,
 body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .item,
 body[data-theme-template]:not([data-theme-template^="index"]) .vl-collection .filter__content,
-body[data-theme-template]:not([data-theme-template^="index"]) .page-content .text-widget {
+body[data-theme-template]:not([data-theme-template^="index"]) .page-content .text-widget,
+body[data-theme-template]:not([data-theme-template^="index"]) .expo-participant-card {
   border: 1px solid #000 !important;
   border-radius: 12px !important;
   box-shadow: none !important;
+  background-color: #fff !important;
 }
 
-/* Кнопки управления товарами: прозрачные, без заливки и без перекрытия содержимого.
+/* Рамка карточки подсвечивается акцентом при наведении, но не меняет заливку. */
+body[data-theme-template]:not([data-theme-template^="index"]) .product-preview:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-related-card:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-article-cover:hover img,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .cart-item:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .item:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .vl-collection .filter__content:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .page-content .text-widget:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .expo-participant-card:hover {
+  border-color: #5E8C31 !important;
+}
+
+/* Кнопки управления товарами: прозрачные, без рамки и без заливки.
    Акцент #5E8C31 используется только для состояния hover. */
 body[data-theme-template]:not([data-theme-template^="index"]) .add-cart-counter__btn,
 body[data-theme-template]:not([data-theme-template^="index"]) .product-preview .add-cart-counter__btn,
@@ -314,12 +329,8 @@ body[data-theme-template]:not([data-theme-template^="index"]) .vl-footer-catalog
   box-shadow: none !important;
 }
 
-/* Блок участника выставки: тот же шрифт, без старой серой рамки */
+/* Блок участника выставки */
 body[data-theme-template]:not([data-theme-template^="index"]) .expo-participant-card {
-  border: 1px solid #000 !important;
-  border-radius: 12px !important;
-  box-shadow: none !important;
-  background: #fff !important;
   color: #000 !important;
 }
 
