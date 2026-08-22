@@ -1,18 +1,15 @@
-/* V2.3 page standardization: same-origin navigation, footer catalog correction and non-home visual normalization. */
+/* V2.3 page standardization: same-origin navigation and footer catalog correction. */
 (function () {
   'use strict';
 
   var CATALOG_URL = '/collection/all';
-  var ACCENT = '#5E8C31';
 
-  /*
-   * The homepage is the untouchable V2.1 reference.
-   * Do not depend on data-theme-template here: the test site can render
-   * different templates without that attribute being present on <body>.
-   */
   function isStandardizationPage() {
-    var path = window.location.pathname || '/';
-    return path !== '/' && path !== '';
+    var body = document.body;
+    if (!body) return true;
+
+    var template = body.getAttribute('data-theme-template') || '';
+    return template.indexOf('index') !== 0;
   }
 
   function isSameOrigin(url) {
@@ -63,111 +60,13 @@
     normalizeInternalBlankTargets(root);
   }
 
-  function installNonHomeVisualOverrides() {
-    if (!isStandardizationPage() || document.getElementById('vl-v23-visual-overrides')) return;
-
-    var style = document.createElement('style');
-    style.id = 'vl-v23-visual-overrides';
-    style.textContent = '\n' +
-      '/* V2.3 visual corrections: controls stay transparent/light; accent appears only on hover. */\n' +
-      '.add-cart-counter__btn,\n' +
-      '.product-preview .add-cart-counter__btn,\n' +
-      '.product-preview__controls .button,\n' +
-      '.product-preview__controls-left .button,\n' +
-      '.product__cart,\n' +
-      '.product__buy,\n' +
-      '.add-cart,\n' +
-      '.btn-buy,\n' +
-      '.product__add-to-cart button,\n' +
-      '.product__buy-button {\n' +
-      '  background: transparent !important;\n' +
-      '  color: #000 !important;\n' +
-      '  border-color: transparent !important;\n' +
-      '  box-shadow: none !important;\n' +
-      '  border-radius: 0 !important;\n' +
-      '}\n' +
-      '.add-cart-counter__btn:hover,\n' +
-      '.product-preview .add-cart-counter__btn:hover,\n' +
-      '.product-preview__controls .button:hover,\n' +
-      '.product-preview__controls-left .button:hover,\n' +
-      '.product__cart:hover,\n' +
-      '.product__buy:hover,\n' +
-      '.add-cart:hover,\n' +
-      '.btn-buy:hover,\n' +
-      '.product__add-to-cart button:hover,\n' +
-      '.product__buy-button:hover {\n' +
-      '  background: transparent !important;\n' +
-      '  color: ' + ACCENT + ' !important;\n' +
-      '  border-color: transparent !important;\n' +
-      '  box-shadow: none !important;\n' +
-      '  transform: none !important;\n' +
-      '}\n' +
-      '/* Footer navigation uses the same light/outline treatment on non-home pages. */\n' +
-      '.footer__blog-link a,\n' +
-      '.vl-footer-catalog-link {\n' +
-      '  background: transparent !important;\n' +
-      '  color: #000 !important;\n' +
-      '  border: 1px solid #000 !important;\n' +
-      '  border-radius: 12px !important;\n' +
-      '  box-shadow: none !important;\n' +
-      '  transform: none !important;\n' +
-      '}\n' +
-      '.footer__blog-link a:hover,\n' +
-      '.vl-footer-catalog-link:hover {\n' +
-      '  background: transparent !important;\n' +
-      '  color: ' + ACCENT + ' !important;\n' +
-      '  border-color: ' + ACCENT + ' !important;\n' +
-      '  box-shadow: none !important;\n' +
-      '}\n' +
-      '/* Product rows rendered inside articles/blogs: preserve the card box and text area. */\n' +
-      '.vl-article-products,\n' +
-      '.vl-article-products .splide,\n' +
-      '.vl-article-products .splide__track,\n' +
-      '.vl-article-products .splide__list {\n' +
-      '  min-width: 0 !important;\n' +
-      '  overflow: visible !important;\n' +
-      '}\n' +
-      '.vl-article-products .splide__slide {\n' +
-      '  min-width: 0 !important;\n' +
-      '  box-sizing: border-box !important;\n' +
-      '  padding: 6px !important;\n' +
-      '}\n' +
-      '.vl-article-products .product-preview {\n' +
-      '  min-width: 0 !important;\n' +
-      '  width: 100% !important;\n' +
-      '  box-sizing: border-box !important;\n' +
-      '  overflow: hidden !important;\n' +
-      '}\n' +
-      '.vl-article-products .product-preview__area-bottom,\n' +
-      '.vl-article-products .product-preview__controls,\n' +
-      '.vl-article-products .product-preview__controls-left,\n' +
-      '.vl-article-products .product-preview__title,\n' +
-      '.vl-article-products .product-preview__price {\n' +
-      '  min-width: 0 !important;\n' +
-      '  max-width: 100% !important;\n' +
-      '  box-sizing: border-box !important;\n' +
-      '}\n' +
-      '.vl-article-products .product-preview__title,\n' +
-      '.vl-article-products .product-preview__price {\n' +
-      '  overflow-wrap: anywhere !important;\n' +
-      '  word-break: normal !important;\n' +
-      '}\n' +
-      '.vl-article-products .product-preview__price {\n' +
-      '  padding-left: 6px !important;\n' +
-      '  padding-right: 6px !important;\n' +
-      '}\n';
-
-    document.head.appendChild(style);
-  }
-
   document.addEventListener('DOMContentLoaded', function () {
-    installNonHomeVisualOverrides();
     normalizePageLinks(document);
   });
 
   /*
-   * Safety net for widgets rendered after DOMContentLoaded.
-   * External links keep target="_blank"; internal links stay in the same tab.
+   * Safety net for system widgets that may render links after DOMContentLoaded.
+   * External links keep their original target="_blank" behavior.
    * Homepage/index.* is intentionally excluded.
    */
   document.addEventListener('click', function (event) {
