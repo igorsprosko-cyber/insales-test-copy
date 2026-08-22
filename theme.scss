@@ -1,349 +1,315 @@
 // settings_data
 @import "settings";
 
-.outside-widgets .delete-widget-link {
-  display: none;
+/* =========================================================
+   InSales editor/runtime support
+   ========================================================= */
+.outside-widgets .delete-widget-link { display: none; }
+.outside-widgets .add-widget-link { display: none; }
+[data-fixed-panels] .delete-widget-link { display: none; }
+
+@media (max-width: 768px) {
+  [style*="--is-editor:true"] .outside-widgets { display: none; }
+  .edit-widget-buttons .widget-name { display: none !important; }
+  [data-fixed-panels] [data-widget-add] { display: none; }
 }
 
-.outside-widgets .add-widget-link {
-  display: none;
+/* =========================================================
+   VELES DESIGN SYSTEM
+   Source: my-first-project / STYLE_GUIDE.md
+   ========================================================= */
+:root {
+  --vl-font-body: "Montserrat", sans-serif;
+  --vl-font-heading: "Playfair Display", serif;
+  --vl-black: #000;
+  --vl-white: #fff;
+  --vl-gray: #555;
+  --vl-radius-sm: 6px;
+  --vl-radius-md: 8px;
+  --vl-radius-lg: 12px;
+  --vl-radius-xl: 16px;
+  --vl-space-1: 4px;
+  --vl-space-2: 8px;
+  --vl-space-3: 12px;
+  --vl-space-4: 16px;
+  --vl-space-5: 20px;
+  --vl-space-6: 24px;
+  --vl-space-8: 32px;
+  --vl-space-10: 40px;
+  --vl-space-12: 48px;
+  --vl-space-16: 64px;
+  --vl-space-20: 80px;
+  --vl-space-24: 96px;
+  --vl-transition: 0.2s ease;
 }
 
-[data-fixed-panels] .delete-widget-link {
-  display: none;
+html, body {
+  font-family: var(--vl-font-body) !important;
+  color: var(--vl-black);
+  background: var(--vl-white);
+}
+
+body { font-size: 16px; line-height: 1.8; font-weight: 400; }
+
+h1, h2, h3 {
+  font-family: var(--vl-font-heading) !important;
+  color: var(--vl-black) !important;
+  line-height: 1.2 !important;
+}
+h1 { font-size: 36px !important; font-weight: 700 !important; }
+h2 { font-size: 28px !important; font-weight: 700 !important; }
+h3 { font-size: 20px !important; font-weight: 600 !important; }
+
+p, li, label, input, select, textarea, button, .btn, .button, a {
+  font-family: var(--vl-font-body) !important;
+}
+small { font-size: 13px; }
+
+a { color: var(--vl-black); transition: color var(--vl-transition), opacity var(--vl-transition); }
+a:hover { color: var(--vl-black); opacity: 0.7; }
+
+.btn, .button, button[type="submit"], input[type="submit"] {
+  min-height: 48px;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--vl-space-2);
+  padding: var(--vl-space-3) var(--vl-space-6);
+  border: 1px solid var(--vl-black);
+  border-radius: var(--vl-radius-sm);
+  background: var(--vl-black);
+  color: var(--vl-white) !important;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none !important;
+  transition: background var(--vl-transition), color var(--vl-transition), opacity var(--vl-transition);
+}
+.btn:hover, .button:hover, button[type="submit"]:hover, input[type="submit"]:hover {
+  background: var(--vl-white);
+  color: var(--vl-black) !important;
+  opacity: 1;
+}
+
+.vl-v2-btn {
+  min-height: 52px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  padding: 12px 24px;
+  border: 1px solid var(--vl-black);
+  border-radius: var(--vl-radius-sm);
+  background: var(--vl-black);
+  color: var(--vl-white) !important;
+  font-family: var(--vl-font-body) !important;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-decoration: none !important;
+  text-transform: uppercase;
+  transition: background var(--vl-transition), color var(--vl-transition), opacity var(--vl-transition);
+}
+.vl-v2-btn--outline { background: transparent; color: var(--vl-black) !important; }
+.vl-v2-btn:hover, .vl-v2-btn--outline:hover { background: var(--vl-black); color: var(--vl-white) !important; opacity: 1; }
+
+input:not([type="checkbox"]):not([type="radio"]), select, textarea {
+  box-sizing: border-box;
+  border: 1px solid var(--vl-black);
+  border-radius: var(--vl-radius-sm);
+  background: var(--vl-white);
+  color: var(--vl-black);
+  font-size: 14px;
+  line-height: 1.4;
+}
+input:not([type="checkbox"]):not([type="radio"]), select { min-height: 44px; padding: 10px 12px; }
+textarea { padding: 12px; }
+input:focus, select:focus, textarea:focus { outline: 2px solid var(--vl-black); outline-offset: 1px; }
+
+.product-preview, .product-card {
+  background: var(--vl-white);
+  border: 1px solid var(--vl-black);
+  border-radius: var(--vl-radius-lg);
+  box-shadow: none;
+}
+.product-preview__title a, .product-card a { color: var(--vl-black); text-decoration: none; }
+.product-preview__title a:hover, .product-card a:hover { opacity: 0.7; }
+
+.header__content, .side-panel__content, footer { font-family: var(--vl-font-body) !important; }
+.header__collections-link, .header__control-btn, .header__show-menu-btn, .footer__menu-link, .footer__area-copyright a {
+  color: var(--vl-black) !important;
+  font-family: var(--vl-font-body) !important;
+}
+.header__collections-link { font-size: 14px !important; text-decoration: none !important; }
+.header__collections-head, .side-panel .menu__title { font-family: var(--vl-font-body) !important; font-weight: 600 !important; color: var(--vl-black) !important; }
+.header__control-btn .icon { color: inherit !important; }
+.header__search-field { border: 1px solid var(--vl-black) !important; border-radius: var(--vl-radius-sm) !important; font-family: var(--vl-font-body) !important; padding: 10px 12px !important; background: var(--vl-white) !important; color: var(--vl-black) !important; }
+.side-panel { background: var(--vl-white) !important; border-right: 1px solid var(--vl-black) !important; }
+.side-panel .menu__link, .side-panel .header__collections-link { color: var(--vl-black) !important; font-size: 14px !important; }
+.side-panel .phone-value { color: var(--vl-black) !important; font-size: 14px !important; }
+.side-panel .address { color: var(--vl-gray) !important; font-size: 13px !important; }
+.footer__menu-link:hover, .footer__area-copyright a:hover, .header__collections-link:hover { opacity: 0.7; }
+.widget-type_system_widget_v4_catalog_4 h1.page-headding { display: none !important; }
+
+/* =========================================================
+   COLLECTION / CATALOG COMPONENTS
+   Migrated from collection.liquid; no page-local <style> block.
+   ========================================================= */
+.vl-collection-page { background: var(--vl-white); padding: 60px 20px; font-family: var(--vl-font-body); }
+.vl-collection-page h1 { font-family: var(--vl-font-heading); font-size: 36px; font-weight: 700; color: var(--vl-black); text-align: center; margin: 0 0 15px; text-transform: uppercase; letter-spacing: 2px; position: relative; }
+.vl-collection-page h1::after { content: ''; display: block; width: 80px; height: 2px; background: var(--vl-black); margin: 15px auto 0; }
+.vl-collection-page .vl-collection-desc { font-size: 16px; color: #333; text-align: center; max-width: 700px; margin: 0 auto 50px; line-height: 1.6; font-weight: 300; }
+.breadcrumb-wrapper { margin-bottom: 20px !important; }
+.breadcrumb { list-style: none !important; display: flex !important; flex-wrap: wrap !important; padding: 0 !important; margin: 0 !important; gap: 8px !important; }
+.breadcrumb-item { font-family: var(--vl-font-body) !important; font-size: 13px !important; color: #888 !important; letter-spacing: .5px !important; }
+.breadcrumb-item a { color: var(--vl-black) !important; text-decoration: none !important; border-bottom: 1px solid transparent !important; transition: border-color .3s !important; }
+.breadcrumb-item a:hover { border-bottom-color: var(--vl-black) !important; }
+.breadcrumb-item:not(:last-child)::after { content: '/'; margin-left: 8px; color: #ccc; }
+.breadcrumb-page { color: #888 !important; }
+.collection-sort.sort_main { margin-bottom: 25px !important; }
+.collection-order.is-sort .form-control { font-family: var(--vl-font-body) !important; font-size: 14px !important; color: var(--vl-black) !important; background: var(--vl-white) !important; border: 1px solid var(--vl-black) !important; border-radius: var(--vl-radius-sm) !important; padding: 8px 15px !important; min-width: 200px !important; cursor: pointer !important; outline: none !important; }
+.product-preview { padding: 20px 10px 20px 25px !important; overflow: hidden !important; }
+.product-preview__title a { font-family: var(--vl-font-body) !important; font-size: 14px !important; font-weight: 600 !important; color: var(--vl-black) !important; text-decoration: none !important; letter-spacing: .3px !important; }
+.product-preview__title { text-align: center !important; }
+.product-preview__price-cur { font-family: var(--vl-font-body) !important; font-size: 20px !important; font-weight: 700 !important; color: var(--vl-black) !important; }
+.product-preview__price-old { font-family: var(--vl-font-body) !important; font-size: 14px !important; font-weight: 400 !important; color: var(--vl-gray) !important; text-decoration: line-through !important; margin-right: 8px !important; }
+.product-preview__price { margin: 8px 0 !important; text-align: center !important; width: 100% !important; display: flex !important; justify-content: center !important; align-items: baseline !important; gap: 6px !important; }
+.product-preview__area-bottom { display: flex !important; justify-content: flex-end !important; align-items: center !important; }
+.product-preview__controls-left { display: flex !important; flex-direction: column !important; align-items: center !important; gap: 5px; margin-left: 0 !important; }
+.product-preview__controls-left .button { font-size: 18px !important; color: var(--vl-black) !important; background: transparent !important; border: none !important; padding: 0 !important; line-height: 1 !important; }
+.product-preview__controls-left .button:hover { opacity: .6; }
+.product-preview__controls { margin-left: 10px !important; }
+.add-cart-counter__btn, .product-preview__controls .button { font-family: var(--vl-font-body) !important; background: transparent !important; color: var(--vl-black) !important; border: 2px solid var(--vl-black) !important; border-radius: var(--vl-radius-sm) !important; padding: 6px 18px !important; font-size: 13px !important; font-weight: 500 !important; letter-spacing: 1px !important; text-transform: uppercase !important; transition: all .3s !important; }
+.add-cart-counter__btn:hover, .product-preview__controls .button:hover { background: var(--vl-black) !important; color: var(--vl-white) !important; }
+.pagination { display: flex !important; justify-content: center !important; align-items: center !important; gap: 30px !important; margin-top: 40px !important; list-style: none !important; padding: 0 !important; }
+.pagination a, .pagination__item a, .pagination .page-link { font-family: var(--vl-font-body) !important; font-size: 14px !important; font-weight: 500 !important; color: var(--vl-black) !important; text-decoration: none !important; border: none !important; background: transparent !important; padding: 0 4px !important; transition: opacity .3s !important; }
+.pagination a:hover, .pagination__item a:hover, .pagination .page-link:hover { opacity: .6; background: transparent !important; color: var(--vl-black) !important; }
+.pagination .active a, .pagination__item.active a, .pagination .page-item.active .page-link { font-weight: 700 !important; color: var(--vl-black) !important; background: transparent !important; border-bottom: 2px solid var(--vl-black) !important; padding-bottom: 2px !important; border-radius: 0 !important; }
+.filter__content { border: 1px solid var(--vl-black) !important; border-radius: var(--vl-radius-lg) !important; padding: 20px 25px !important; background: var(--vl-white) !important; box-shadow: none !important; font-family: var(--vl-font-body) !important; margin-bottom: 30px !important; }
+.filter__head { border-bottom: 1px solid var(--vl-black) !important; padding-bottom: 15px !important; margin-bottom: 15px !important; }
+.filter__head-title { font-size: 18px !important; font-weight: 700 !important; color: var(--vl-black) !important; text-transform: uppercase !important; letter-spacing: 1px !important; }
+.only_available { padding: 1rem 0 !important; border-bottom: 1px solid #e0e0e0 !important; }
+.filter-option._checkbox .filter-option__label, .filter-option__label { font-family: var(--vl-font-body) !important; font-size: 14px !important; color: var(--vl-black) !important; }
+.filter-option._checkbox .filter-option__btn.icon-check, .filter-option__btn.icon-check { border: 1px solid var(--vl-black) !important; border-radius: 4px !important; background: transparent !important; }
+.filter-item__head { display: flex !important; justify-content: space-between !important; align-items: center !important; padding: 12px 0 !important; border-bottom: 1px solid #e0e0e0 !important; cursor: pointer !important; }
+.filter-item__name { font-size: 16px !important; font-weight: 600 !important; color: var(--vl-black) !important; text-transform: none !important; }
+.filter-item__head .icon { font-size: 12px !important; color: var(--vl-black) !important; transition: transform .2s !important; }
+.filter-item__content { padding: 10px 0 !important; }
+.filter-range__field { border: 1px solid var(--vl-black) !important; border-radius: var(--vl-radius-sm) !important; padding: 6px 12px !important; font-size: 14px !important; width: 80px !important; text-align: center !important; background: var(--vl-white) !important; color: var(--vl-black) !important; font-family: var(--vl-font-body) !important; }
+.filter-range__values-label { font-size: 12px !important; color: var(--vl-gray) !important; text-transform: uppercase !important; margin-right: 5px !important; }
+.noUi-target { border: 1px solid var(--vl-black) !important; border-radius: var(--vl-radius-sm) !important; background: #f9f9f9 !important; box-shadow: none !important; height: 4px !important; }
+.noUi-connect { background: var(--vl-black) !important; }
+.noUi-handle { border: 2px solid var(--vl-black) !important; border-radius: 50% !important; background: var(--vl-white) !important; box-shadow: none !important; width: 18px !important; height: 18px !important; top: -8px !important; cursor: pointer !important; }
+.noUi-handle:before, .noUi-handle:after { display: none !important; }
+.filter-item__list-item { margin-bottom: 8px !important; }
+.count { font-size: 12px !important; color: #777 !important; margin-left: 5px !important; }
+.filter__controls { margin-top: 20px !important; }
+.filter__controls .button, .filter__reset-btn { display: inline-block !important; width: 100% !important; padding: 12px 20px !important; font-family: var(--vl-font-body) !important; font-size: 14px !important; font-weight: 500 !important; letter-spacing: 1px !important; text-transform: uppercase !important; border: 1px solid var(--vl-black) !important; border-radius: var(--vl-radius-sm) !important; background: transparent !important; color: var(--vl-black) !important; text-align: center !important; transition: all .3s !important; margin-bottom: 10px !important; cursor: pointer !important; }
+.filter__controls .button:hover, .filter__reset-btn:hover { background: var(--vl-black) !important; color: var(--vl-white) !important; }
+.vl-back-link { display: block; text-align: center; margin-top: 40px; font-size: 14px; letter-spacing: 1px; color: var(--vl-black); text-decoration: none; font-weight: 500; border-bottom: 1px solid transparent; transition: border-color .3s; }
+.vl-back-link:hover { border-color: var(--vl-black); }
+
+@media (max-width: 1024px) {
+  .product-preview { padding: 15px 8px !important; }
+  .product-preview__area-bottom { display: block !important; width: 100% !important; }
+  .product-preview__controls { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: clamp(6px, 1.2vw, 12px) !important; width: 100% !important; margin: 10px 0 0 !important; padding: 0 !important; }
+  .product-preview__controls-left { display: contents !important; }
+  .product-preview__controls-left .button { display: flex !important; justify-content: center !important; align-items: center !important; font-size: clamp(16px, 2.5vw, 22px) !important; width: 100% !important; }
+  .add-cart-counter { display: flex !important; justify-content: center !important; align-items: center !important; width: 100% !important; }
+  .add-cart-counter__btn, .product-preview__controls .button { font-size: clamp(11px, 1.5vw, 13px) !important; padding: 4px 8px !important; width: 100% !important; box-sizing: border-box !important; margin: 0 !important; }
 }
 
 @media (max-width: 768px) {
-  [style*="--is-editor:true"] .outside-widgets {
-    display: none;
-  }
-  .edit-widget-buttons .widget-name {
-    display: none !important;
-  }
-  [data-fixed-panels] [data-widget-add] {
-    display: none;
-  }
+  h1 { font-size: 32px !important; }
+  h2 { font-size: 24px !important; }
+  h3 { font-size: 20px !important; }
+  .vl-v2-btn { min-height: 48px; width: 100%; max-width: 100%; }
+  .vl-collection-page { padding: 40px 15px; }
+  .filter__content { padding: 15px !important; }
 }
-
-/* ===== СТИЛИЗАЦИЯ ШАПКИ (VELES-LEGS) ===== */
-.header__content,
-.side-panel__content {
-  font-family: 'Montserrat', sans-serif !important;
-}
-
-/* Логотип */
-.header__logo img {
-  max-height: 50px !important;
-  filter: none !important;
-}
-
-/* Ссылки в меню */
-.header__collections-link {
-  font-family: 'Montserrat', sans-serif !important;
-  font-size: 14px !important;
-  color: #000 !important;
-  text-decoration: none !important;
-  transition: opacity 0.3s !important;
-}
-.header__collections-link:hover {
-  opacity: 0.7;
-}
-
-/* Заголовок "Каталог" */
-.header__collections-head {
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1px !important;
-  color: #000 !important;
-}
-
-/* Иконки (корзина, избранное, сравнение, меню) */
-.header__control-btn {
-  color: #000 !important;
-}
-.header__control-btn .icon {
-  color: inherit !important;
-}
-
-/* Кнопка "Меню" */
-.header__show-menu-btn {
-  color: #000 !important;
-}
-
-/* Поле поиска */
-.header__search-field {
-  border: 1px solid #000 !important;
-  border-radius: 30px !important;
-  font-family: 'Montserrat', sans-serif !important;
-  padding: 6px 15px !important;
-  background: #fff !important;
-  color: #000 !important;
-}
-
-/* Боковая панель (мобильное меню) */
-.side-panel {
-  background: #fff !important;
-  border-right: 1px solid #000 !important;
-}
-.side-panel .menu__link,
-.side-panel .header__collections-link {
-  color: #000 !important;
-  font-size: 14px !important;
-}
-.side-panel .menu__title {
-  font-weight: 600 !important;
-  color: #000 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1px !important;
-}
-
-/* Телефоны и адрес в боковой панели */
-.side-panel .phone-value {
-  color: #000 !important;
-  font-size: 14px !important;
-}
-.side-panel .address {
-  color: #555 !important;
-  font-size: 13px !important;
-}
-
-/* ===== ДОБАВЛЕНО: СТИЛИ ПОДВАЛА (ДЛЯ КОНТРАСТНОСТИ) ===== */
-.footer__menu-link {
-  color: #000 !important;
-}
-.footer__menu-link:hover {
-  opacity: 0.7;
-}
-.footer__area-copyright a {
-  color: #000 !important;
-}
-.footer__area-copyright a:hover {
-  opacity: 0.7;
-}
-
-/* ===== ИСПРАВЛЕНИЕ SEO: СКРЫВАЕМ ДУБЛЬ H1 В КАТАЛОГЕ ===== */
-.widget-type_system_widget_v4_catalog_4 h1.page-headding {
-  display: none !important;
-}
-/* ===== КОНЕЦ ИСПРАВЛЕНИЯ SEO ===== */
-
-/* ===== СТИЛЬНЫЕ КНОПКИ КАТЕГОРИЙ (ВАРИАНТ 3: КОНТУР - АВТОМАТИЧЕСКИ) ===== */
-/* Этот блок автоматически находит ссылки в текстовых виджетах и меню главной страницы и превращает их в кнопки */
-.widget-type_text a, 
-.widget-type_menu a,
-.widget-type_html a,
-.page-content .text-widget a {
-  display: inline-block !important;
-  background-color: transparent !important;
-  color: #000000 !important;
-  font-family: 'Montserrat', sans-serif !important;
-  font-weight: 700 !important;
-  font-size: 16px !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1px !important;
-  padding: 14px 32px !important;
-  border-radius: 50px !important;
-  text-decoration: none !important;
-  border: 2px solid #000000 !important;
-  transition: all 0.3s ease !important;
-  margin: 10px 5px !important;
-  text-align: center !important;
-  cursor: pointer !important;
-}
-
-.widget-type_text a:hover, 
-.widget-type_menu a:hover,
-.widget-type_html a:hover,
-.page-content .text-widget a:hover {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-  border-color: #000000 !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
-}
-
-/* Резервный класс, если вы все же решите использовать HTML-виджет с классом */
-.vl-category-btn {
-  display: inline-block !important;
-  background-color: transparent !important;
-  color: #000000 !important;
-  font-family: 'Montserrat', sans-serif !important;
-  font-weight: 700 !important;
-  font-size: 16px !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1px !important;
-  padding: 14px 32px !important;
-  border-radius: 50px !important;
-  text-decoration: none !important;
-  border: 2px solid #000000 !important;
-  transition: all 0.3s ease !important;
-  margin: 10px 5px !important;
-  text-align: center !important;
-  cursor: pointer !important;
-}
-
-.vl-category-btn:hover {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-  border-color: #000000 !important;
-  transform: translateY(-2px) !important;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2) !important;
-}
-/* ===== КОНЕЦ СТИЛЕЙ КНОПОК ===== */
 
 /* =========================================================
-   V2.3 PAGE STANDARDIZATION — VISUAL TEST FIXES
-   Главная index.* намеренно исключена: V2.1_HOME_APPEND.liquid не трогаем.
-========================================================= */
-
+   V2.3 — NON-HOMEPAGE STANDARDIZATION
+   Built on the verified v2.3-v21-alignment base.
+   Homepage/index.* is intentionally excluded.
+   ========================================================= */
 body[data-theme-template]:not([data-theme-template^="index"]) {
   --vl-accent: #5E8C31;
-  --color-btn-bg: transparent;
-  --color-accent-text: #5E8C31;
-  --color-text-dark: #000000;
-  --color-text-light: #ffffff;
 }
 
-body[data-theme-template]:not([data-theme-template^="index"]) main,
-body[data-theme-template]:not([data-theme-template^="index"]) footer,
-body[data-theme-template]:not([data-theme-template^="index"]) .header__content,
-body[data-theme-template]:not([data-theme-template^="index"]) .side-panel__content {
-  font-family: 'Montserrat', sans-serif !important;
-}
-
-/* Меню и служебный текст: только Montserrat */
-body[data-theme-template]:not([data-theme-template^="index"]) .header__collections-link,
-body[data-theme-template]:not([data-theme-template^="index"]) .header__collections-head,
-body[data-theme-template]:not([data-theme-template^="index"]) .header__show-menu-btn,
-body[data-theme-template]:not([data-theme-template^="index"]) .side-panel .menu__link,
-body[data-theme-template]:not([data-theme-template^="index"]) .side-panel .menu__title,
-body[data-theme-template]:not([data-theme-template^="index"]) .expo-participant-card,
-body[data-theme-template]:not([data-theme-template^="index"]) .expo-participant-card * {
-  font-family: 'Montserrat', sans-serif !important;
-}
-
-/* Единственный акцент для страниц кроме главной */
-body[data-theme-template]:not([data-theme-template^="index"]) main a:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) footer a:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .side-panel a:hover {
+body[data-theme-template]:not([data-theme-template^="index"]) a:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .side-panel a:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .expo-details a:hover {
   color: #5E8C31 !important;
 }
 
-/* Единый стандарт рамок карточек и информационных блоков.
-   ВАЖНО: рамки относятся к контейнерам карточек/блоков, а не к кнопкам внутри них. */
-body[data-theme-template]:not([data-theme-template^="index"]) .product-preview,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-auto-description,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-related-card,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-article-cover img,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .cart-item,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .cart-table tr,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .cart-items > div,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .item,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-collection .filter__content,
-body[data-theme-template]:not([data-theme-template^="index"]) .page-content .text-widget,
-body[data-theme-template]:not([data-theme-template^="index"]) .expo-participant-card {
-  border: 1px solid #000 !important;
-  border-radius: 12px !important;
-  box-shadow: none !important;
-  background-color: #fff !important;
-}
-
-/* Рамка карточки подсвечивается акцентом при наведении, но не меняет заливку. */
+/* Preserve the alignment-base product-card boundaries. */
 body[data-theme-template]:not([data-theme-template^="index"]) .product-preview:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-related-card:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-article-cover:hover img,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .cart-item:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-cart .item:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .vl-collection .filter__content:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .page-content .text-widget:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .expo-participant-card:hover {
+body[data-theme-template]:not([data-theme-template^="index"]) .product-card:hover {
   border-color: #5E8C31 !important;
 }
 
-/* Кнопки управления товарами: прозрачные, без рамки и без заливки.
-   Акцент #5E8C31 используется только для состояния hover. */
+/* Variant values: visible individual boundaries, white background, accent on hover. */
+body[data-theme-template]:not([data-theme-template^="index"]) .product-form .option,
+body[data-theme-template]:not([data-theme-template^="index"]) .product-form .option-item,
+body[data-theme-template]:not([data-theme-template^="index"]) .product-form .option-value,
+body[data-theme-template]:not([data-theme-template^="index"]) .product-form label,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__variants label,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__variants .option,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__variants .option-value {
+  background: #fff !important;
+  color: #000 !important;
+  border: 1px solid #000 !important;
+  border-radius: 6px !important;
+  box-shadow: none !important;
+}
+body[data-theme-template]:not([data-theme-template^="index"]) .product-form .option:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product-form .option-item:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product-form .option-value:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product-form label:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__variants label:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__variants .option:hover,
+body[data-theme-template]:not([data-theme-template^="index"]) .product__variants .option-value:hover {
+  background: #fff !important;
+  color: #5E8C31 !important;
+  border-color: #5E8C31 !important;
+}
+
+/* Quantity/cart controls remain visible: transparent interior, explicit boundary and readable content. */
 body[data-theme-template]:not([data-theme-template^="index"]) .add-cart-counter__btn,
-body[data-theme-template]:not([data-theme-template^="index"]) .product-preview .add-cart-counter__btn,
-body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls .button,
-body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls-left .button,
-body[data-theme-template]:not([data-theme-template^="index"]) .product__cart,
-body[data-theme-template]:not([data-theme-template^="index"]) .product__buy,
-body[data-theme-template]:not([data-theme-template^="index"]) .add-cart,
-body[data-theme-template]:not([data-theme-template^="index"]) .btn-buy,
-body[data-theme-template]:not([data-theme-template^="index"]) .product__add-to-cart button,
-body[data-theme-template]:not([data-theme-template^="index"]) .product__buy-button {
+body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls .button {
   background: transparent !important;
   color: #000 !important;
-  border: 0 !important;
-  border-color: transparent !important;
+  border: 2px solid #000 !important;
+  border-radius: 6px !important;
   box-shadow: none !important;
-  border-radius: 0 !important;
 }
-
 body[data-theme-template]:not([data-theme-template^="index"]) .add-cart-counter__btn:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .product-preview .add-cart-counter__btn:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls .button:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls-left .button:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .product__cart:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .product__buy:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .add-cart:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .btn-buy:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .product__add-to-cart button:hover,
-body[data-theme-template]:not([data-theme-template^="index"]) .product__buy-button:hover {
+body[data-theme-template]:not([data-theme-template^="index"]) .product-preview__controls .button:hover {
   background: transparent !important;
   color: #5E8C31 !important;
-  border: 0 !important;
-  border-color: transparent !important;
-  box-shadow: none !important;
-  transform: none !important;
+  border-color: #5E8C31 !important;
 }
 
-/* Подвал: кнопки блога и каталога — светлые, без чёрной заливки */
+/* Footer catalog/blog links keep their boundaries; only hover uses the accent. */
 body[data-theme-template]:not([data-theme-template^="index"]) .footer__blog-link a,
 body[data-theme-template]:not([data-theme-template^="index"]) .vl-footer-catalog-link {
-  display: inline-flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  min-height: 44px !important;
-  padding: 0 24px !important;
   background: transparent !important;
   color: #000 !important;
   border: 1px solid #000 !important;
-  border-radius: 12px !important;
+  border-radius: 6px !important;
   box-shadow: none !important;
-  font-family: 'Montserrat', sans-serif !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  letter-spacing: 1.5px !important;
-  text-decoration: none !important;
-  text-transform: uppercase !important;
-  transition: background-color .2s ease, border-color .2s ease, color .2s ease !important;
 }
-
 body[data-theme-template]:not([data-theme-template^="index"]) .footer__blog-link a:hover,
 body[data-theme-template]:not([data-theme-template^="index"]) .vl-footer-catalog-link:hover {
   background: transparent !important;
   color: #5E8C31 !important;
   border-color: #5E8C31 !important;
-  transform: none !important;
-  box-shadow: none !important;
 }
 
-/* Блок участника выставки */
-body[data-theme-template]:not([data-theme-template^="index"]) .expo-participant-card {
-  color: #000 !important;
-}
-
-body[data-theme-template]:not([data-theme-template^="index"]) .expo-details a {
-  color: #000 !important;
-  text-decoration: none !important;
-}
-
-body[data-theme-template]:not([data-theme-template^="index"]) .expo-details a:hover {
-  color: #5E8C31 !important;
-}
-
-/* Не превращаем внутренние текстовые ссылки страниц в старые pill-кнопки */
+/* Ordinary content links are not pill buttons on non-home pages. */
 body[data-theme-template]:not([data-theme-template^="index"]) .widget-type_text a:not(.vl-category-btn),
 body[data-theme-template]:not([data-theme-template^="index"]) .widget-type_menu a:not(.vl-category-btn),
 body[data-theme-template]:not([data-theme-template^="index"]) .widget-type_html a:not(.vl-category-btn),
@@ -361,7 +327,6 @@ body[data-theme-template]:not([data-theme-template^="index"]) .page-content .tex
   letter-spacing: inherit !important;
   text-transform: none !important;
 }
-
 body[data-theme-template]:not([data-theme-template^="index"]) .widget-type_text a:not(.vl-category-btn):hover,
 body[data-theme-template]:not([data-theme-template^="index"]) .widget-type_menu a:not(.vl-category-btn):hover,
 body[data-theme-template]:not([data-theme-template^="index"]) .widget-type_html a:not(.vl-category-btn):hover,
@@ -372,5 +337,3 @@ body[data-theme-template]:not([data-theme-template^="index"]) .page-content .tex
   transform: none !important;
   box-shadow: none !important;
 }
-
-/* ===== КОНЕЦ V2.3 PAGE STANDARDIZATION ===== */
