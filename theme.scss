@@ -165,7 +165,7 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--vl-black); 
 .breadcrumb { list-style: none !important; display: flex !important; flex-wrap: wrap !important; padding: 0 !important; margin: 0 !important; gap: 8px !important; }
 .breadcrumb-item { font-family: var(--vl-font-body) !important; font-size: 13px !important; color: #888 !important; letter-spacing: .5px !important; }
 .breadcrumb-item a { color: var(--vl-black) !important; text-decoration: none !important; border-bottom: 1px solid transparent !important; transition: border-color .3s !important; }
-.breadcrumb-item a:hover { border-bottom-color: var(--vl-black); }
+.breadcrumb-item a:hover { border-bottom-color: var(--vl-black) !important; }
 .breadcrumb-item:not(:last-child)::after { content: '/'; margin-left: 8px; color: #ccc; }
 .breadcrumb-page { color: #888 !important; }
 .collection-sort.sort_main { margin-bottom: 25px !important; }
