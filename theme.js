@@ -4,7 +4,7 @@
 
   var CATALOG_URL = '/collection/all';
   var KNOWN_LINK_FIXES = {
-    '/collections/opory-dlya-stolov': '/collection/derevyannye-nozhki-dlya-mebeli'
+    '/collections/opory-dlya-stolov': '/page/izdeliya-pod-zakaz'
   };
 
   function isHomepage() {
@@ -31,7 +31,7 @@
   }
 
   function normalizeFooterCatalogLinks(root) {
-    if (!root || !root.querySelectorAll || !isStandardizationPage()) return;
+    if (!root || !root.querySelectorAll) return;
 
     root.querySelectorAll('footer a').forEach(function (link) {
       var label = (link.textContent || '').replace(/\s+/g, ' ').trim().toLowerCase();
@@ -89,13 +89,18 @@
     if (!root || !root.querySelectorAll) return;
 
     /*
-     * The product template explicitly paints .add-cart-counter__btn black.
-     * Remove only that fill; preserve the existing border, dimensions,
-     * quantity controls and cart behavior.
+     * InSales data-add-cart-counter renders the actual add-to-cart button
+     * and its quantity controls. Remove only the fill from that component;
+     * do not restyle the product price, quantity logic or surrounding card.
      */
-    root.querySelectorAll('.vl-product-wrapper .add-cart-counter__btn').forEach(function (button) {
-      button.style.setProperty('background', 'transparent', 'important');
-      button.style.setProperty('background-color', 'transparent', 'important');
+    root.querySelectorAll('.vl-product-wrapper .add-cart-counter').forEach(function (counter) {
+      counter.style.setProperty('background', 'transparent', 'important');
+      counter.style.setProperty('background-color', 'transparent', 'important');
+    });
+
+    root.querySelectorAll('.vl-product-wrapper .add-cart-counter__btn, .vl-product-wrapper .add-cart-counter__controls, .vl-product-wrapper .add-cart-counter__controls-btn, .vl-product-wrapper .add-cart-counter__detail').forEach(function (element) {
+      element.style.setProperty('background', 'transparent', 'important');
+      element.style.setProperty('background-color', 'transparent', 'important');
     });
   }
 
@@ -115,8 +120,8 @@
   }
 
   function normalizePageLinks(root) {
-    if (!isStandardizationPage()) return;
     normalizeFooterCatalogLinks(root);
+    if (!isStandardizationPage()) return;
     normalizeInternalBlankTargets(root);
     normalizeKnownLinks(root);
   }
@@ -130,7 +135,7 @@
   /*
    * Safety net for system widgets that may render links or product controls
    * after DOMContentLoaded. External links keep their original target="_blank"
-   * behavior. Homepage/index.* remains excluded from navigation normalization.
+   * behavior. Homepage/index.* remains excluded from non-footer navigation normalization.
    */
   document.addEventListener('click', function (event) {
     if (event.defaultPrevented || event.button !== 0) return;
