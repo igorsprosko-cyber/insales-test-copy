@@ -111,6 +111,18 @@
     color: #000 !important;
     transform: translateY(-2px);
   }
+
+  /* Targeted fix: InSales renders an unavailable-variant preorder button
+     with the generic .button class, which otherwise receives the global
+     black button background. Keep the button and its function, but remove
+     only the unintended black visual layer. */
+  .vl-product-wrapper .product__preorder-btn {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #000 !important;
+    border: 1px solid #000 !important;
+  }
+
   .vl-product-wrapper .product__description,
   .vl-product-wrapper .product-description,
   .vl-product-wrapper .product__content,
