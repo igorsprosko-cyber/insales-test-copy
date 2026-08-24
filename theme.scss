@@ -183,6 +183,41 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--vl-black); 
 .product-preview__controls { margin-left: 10px !important; }
 .add-cart-counter__btn, .product-preview__controls .button { font-family: var(--vl-font-body) !important; background: transparent !important; color: var(--vl-black) !important; border: 2px solid var(--vl-black) !important; border-radius: var(--vl-radius-sm) !important; padding: 6px 18px !important; font-size: 13px !important; font-weight: 500 !important; letter-spacing: 1px !important; text-transform: uppercase !important; transition: all .3s !important; }
 .add-cart-counter__btn:hover, .product-preview__controls .button:hover { background: transparent !important; color: #5E8C31 !important; border-color: #5E8C31 !important; }
+
+/* Targeted regression fix: the InSales add-cart-counter is a widget-generated component.
+   Keep its existing outline/geometry, but prevent global .button rules from painting a
+   black layer over the component or its quantity controls. */
+.vl-product-wrapper .add-cart-counter,
+.vl-product-wrapper .add-cart-counter__btn,
+.vl-product-wrapper .add-cart-counter__controls,
+.vl-product-wrapper .add-cart-counter__controls-btn,
+.vl-product-wrapper .add-cart-counter__detail {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+.vl-product-wrapper .add-cart-counter::before,
+.vl-product-wrapper .add-cart-counter::after,
+.vl-product-wrapper .add-cart-counter__btn::before,
+.vl-product-wrapper .add-cart-counter__btn::after,
+.vl-product-wrapper .add-cart-counter__controls::before,
+.vl-product-wrapper .add-cart-counter__controls::after,
+.vl-product-wrapper .add-cart-counter__controls-btn::before,
+.vl-product-wrapper .add-cart-counter__controls-btn::after {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+.vl-product-wrapper .add-cart-counter__controls-btn,
+.vl-product-wrapper .add-cart-counter__detail,
+.vl-product-wrapper .add-cart-counter__detail-text,
+.vl-product-wrapper [data-add-cart-counter-count] {
+  color: var(--vl-black) !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 .pagination { display: flex !important; justify-content: center !important; align-items: center !important; gap: 30px !important; margin-top: 40px !important; list-style: none !important; padding: 0 !important; }
 .pagination a, .pagination__item a, .pagination .page-link { font-family: var(--vl-font-body) !important; font-size: 14px !important; font-weight: 500 !important; color: var(--vl-black) !important; text-decoration: none !important; border: none !important; background: transparent !important; padding: 0 4px !important; transition: opacity .3s !important; }
 .pagination a:hover, .pagination__item a:hover, .pagination .page-link:hover { opacity: .6; background: transparent !important; color: var(--vl-black) !important; }
