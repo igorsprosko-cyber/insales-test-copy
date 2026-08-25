@@ -184,35 +184,39 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--vl-black); 
 .add-cart-counter__btn, .product-preview__controls .button { font-family: var(--vl-font-body) !important; background: transparent !important; color: var(--vl-black) !important; border: 2px solid var(--vl-black) !important; border-radius: var(--vl-radius-sm) !important; padding: 6px 18px !important; font-size: 13px !important; font-weight: 500 !important; letter-spacing: 1px !important; text-transform: uppercase !important; transition: all .3s !important; }
 .add-cart-counter__btn:hover, .product-preview__controls .button:hover { background: transparent !important; color: #5E8C31 !important; border-color: #5E8C31 !important; }
 
-/* Targeted regression fix: the InSales add-cart-counter is a widget-generated component.
+/* Targeted regression fix: the InSales add-cart-counter is a widget-generated component
+   that appears on every page (catalog, search, favorites, compare, cart, single product) —
+   not only inside .vl-product-wrapper. Scoping this fix to .vl-product-wrapper meant it
+   never applied on the catalog/collection cards, which live inside .vl-collection instead.
+   Removed the page-wrapper prefix so the fix applies everywhere the widget renders.
    Keep its existing outline/geometry, but prevent global .button rules from painting a
    black layer over the component or its quantity controls. */
-.vl-product-wrapper .add-cart-counter,
-.vl-product-wrapper .add-cart-counter__btn,
-.vl-product-wrapper .add-cart-counter__controls,
-.vl-product-wrapper .add-cart-counter__controls-btn,
-.vl-product-wrapper .add-cart-counter__detail {
+.add-cart-counter,
+.add-cart-counter__btn,
+.add-cart-counter__controls,
+.add-cart-counter__controls-btn,
+.add-cart-counter__detail {
   background: transparent !important;
   background-color: transparent !important;
 }
 
-.vl-product-wrapper .add-cart-counter::before,
-.vl-product-wrapper .add-cart-counter::after,
-.vl-product-wrapper .add-cart-counter__btn::before,
-.vl-product-wrapper .add-cart-counter__btn::after,
-.vl-product-wrapper .add-cart-counter__controls::before,
-.vl-product-wrapper .add-cart-counter__controls::after,
-.vl-product-wrapper .add-cart-counter__controls-btn::before,
-.vl-product-wrapper .add-cart-counter__controls-btn::after {
+.add-cart-counter::before,
+.add-cart-counter::after,
+.add-cart-counter__btn::before,
+.add-cart-counter__btn::after,
+.add-cart-counter__controls::before,
+.add-cart-counter__controls::after,
+.add-cart-counter__controls-btn::before,
+.add-cart-counter__controls-btn::after {
   background: transparent !important;
   background-color: transparent !important;
   box-shadow: none !important;
 }
 
-.vl-product-wrapper .add-cart-counter__controls-btn,
-.vl-product-wrapper .add-cart-counter__detail,
-.vl-product-wrapper .add-cart-counter__detail-text,
-.vl-product-wrapper [data-add-cart-counter-count] {
+.add-cart-counter__controls-btn,
+.add-cart-counter__detail,
+.add-cart-counter__detail-text,
+[data-add-cart-counter-count] {
   color: var(--vl-black) !important;
   opacity: 1 !important;
   visibility: visible !important;
