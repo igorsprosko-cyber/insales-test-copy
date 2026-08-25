@@ -81,8 +81,21 @@
     font-weight: 400;
     text-decoration: line-through;
   }
+
+  /* .product__cart / .product__buy are the InSales system grid container
+     wrapping price + button together (confirmed via devtools computed
+     styles). The old rule painted them with the button's black background,
+     which covered the price text — that part was removed. This container
+     still needs its own outline, restored here with a transparent fill so
+     the border returns without the black-fill bug coming back. */
   .vl-product-wrapper .product__cart,
-  .vl-product-wrapper .product__buy,
+  .vl-product-wrapper .product__buy {
+    border: 1px solid #000 !important;
+    border-radius: 3px !important;
+    background: transparent !important;
+    background-color: transparent !important;
+  }
+
   .vl-product-wrapper .add-cart,
   .vl-product-wrapper .btn-buy,
   .vl-product-wrapper .product__add-to-cart > button,
@@ -101,8 +114,6 @@
     cursor: pointer;
     transition: .25s ease;
   }
-  .vl-product-wrapper .product__cart:hover,
-  .vl-product-wrapper .product__buy:hover,
   .vl-product-wrapper .add-cart:hover,
   .vl-product-wrapper .btn-buy:hover,
   .vl-product-wrapper .product__add-to-cart > button:hover,
@@ -115,12 +126,35 @@
   /* Targeted fix: InSales renders an unavailable-variant preorder button
      with the generic .button class, which otherwise receives the global
      black button background. Keep the button and its function, but remove
-     only the unintended black visual layer. */
-  .vl-product-wrapper .product__preorder-btn {
+     only the unintended black visual layer.
+     Note: the real class rendered by InSales is "product_preorder-btn"
+     (single underscore) — a prior fix used "product__preorder-btn" (double
+     underscore), which never matched the actual markup. Corrected here. */
+  .vl-product-wrapper .product_preorder-btn {
     background: transparent !important;
     background-color: transparent !important;
     color: #000 !important;
     border: 1px solid #000 !important;
+  }
+
+  /* Targeted fix: the "Купить в 1 клик" quick-checkout element is an
+     InSales system widget (<span class="button button_wide"
+     data-quick-checkout="...">), not something our theme renders. In its
+     normal state it was getting a near-white background (rgb(247,247,247),
+     confirmed via devtools) from InSales' own default styling, while our
+     global .button rule was still forcing white text on top of it —
+     white text on a near-white background, effectively invisible until
+     hover changed the state. Forcing both properties together removes the
+     mismatch regardless of which rule was winning before. */
+  .vl-product-wrapper [data-quick-checkout] {
+    background: var(--vl-black, #000) !important;
+    background-color: var(--vl-black, #000) !important;
+    color: #fff !important;
+  }
+  .vl-product-wrapper [data-quick-checkout]:hover {
+    background: #fff !important;
+    background-color: #fff !important;
+    color: #000 !important;
   }
 
   .vl-product-wrapper .product__description,
