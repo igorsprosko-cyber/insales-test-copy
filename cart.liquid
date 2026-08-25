@@ -1,10 +1,106 @@
 <!-- КОРЗИНА — V2 STANDARD -->
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Montserrat:wght@300;400;500;600;700&family=Roboto:wght@400;500;700&display=swap');
-  .vl-cart,.vl-cart *{box-sizing:border-box}.vl-cart{width:min(100% - 40px,1240px);margin:0 auto;padding:80px 0;background:#fff;color:#0a0a0a;font-family:'Roboto',Arial,sans-serif}.vl-cart h1,.vl-cart .cart-title{margin:0 0 40px;font-family:'Playfair Display',serif;font-size:clamp(38px,5vw,58px);line-height:1.02;letter-spacing:-.7px;text-transform:uppercase}.vl-cart .cart-item,.vl-cart .cart-table tr,.vl-cart .cart-items>div,.vl-cart .item{display:grid!important;grid-template-columns:100px minmax(0,1fr) auto auto auto!important;gap:20px!important;align-items:center!important;margin-bottom:16px!important;padding:20px!important;border:1px solid #000!important;border-radius:14px!important;background:#fff!important;box-shadow:none!important}.vl-cart .cart-item__image,.vl-cart .cart-item__photo,.vl-cart td img{width:100px!important;height:100px!important;object-fit:contain!important;border:1px solid #ddd!important;border-radius:8px!important;background:#f7f7f5!important}.vl-cart .cart-item__title,.vl-cart .cart-item__name,.vl-cart td a{color:#000!important;font:600 14px 'Montserrat',sans-serif!important;text-decoration:none!important}.vl-cart .cart-item__price,.vl-cart .price,.vl-cart .cart-total__value,.vl-cart .total-value{color:#000!important;font-family:'Montserrat',sans-serif!important;font-weight:700!important}.vl-cart .cart-item__price,.vl-cart .price{font-size:16px!important}.vl-cart .cart-item__quantity,.vl-cart .quantity{display:flex;align-items:center;gap:8px}.vl-cart .cart-item__quantity input,.vl-cart .quantity input{width:58px!important;min-height:40px;border:1px solid #000!important;border-radius:3px!important;background:#fff!important;text-align:center}.vl-cart .cart-item__quantity button,.vl-cart .quantity button,.vl-cart .quantity-btn{width:34px!important;height:34px!important;border:1px solid #000!important;border-radius:50%!important;background:#fff!important;color:#000!important}.vl-cart .cart-item__remove,.vl-cart .remove-btn,.vl-cart a[data-remove]{color:#000!important;border-bottom:1px solid #000!important;text-decoration:none!important;font-size:12px!important;letter-spacing:1px;text-transform:uppercase}.vl-cart .cart-total,.vl-cart .total,.vl-cart .cart-summary{margin-top:35px;padding:25px 0;border-top:1px solid #000;text-align:right}.vl-cart .cart-total__value,.vl-cart .total-value{font-size:28px!important}.vl-cart .cart-checkout-btn,.vl-cart .checkout-btn,.vl-cart a[href*="checkout"]{display:inline-flex!important;align-items:center;justify-content:center;min-height:52px;padding:0 28px!important;border:1px solid #000!important;border-radius:3px!important;background:#000!important;color:#fff!important;font:600 12px 'Montserrat',sans-serif!important;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none!important}.vl-cart .cart-checkout-btn:hover,.vl-cart .checkout-btn:hover,.vl-cart a[href*="checkout"]:hover{background:#fff!important;color:#000!important}.vl-cart .cart-continue,.vl-cart a[href*="collection"],.vl-cart a[href="/"]{color:#000!important;text-decoration:none!important}.vl-cart .special-products{margin-top:60px;padding-top:45px;border-top:1px solid #000}.vl-cart .special-products__title{margin:0 0 25px;font-family:'Playfair Display',serif!important;font-size:42px!important}.vl-cart .product-preview{height:100%;padding:20px;border:1px solid #000!important;border-radius:14px!important;background:#fff!important;box-shadow:none!important}.vl-cart .product-preview__title{text-align:center}.vl-cart .product-preview__title a{color:#000!important;font-family:'Montserrat',sans-serif!important;text-decoration:none!important}.vl-cart .product-preview__price{text-align:center;font-family:'Montserrat',sans-serif;font-weight:700}.vl-cart .product-preview__area-bottom{display:flex;justify-content:flex-end;gap:12px}.vl-cart .product-preview__controls-left .button,.vl-cart .add-cart-counter__btn,.vl-cart .product-preview__controls .button{border:0!important;background:transparent!important;color:#000!important}.vl-cart .cart-empty,.vl-cart .empty-cart{padding:60px 20px;text-align:center}@media(max-width:768px){.vl-cart{width:min(100% - 30px,1240px);padding:55px 0}.vl-cart .cart-item,.vl-cart .cart-table tr,.vl-cart .cart-items>div,.vl-cart .item{grid-template-columns:60px minmax(0,1fr)!important;gap:12px!important;padding:14px!important}.vl-cart .cart-item__image,.vl-cart .cart-item__photo,.vl-cart td img{width:60px!important;height:60px!important;grid-row:span 2}.vl-cart .cart-total,.vl-cart .total,.vl-cart .cart-summary{text-align:left}.vl-cart .cart-checkout-btn,.vl-cart .checkout-btn,.vl-cart a[href*="checkout"]{width:100%}}
+  .vl-cart,.vl-cart *{box-sizing:border-box}.vl-cart{width:min(100% - 40px,1240px);margin:0 auto;padding:80px 0;background:#fff;color:#0a0a0a;font-family:'Roboto',Arial,sans-serif}.vl-cart h1,.vl-cart .cart-title{margin:0 0 40px;font-family:'Playfair Display',serif;font-size:clamp(38px,5vw,58px);line-height:1.02;letter-spacing:-.7px;text-transform:uppercase}.vl-cart .cart-item,.vl-cart .cart-table tr,.vl-cart .cart-items>div,.vl-cart .item{display:grid!important;grid-template-columns:140px minmax(0,1fr) auto auto auto auto!important;gap:24px!important;align-items:center!important;margin-bottom:16px!important;padding:24px!important;border:1px solid #000!important;border-radius:14px!important;background:#fff!important;box-shadow:none!important}
+
+  /* Below: the per-item selectors previously targeted classes
+     (.cart-item__image, .cart-item__title, .cart-item__quantity,
+     .cart-item__remove, "quantity", "remove-btn") that never matched
+     the real InSales cart-list widget markup — only the outer
+     .cart-item grid container above was ever actually matching.
+     Replaced with the real classes confirmed from the live widget
+     output: .item-image, .item-title, .item-price/.item-total,
+     .item-counter > .counter (.counter-input/.counter-button),
+     and .item-delete containing .favorites_btn and .js-item-delete. */
+  .vl-cart .item-image img{width:140px!important;height:140px!important;object-fit:contain!important;border:1px solid #ddd!important;border-radius:8px!important;background:#f7f7f5!important}
+  .vl-cart .item-title{color:#000!important;font:600 16px 'Montserrat',sans-serif!important;text-decoration:none!important;display:block!important}
+  .vl-cart .item-title .variant-title{color:#777!important;font-weight:400!important;font-size:.85em!important}
+  .vl-cart .item-price .price,.vl-cart .item-total{color:#000!important;font-family:'Montserrat',sans-serif!important;font-weight:700!important;font-size:18px!important}
+  .vl-cart .item-counter .counter{display:flex!important;align-items:center!important;gap:0!important;border:1px solid #000!important;border-radius:6px!important;overflow:hidden!important;width:fit-content!important}
+  .vl-cart .counter-input{width:52px!important;min-height:44px!important;border:none!important;border-radius:0!important;background:#fff!important;color:#000!important;text-align:center!important;font-size:15px!important}
+  .vl-cart .counter-button{width:44px!important;height:44px!important;border:none!important;border-radius:0!important;background:#fff!important;color:#000!important;font-size:16px!important}
+  .vl-cart .item-counter .counter > *{border-left:1px solid #000!important}
+  .vl-cart .item-counter .counter > *:first-child{border-left:none!important}
+
+  /* Targeted fix: .favorites_btn and .js-item-delete both carry the
+     generic .button class, which the global theme.scss rule paints
+     with white text — but neither is covered by any .vl-cart selector,
+     so their background stays fully transparent (confirmed via devtools:
+     rgba(0,0,0,0)). White text with no background sits invisibly on the
+     white .cart-item row. Forcing both properties together fixes it
+     regardless of which rule was winning before. */
+  .vl-cart .item-delete{display:flex!important;align-items:center!important;gap:16px!important}
+  .vl-cart .favorites_btn,.vl-cart .js-item-delete{background:transparent!important;background-color:transparent!important;border:none!important;color:#000!important;font-size:12px!important;letter-spacing:1px!important;text-transform:uppercase!important;display:inline-flex!important;align-items:center!important;gap:6px!important;cursor:pointer!important}
+  .vl-cart .favorites_btn:hover,.vl-cart .js-item-delete:hover{opacity:.6!important}
+
+  .vl-cart .cart-total,.vl-cart .total,.vl-cart .cart-summary{margin-top:35px;padding:25px 0;border-top:1px solid #000;text-align:right}.vl-cart .cart-total__value,.vl-cart .total-value{font-size:28px!important}.vl-cart .cart-checkout-btn,.vl-cart .checkout-btn,.vl-cart a[href*="checkout"]{display:inline-flex!important;align-items:center;justify-content:center;min-height:52px;padding:0 28px!important;border:1px solid #000!important;border-radius:3px!important;background:#000!important;color:#fff!important;font:600 12px 'Montserrat',sans-serif!important;letter-spacing:1.5px;text-transform:uppercase;text-decoration:none!important}.vl-cart .cart-checkout-btn:hover,.vl-cart .checkout-btn:hover,.vl-cart a[href*="checkout"]:hover{background:#fff!important;color:#000!important}.vl-cart .cart-continue,.vl-cart a[href*="collection"],.vl-cart a[href="/"]{color:#000!important;text-decoration:none!important}.vl-cart .special-products{margin-top:60px;padding-top:45px;border-top:1px solid #000}.vl-cart .special-products__title{margin:0 0 25px;font-family:'Playfair Display',serif!important;font-size:42px!important}.vl-cart .product-preview{height:100%;padding:20px;border:1px solid #000!important;border-radius:14px!important;background:#fff!important;box-shadow:none!important}.vl-cart .product-preview__title{text-align:center}.vl-cart .product-preview__title a{color:#000!important;font-family:'Montserrat',sans-serif!important;text-decoration:none!important}.vl-cart .product-preview__price{text-align:center;font-family:'Montserrat',sans-serif;font-weight:700}.vl-cart .product-preview__area-bottom{display:flex;justify-content:flex-end;gap:12px}.vl-cart .product-preview__controls-left .button,.vl-cart .add-cart-counter__btn,.vl-cart .product-preview__controls .button{border:0!important;background:transparent!important;color:#000!important}.vl-cart .cart-empty,.vl-cart .empty-cart{padding:60px 20px;text-align:center}
+
+  /* НДС-раскладка и приписка про розницу — добавляются через JS ниже,
+     потому что весь правый блок (.cart__area-controls-sticky) рендерит
+     системный виджет InSales, а не наш liquid. Формула НДС — та же,
+     что в калькуляторе на главной: сумма без НДС = итого / 1.22. */
+  .vl-vat-breakdown{margin-top:8px}
+  .vl-vat-row{display:flex;justify-content:space-between;gap:12px;padding:4px 0;font-family:'Montserrat',sans-serif;font-size:13px;color:#555}
+  .vl-cart-retail-note{margin-top:14px;padding-top:14px;border-top:1px solid #ddd;font-family:'Montserrat',sans-serif;font-size:12px;line-height:1.5;color:#777}
+
+@media(max-width:768px){.vl-cart{width:min(100% - 30px,1240px);padding:55px 0}.vl-cart .cart-item,.vl-cart .cart-table tr,.vl-cart .cart-items>div,.vl-cart .item{grid-template-columns:90px minmax(0,1fr)!important;gap:12px!important;padding:14px!important}.vl-cart .item-image img{width:90px!important;height:90px!important}.vl-cart .cart-total,.vl-cart .total,.vl-cart .cart-summary{text-align:left}.vl-cart .cart-checkout-btn,.vl-cart .checkout-btn,.vl-cart a[href*="checkout"]{width:100%}}
 </style>
 <section class="vl-cart">
   {% for widgetDrop in widget_lists.cart-list.widgets %}
     {% widget widgetDrop %}
   {% endfor %}
 </section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  function formatRUB(n) {
+    return Math.round(n).toLocaleString('ru-RU') + ' \u20BD';
+  }
+
+  function renderVat() {
+    var totalEl = document.querySelector('.vl-cart [data-cart-total-price]');
+    if (!totalEl) return;
+
+    var digits = totalEl.textContent.replace(/[^\d]/g, '');
+    var total = parseInt(digits, 10);
+    if (!total || isNaN(total)) return;
+
+    var withoutVat = total / 1.22;
+    var vat = total - withoutVat;
+
+    var totalBlock = totalEl.closest('.total');
+    if (!totalBlock || !totalBlock.parentNode) return;
+
+    var box = totalBlock.parentNode.querySelector('.vl-vat-breakdown');
+    if (!box) {
+      box = document.createElement('div');
+      box.className = 'vl-vat-breakdown';
+      totalBlock.parentNode.insertBefore(box, totalBlock);
+    }
+    box.innerHTML =
+      '<div class="vl-vat-row"><span>Сумма без НДС:</span><span>' + formatRUB(withoutVat) + '</span></div>' +
+      '<div class="vl-vat-row"><span>В т.ч. НДС 22%:</span><span>' + formatRUB(vat) + '</span></div>';
+  }
+
+  function addRetailNote() {
+    var submitBlock = document.querySelector('.vl-cart .cart-controls .submit-block');
+    if (!submitBlock || submitBlock.querySelector('.vl-cart-retail-note')) return;
+    var note = document.createElement('div');
+    note.className = 'vl-cart-retail-note';
+    note.textContent = 'Цены указаны в розницу, без скидки за объём. Рассчитали партию в конструкторе-калькуляторе? Свяжитесь с менеджером — выставим счёт индивидуально.';
+    submitBlock.appendChild(note);
+  }
+
+  renderVat();
+  addRetailNote();
+
+  var totalEl = document.querySelector('.vl-cart [data-cart-total-price]');
+  if (totalEl) {
+    new MutationObserver(renderVat).observe(totalEl, {
+      childList: true,
+      characterData: true,
+      subtree: true
+    });
+  }
+});
+</script>
