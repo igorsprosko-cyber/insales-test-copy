@@ -92,13 +92,20 @@
      * InSales data-add-cart-counter renders the actual add-to-cart button
      * and its quantity controls. Remove only the fill from that component;
      * do not restyle the product price, quantity logic or surrounding card.
+     *
+     * This widget renders on every page that lists products (catalog/collection,
+     * search, favorites, compare, cart, single product) — each page uses its own
+     * wrapper class (.vl-collection, .vl-search-page, .vl-product-wrapper, etc.).
+     * Scoping the selector to .vl-product-wrapper meant it only ever matched on
+     * the single-product page, never on the catalog cards. Selecting by the
+     * widget's own class directly fixes it everywhere it appears.
      */
-    root.querySelectorAll('.vl-product-wrapper .add-cart-counter').forEach(function (counter) {
+    root.querySelectorAll('.add-cart-counter').forEach(function (counter) {
       counter.style.setProperty('background', 'transparent', 'important');
       counter.style.setProperty('background-color', 'transparent', 'important');
     });
 
-    root.querySelectorAll('.vl-product-wrapper .add-cart-counter__btn, .vl-product-wrapper .add-cart-counter__controls, .vl-product-wrapper .add-cart-counter__controls-btn, .vl-product-wrapper .add-cart-counter__detail').forEach(function (element) {
+    root.querySelectorAll('.add-cart-counter__btn, .add-cart-counter__controls, .add-cart-counter__controls-btn, .add-cart-counter__detail').forEach(function (element) {
       element.style.setProperty('background', 'transparent', 'important');
       element.style.setProperty('background-color', 'transparent', 'important');
     });
