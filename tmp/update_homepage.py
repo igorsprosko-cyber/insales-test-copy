@@ -1,1 +1,1 @@
-# cleanup before reset
+# reset pending
