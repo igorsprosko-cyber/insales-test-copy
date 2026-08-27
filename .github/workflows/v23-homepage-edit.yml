@@ -2,7 +2,7 @@ name: V2.3 homepage edit
 
 on:
   pull_request:
-    types: [opened]
+    types: [opened, synchronize]
     branches: [v2.3-page-standardization]
 
 permissions:
@@ -19,18 +19,14 @@ jobs:
           fetch-depth: 2
 
       - name: Apply homepage V2.3 changes
-        env:
-          EXPECTED_SHA: fd7c53839e0d81394e551eb4f2c1a28ed4664c9d
         run: |
           python3 - <<'PY'
-          import hashlib, pathlib
+          import pathlib
           p = pathlib.Path('index.liquid')
-          b = p.read_bytes()
-          sha = hashlib.sha1(b).hexdigest()
-          expected = '${EXPECTED_SHA}'
-          if sha != expected:
-              raise SystemExit(f'ABORT: index.liquid SHA {sha} != expected {expected}')
-          s = b.decode('utf-8')
+          baseline = pathlib.Path('V2.1_HOME_APPEND.liquid')
+          if p.read_bytes() != baseline.read_bytes():
+              raise SystemExit('ABORT: index.liquid is not byte-identical to V2.1_HOME_APPEND.liquid baseline')
+          s = p.read_text(encoding='utf-8')
 
           # 1) Remove all automatically generated technical section labels.
           if "  .vl-v2 > section::before {\n    position: absolute;" not in s:
@@ -63,7 +59,7 @@ jobs:
           s = s.replace("  .vl-v2-why {\n    padding: 35px;", "  .vl-v2-why {\n    padding: 24px;", 1)
           s = s.replace("  .vl-v2-why h3 {\n    margin: 20px 0 10px;", "  .vl-v2-why h3 {\n    margin: 12px 0 8px;", 1)
 
-          # 5) Add LocalBusiness JSON-LD with confirmed contact/company data.
+          # 5) Add LocalBusiness JSON-LD with confirmed company/contact data.
           schema = '''\n<script type="application/ld+json">\n{\n  "@context": "https://schema.org",\n  "@type": "LocalBusiness",\n  "name": "ООО «ФК «ВЕЛЕС»",\n  "url": "https://veles-legs.ru/",\n  "telephone": [\n    "+7 499 290 52 00",\n    "+7 985 990 93 05"\n  ],\n  "email": "veles.mf@yandex.ru",\n  "address": {\n    "@type": "PostalAddress",\n    "streetAddress": "ул. Большая Серпуховская, 43",\n    "addressLocality": "Подольск",\n    "addressRegion": "Московская область",\n    "addressCountry": "RU"\n  },\n  "taxID": "5074060050",\n  "identifier": "1185074011594"\n}\n</script>\n'''
           if '"@type": "LocalBusiness"' not in s:
               needle = "</div>\n\n\n<script>\n(function () {"
@@ -73,7 +69,6 @@ jobs:
 
           p.write_text(s, encoding='utf-8')
           print('Applied homepage V2.3 changes')
-          print('New bytes:', p.stat().st_size)
           print('New lines:', len(s.splitlines()))
           PY
 
@@ -88,6 +83,8 @@ jobs:
       - name: Remove one-time workflow
         if: always()
         run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git rm -f .github/workflows/v23-homepage-edit.yml || true
           git commit -m "chore: remove one-time homepage edit workflow" || true
           git push origin v2.3-page-standardization || true
