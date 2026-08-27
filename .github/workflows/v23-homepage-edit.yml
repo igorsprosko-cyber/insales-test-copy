@@ -1,7 +1,8 @@
 name: V2.3 homepage edit
 
 on:
-  push:
+  pull_request:
+    types: [opened]
     branches: [v2.3-page-standardization]
 
 permissions:
@@ -22,7 +23,7 @@ jobs:
           EXPECTED_SHA: fd7c53839e0d81394e551eb4f2c1a28ed4664c9d
         run: |
           python3 - <<'PY'
-          import hashlib, pathlib, re
+          import hashlib, pathlib
           p = pathlib.Path('index.liquid')
           b = p.read_bytes()
           sha = hashlib.sha1(b).hexdigest()
@@ -32,29 +33,19 @@ jobs:
           s = b.decode('utf-8')
 
           # 1) Remove all automatically generated technical section labels.
-          marker = "  .vl-v2 > section::before {"
-          if marker not in s:
+          if "  .vl-v2 > section::before {\n    position: absolute;" not in s:
               raise SystemExit('ABORT: technical label CSS block not found')
-          s = s.replace(
-              "  .vl-v2 > section::before {\n    position: absolute;",
-              "  .vl-v2 > section::before {\n    display: none !important;\n    position: absolute;",
-              1
-          )
+          s = s.replace("  .vl-v2 > section::before {\n    position: absolute;", "  .vl-v2 > section::before {\n    display: none !important;\n    position: absolute;", 1)
 
-          # 2) Compact section 02 (trust strip), preserving its content and borders.
-          anchor = "  .vl-v2-trust {\n    min-height: 148px;"
-          if anchor not in s:
-              raise SystemExit('ABORT: V2.3 trust CSS anchor not found')
-          s = s.replace(
-              anchor,
-              "  .vl-v2-trust {\n    min-height: 104px;",
-              1
-          )
+          # 2) Compact section 02, preserving content and borders.
+          if "  .vl-v2-trust {\n    min-height: 148px;" not in s:
+              raise SystemExit('ABORT: trust CSS anchor not found')
+          s = s.replace("  .vl-v2-trust {\n    min-height: 148px;", "  .vl-v2-trust {\n    min-height: 104px;", 1)
           s = s.replace("  .vl-v2-trust-grid {\n    min-height: 148px;", "  .vl-v2-trust-grid {\n    min-height: 104px;", 1)
-          s = s.replace("  .vl-v2-trust-item {\n    min-height: 148px;", "  .vl-v2-trust-item {\n    min-height: 104px;\n    padding: 18px 20px;", 1)
-          s = s.replace("    min-height: 148px;\n    padding: 26px 24px;", "    min-height: 104px;\n    padding: 18px 20px;", 1)
+          s = s.replace("  .vl-v2-trust-item {\n    min-height: 148px;", "  .vl-v2-trust-item {\n    min-height: 104px;", 1)
+          s = s.replace("    padding: 26px 24px;\n    border-right: 1px solid var(--vl-rule);", "    padding: 18px 20px;\n    border-right: 1px solid var(--vl-rule);", 1)
 
-          # 3) Replace the CSS-drawn Veles Light lamp with real image presentation.
+          # 3) Replace the CSS lamp placeholder with the supplied real photo + logo.
           old_lamp = '''        <div class="vl-light-visual" aria-hidden="true">\n          <div class="vl-light-lamp"></div>\n        </div>'''
           new_lamp = '''        <div class="vl-light-visual">\n          <div class="vl-light-brand">\n            <img\n              class="vl-light-photo"\n              src="{{ 'veles-light-photo.jpg' | file_url }}"\n              alt="Veles Light — деревянные настольные лампы">\n            <img\n              class="vl-light-logo"\n              src="{{ 'veles-light-logo.png' | file_url }}"\n              alt="VELES LIGHT">\n          </div>\n        </div>'''
           if old_lamp not in s:
@@ -72,7 +63,7 @@ jobs:
           s = s.replace("  .vl-v2-why {\n    padding: 35px;", "  .vl-v2-why {\n    padding: 24px;", 1)
           s = s.replace("  .vl-v2-why h3 {\n    margin: 20px 0 10px;", "  .vl-v2-why h3 {\n    margin: 12px 0 8px;", 1)
 
-          # 5) Add LocalBusiness JSON-LD before the homepage script.
+          # 5) Add LocalBusiness JSON-LD with confirmed contact/company data.
           schema = '''\n<script type="application/ld+json">\n{\n  "@context": "https://schema.org",\n  "@type": "LocalBusiness",\n  "name": "ООО «ФК «ВЕЛЕС»",\n  "url": "https://veles-legs.ru/",\n  "telephone": [\n    "+7 499 290 52 00",\n    "+7 985 990 93 05"\n  ],\n  "email": "veles.mf@yandex.ru",\n  "address": {\n    "@type": "PostalAddress",\n    "streetAddress": "ул. Большая Серпуховская, 43",\n    "addressLocality": "Подольск",\n    "addressRegion": "Московская область",\n    "addressCountry": "RU"\n  },\n  "taxID": "5074060050",\n  "identifier": "1185074011594"\n}\n</script>\n'''
           if '"@type": "LocalBusiness"' not in s:
               needle = "</div>\n\n\n<script>\n(function () {"
@@ -86,12 +77,12 @@ jobs:
           print('New lines:', len(s.splitlines()))
           PY
 
-      - name: Commit changes
+      - name: Commit changes to v2.3 branch
         run: |
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add index.liquid
-          git commit -m "feat: standardize V2.3 homepage blocks" || exit 0
+          git commit -m "feat: standardize V2.3 homepage blocks"
           git push origin v2.3-page-standardization
 
       - name: Remove one-time workflow
