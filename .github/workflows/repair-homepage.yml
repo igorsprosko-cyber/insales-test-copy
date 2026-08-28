@@ -1,0 +1,186 @@
+name: Repair homepage
+
+on:
+  push:
+    branches: [v2.3-page-standardization-repair]
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Repair index.liquid
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          p = Path('index.liquid')
+          text = p.read_text(encoding='utf-8')
+
+          desired_hero = '''<section class="vl-v2-hero">
+            <div class="vl-v2-container">
+              <div class="vl-v2-hero-grid">
+
+                <div>
+                  <div class="vl-v2-eyebrow">Veles Legs / B2B комплектующие</div>
+
+                  <h1>
+                    Опоры,
+                    <br>
+                    которые
+                    <br>
+                    держат мебель.
+                    <span>Дерево · металл · нестандартные решения</span>
+                  </h1>
+
+                  <p class="vl-v2-hero-description">
+                    Российский производитель мебельных опор для фабрик и оптовых компаний.
+                    Стандартные модели — со склада. Нестандартные — по вашему чертежу.
+                  </p>
+
+                  <div class="vl-v2-actions">
+                    <a href="#vl-v2-calculator" class="vl-v2-btn">
+                      Рассчитать партию
+                    </a>
+
+                    <a href="#vl-v2-custom" class="vl-v2-btn vl-v2-btn--outline">
+                      Изготовление по чертежу
+                    </a>
+                  </div>
+
+                  <div class="vl-v2-hero-meta">
+                    <div class="vl-v2-hero-meta-item">
+                      <strong>01</strong>
+                      <span>Подбор</span>
+                    </div>
+                    <div class="vl-v2-hero-meta-item">
+                      <strong>02</strong>
+                      <span>Производство</span>
+                    </div>
+                    <div class="vl-v2-hero-meta-item">
+                      <strong>03</strong>
+                      <span>Отгрузка</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="vl-v2-hero-card">
+                  <img
+                    class="vl-v2-hero-card-photo"
+                    src="{{ 'opora-a178-chrome.jpg' | file_url }}"
+                    alt="Опора мебельная А178 хром — Veles Legs">
+                </div>
+
+              </div>
+            </div>
+          </section>'''
+
+          start = text.find('<section class="vl-v2-hero">')
+          if start < 0:
+              raise SystemExit('HERO start marker not found')
+          end = text.find('</section>', start)
+          if end < 0:
+              raise SystemExit('HERO closing section not found')
+          end += len('</section>')
+          text = text[:start] + desired_hero + text[end:]
+
+          # Remove an accidental duplicate closing section immediately after HERO.
+          text = re.sub(r'(</section>)[ \t\r\n]*</section>(?=[ \t\r\n]*<!--\s*=+\s*\n\s*2\. TRUST STRIP)', r'\1', text, count=1)
+
+          # Remove the temporary V2.3 HERO REFINED comment/style patch if present.
+          text = re.sub(
+              r'\{%- comment -%\}\s*V2\.3 HERO REFINED.*?\{%- endcomment -%\}\s*<style>.*?</style>\s*',
+              '', text, count=1, flags=re.S
+          )
+
+          # Make the original hero card rules final by adding a single scoped override
+          # at the end of the main stylesheet. This eliminates the visible inner frame.
+          marker = '\n</style>'
+          hero_css = '''\n\n  /* Final HERO photo treatment: one outer frame, no inner frame. */
+  .vl-v2-hero-card {
+    position: relative;
+    min-height: 560px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: #f7f7f5;
+    border: 1px solid #000;
+    box-shadow: 16px 16px 0 #000;
+  }
+
+  .vl-v2-hero-card-photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 560px;
+    object-fit: contain;
+    object-position: center;
+    background: #f7f7f5;
+    margin: 0;
+    border: 0;
+  }
+'''
+          if hero_css.strip() not in text:
+              pos = text.find(marker)
+              if pos < 0:
+                  raise SystemExit('Main stylesheet closing marker not found')
+              text = text[:pos] + hero_css + text[pos:]
+
+          # Production photo: show the complete image instead of cropping it.
+          text = re.sub(
+              r'(\.vl-v2-blueprint-photo\s*\{[^}]*?)object-fit:\s*cover;',
+              r'\1object-fit: contain;', text, count=1, flags=re.S
+          )
+          if '.vl-v2-blueprint-photo' not in text or 'object-fit: contain;' not in text[text.find('.vl-v2-blueprint-photo'):text.find('.vl-v2-blueprint-photo')+500]:
+              raise SystemExit('Production photo rule was not repaired')
+
+          # VELES LIGHT: keep button first and logo immediately after it.
+          text = re.sub(
+              r'(\.vl-light-brand-row\s*\{[^}]*?)justify-content:\s*space-between;',
+              r'\1justify-content: flex-start;', text, count=1, flags=re.S
+          )
+          text = re.sub(
+              r'(\.vl-light-brand-row\s*\{[^}]*?gap:)\s*18px;',
+              r'\1 24px;', text, count=1, flags=re.S
+          )
+
+          # Remove temporary workflow marker comments if someone had manually copied them.
+          text = text.replace('V2.3 HERO REFINED — replacement block for index.liquid\n', '')
+
+          # Structural sanity checks.
+          checks = {
+              'hero': text.count('<section class="vl-v2-hero">') == 1,
+              'trust': text.count('<!-- =======================================================\n       2. TRUST STRIP') == 1,
+              'production_contain': bool(re.search(r'\.vl-v2-blueprint-photo\s*\{[^}]*object-fit:\s*contain;', text, re.S)),
+              'hero_no_inner_border': bool(re.search(r'\.vl-v2-hero-card-photo\s*\{[^}]*border:\s*0;', text, re.S)),
+              'veles_light_logo': "{{ 'veles-light-logo.png' | file_url }}" in text,
+              'veles_light_photo': "{{ 'veles-light-photo.jpg' | file_url }}" in text,
+              'production_photo': "{{ 'stol-vintage.jpg' | file_url }}" in text,
+              'hero_photo': "{{ 'opora-a178-chrome.jpg' | file_url }}" in text,
+          }
+          failed = [k for k,v in checks.items() if not v]
+          if failed:
+              raise SystemExit('Checks failed: ' + ', '.join(failed))
+
+          p.write_text(text, encoding='utf-8')
+
+      - name: Commit repaired file and remove temporary workflow
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.liquid
+          git commit -m "fix: repair homepage image blocks" || true
+          git rm .github/workflows/repair-homepage.yml
+          git commit -m "chore: remove temporary repair workflow"
+          git push
