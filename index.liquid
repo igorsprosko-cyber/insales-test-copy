@@ -202,11 +202,11 @@
 
   .vl-v2-hero-card-photo {
     display: block;
-    width: 100%;
-    height: 280px;
-    object-fit: contain;
-    background: #f7f7f5;
-    margin-bottom: 24px;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 360px;
+    margin: 0 auto 24px;
     border: 1px solid #000;
   }
 
@@ -713,7 +713,9 @@
   }
 
   .vl-v2-blueprint {
-    height: 340px;
+    height: 380px;
+    max-width: 340px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -722,14 +724,12 @@
     border: 1px solid #000;
   }
 
- .vl-v2-blueprint-photo {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center;
-  background: #fafaf8;
-}
+  .vl-v2-blueprint-photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
 
   /* =========================================================
      CLIENTS
@@ -1015,16 +1015,24 @@
   .vl-light-brand-row {
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    gap: 18px;
+    gap: 24px;
     flex-wrap: wrap;
+  }
+
+  .vl-light-logo-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 16px;
+    background: #fff;
+    border: 1px solid #fff;
   }
 
   .vl-light-logo-inline {
     display: block;
-    height: 90px;
+    height: 34px;
     width: auto;
-    max-width: 280px;
+    max-width: 160px;
     object-fit: contain;
   }
 
@@ -1442,129 +1450,78 @@
        1. HERO
   ======================================================== -->
 
-{%- comment -%}
-V2.3 HERO REFINED — replacement block for index.liquid
-Source: v2.3-page-standardization
+  <section class="vl-v2-hero">
+    <div class="vl-v2-container">
+      <div class="vl-v2-hero-grid">
 
-HTML replacement: lines 1442–1513 (verify against current file before replacing).
-CSS change: replace the existing .vl-v2-hero-card and .vl-v2-hero-card-photo rules with the CSS below.
+        <div>
+          <div class="vl-v2-eyebrow">Veles Legs / B2B комплектующие</div>
 
-Design decision:
-- remove the duplicate inner frame;
-- remove repeated explanatory text from the right card;
-- keep the A178 photo as the only visual object in the card;
-- show the complete portrait image with contain;
-- retain the outer Veles black frame/shadow only.
-{%- endcomment -%}
+          <h1>
+            Опоры,
+            <br>
+            которые
+            <br>
+            держат мебель.
+            <span>Дерево · металл · нестандартные решения</span>
+          </h1>
 
-<style>
-  .vl-v2-hero-card {
-    position: relative;
-    min-height: 560px;
-    padding: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    background: #f7f7f5;
-    border: 1px solid #000;
-    box-shadow: 16px 16px 0 #000;
-  }
+          <p class="vl-v2-hero-description">
+            Российский производитель мебельных опор для фабрик и оптовых компаний.
+            Стандартные модели — со склада. Нестандартные — по вашему чертежу.
+          </p>
 
-  .vl-v2-hero-card-photo {
-    display: block;
-    width: 100%;
-    height: 100%;
-    min-height: 560px;
-    object-fit: contain;
-    object-position: center;
-    background: #f7f7f5;
-    margin: 0;
-    border: 0;
-  }
+          <div class="vl-v2-actions">
+            <a href="#vl-v2-calculator" class="vl-v2-btn">
+              Рассчитать партию
+            </a>
 
-  @media (max-width: 900px) {
-    .vl-v2-hero-card {
-      min-height: 520px;
-      max-width: 520px;
-    }
-
-    .vl-v2-hero-card-photo {
-      min-height: 520px;
-    }
-  }
-
-  @media (max-width: 600px) {
-    .vl-v2-hero-card {
-      min-height: 440px;
-      box-shadow: 8px 8px 0 #000;
-    }
-
-    .vl-v2-hero-card-photo {
-      min-height: 440px;
-    }
-  }
-</style>
-
-<section class="vl-v2-hero">
-  <div class="vl-v2-container">
-    <div class="vl-v2-hero-grid">
-
-      <div>
-        <div class="vl-v2-eyebrow">Veles Legs / B2B комплектующие</div>
-
-        <h1>
-          Опоры,
-          <br>
-          которые
-          <br>
-          держат мебель.
-          <span>Дерево · металл · нестандартные решения</span>
-        </h1>
-
-        <p class="vl-v2-hero-description">
-          Российский производитель мебельных опор для фабрик и оптовых компаний.
-          Стандартные модели — со склада. Нестандартные — по вашему чертежу.
-        </p>
-
-        <div class="vl-v2-actions">
-          <a href="#vl-v2-calculator" class="vl-v2-btn">
-            Рассчитать партию
-          </a>
-
-          <a href="#vl-v2-custom" class="vl-v2-btn vl-v2-btn--outline">
-            Изготовление по чертежу
-          </a>
-        </div>
-
-        <div class="vl-v2-hero-meta">
-          <div class="vl-v2-hero-meta-item">
-            <strong>01</strong>
-            <span>Подбор</span>
+            <a href="#vl-v2-custom" class="vl-v2-btn vl-v2-btn--outline">
+              Изготовление по чертежу
+            </a>
           </div>
-          <div class="vl-v2-hero-meta-item">
-            <strong>02</strong>
-            <span>Производство</span>
-          </div>
-          <div class="vl-v2-hero-meta-item">
-            <strong>03</strong>
-            <span>Отгрузка</span>
+
+          <div class="vl-v2-hero-meta">
+            <div class="vl-v2-hero-meta-item">
+              <strong>01</strong>
+              <span>Подбор</span>
+            </div>
+            <div class="vl-v2-hero-meta-item">
+              <strong>02</strong>
+              <span>Производство</span>
+            </div>
+            <div class="vl-v2-hero-meta-item">
+              <strong>03</strong>
+              <span>Отгрузка</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="vl-v2-hero-card">
-        <img
-          class="vl-v2-hero-card-photo"
-          src="{{ 'opora-a178-chrome.jpg' | file_url }}"
-          alt="Опора мебельная А178 хром — Veles Legs">
-      </div>
+        <div class="vl-v2-hero-card">
+          <img
+            class="vl-v2-hero-card-photo"
+            src="{{ 'opora-a178-chrome.jpg' | file_url }}"
+            alt="Опора мебельная А178 хром — Veles Legs">
 
+          <strong>Для мебельного производства</strong>
+
+          <p>
+            Не просто продаём ножки.
+            Подбираем конструкцию, материал, крепление,
+            размеры и объём под конкретную производственную задачу.
+          </p>
+
+          <div style="margin-top:30px;padding-top:25px;border-top:1px solid #000;">
+            <strong>Собственное производство</strong>
+            <p>
+              Дерево и металл. Стандартные серии и изготовление по проекту.
+            </p>
+          </div>
+        </div>
+
+      </div>
     </div>
-  </div>
-</section>
   </section>
-
 
   <!-- =======================================================
        2. TRUST STRIP
@@ -1729,10 +1686,12 @@ Design decision:
               Перейти на Veles Light
             </a>
 
-            <img
-              class="vl-light-logo-inline"
-              src="{{ 'veles-light-logo.png' | file_url }}"
-              alt="VELES LIGHT">
+            <span class="vl-light-logo-badge">
+              <img
+                class="vl-light-logo-inline"
+                src="{{ 'veles-light-logo.png' | file_url }}"
+                alt="VELES LIGHT">
+            </span>
           </div>
         </div>
 
