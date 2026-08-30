@@ -1121,13 +1121,13 @@
 
   /* Последние два блока (B2B/клиенты и "Почему Veles Legs") специально
      ниже остальных — короче листать, особенно на мобильном. */
-  .vl-v2 > section:nth-of-type(7),
-  .vl-v2 > section:nth-of-type(8) {
+  .vl-v2-section--b2b,
+  .vl-v2-section--why {
     padding: 56px 0;
   }
 
-  .vl-v2 > section:nth-of-type(7) .vl-v2-heading,
-  .vl-v2 > section:nth-of-type(8) .vl-v2-heading {
+  .vl-v2-section--b2b .vl-v2-heading,
+  .vl-v2-section--why .vl-v2-heading {
     margin-bottom: 30px;
   }
 
@@ -1362,34 +1362,34 @@
     border-radius: 0;
   }
 
-  .vl-v2 > section:nth-of-type(4) .vl-light {
+  .vl-v2-section--light .vl-light {
     border-radius: 0;
   }
 
-  .vl-v2 > section:nth-of-type(4) {
+  .vl-v2-section--light {
     background: #0c0c0b;
     color: #fff;
   }
 
-  .vl-v2 > section:nth-of-type(4) .vl-light-copy {
+  .vl-v2-section--light .vl-light-copy {
     padding: clamp(42px, 6vw, 72px);
   }
 
-  .vl-v2 > section:nth-of-type(4) .vl-v2-eyebrow::before {
+  .vl-v2-section--light .vl-v2-eyebrow::before {
     background: #fff;
   }
 
-  .vl-v2 > section:nth-of-type(4) .vl-v2-eyebrow,
-  .vl-v2 > section:nth-of-type(4) .vl-v2-title {
+  .vl-v2-section--light .vl-v2-eyebrow,
+  .vl-v2-section--light .vl-v2-title {
     color: #fff;
   }
 
-  .vl-v2 > section:nth-of-type(4) .vl-v2-eyebrow {
+  .vl-v2-section--light .vl-v2-eyebrow {
     font-size: 13px;
     letter-spacing: 2px;
   }
 
-  .vl-v2 > section:nth-of-type(4) .vl-v2-text {
+  .vl-v2-section--light .vl-v2-text {
     color: #c8c7c1;
   }
 
@@ -1455,7 +1455,7 @@
       gap: 28px;
     }
 
-    .vl-v2 > section:nth-of-type(4) .vl-light-copy {
+    .vl-v2-section--light .vl-light-copy {
       padding: 38px 24px;
     }
   }
@@ -1678,7 +1678,7 @@
        VELES LIGHT
   ======================================================== -->
 
-  <section class="vl-v2-section">
+  <section class="vl-v2-section vl-v2-section--light">
     <div class="vl-v2-container">
       <div class="vl-light">
 
@@ -2394,7 +2394,7 @@
        6. CLIENTS
   ======================================================== -->
 
-  <section class="vl-v2-section vl-v2-section--gray">
+  <section class="vl-v2-section vl-v2-section--gray vl-v2-section--b2b">
 
     <div class="vl-v2-container">
 
@@ -2456,7 +2456,7 @@
        7. WHY US
   ======================================================== -->
 
-  <section class="vl-v2-section">
+  <section class="vl-v2-section vl-v2-section--why">
 
     <div class="vl-v2-container">
 
