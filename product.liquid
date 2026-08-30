@@ -216,6 +216,7 @@
 
 <div class="vl-product-wrapper">
 <!-- ===== МИКРОРАЗМЕТКА SCHEMA.ORG ДЛЯ ТОВАРА (ПОЛНАЯ B2B С АВТО-ХАРАКТЕРИСТИКАМИ) ===== -->
+{% assign vl_variants_by_price = product.variants | sort: 'price' %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -228,10 +229,10 @@
   "offers": {
     "@type": "AggregateOffer",
     "priceCurrency": "RUB",
-    "lowPrice": "{{ product.variants.first.price | money_without_currency | replace: ',', '.' | replace: ' ', '' }}",
-    "highPrice": "{{ product.variants.last.price | money_without_currency | replace: ',', '.' | replace: ' ', '' }}",
+    "lowPrice": "{{ vl_variants_by_price.first.price | money_without_currency | replace: ',', '.' | replace: ' ', '' }}",
+    "highPrice": "{{ vl_variants_by_price.last.price | money_without_currency | replace: ',', '.' | replace: ' ', '' }}",
     "offerCount": "{{ product.variants.size }}",
-    "availability": "{% if product.variants.first.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+    "availability": "{% if product.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
     "url": "https://veles-legs.ru{{ product.url }}",
     "seller": {"@type": "Organization", "name": "Veles Legs"}
   },
