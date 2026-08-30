@@ -107,37 +107,43 @@
       {% assign og_description = article.excerpt_or_content | strip_html | strip_newlines | escape | truncate: 200 %}
       {% assign og_url = article.url %}
       {% assign og_image = img_url | default: '' %}
+      {% assign og_type = 'article' %}
     {% elsif template contains 'blog' %}
       {% assign og_title = 'Блог Veles Legs' %}
       {% assign og_description = 'Полезные статьи о мебельных опорах, производстве и новинках.' %}
       {% assign og_url = blogs.blog.url %}
       {% assign og_image = '' %}
+      {% assign og_type = 'website' %}
     {% elsif template contains 'product' %}
       {% assign og_title = product.title | escape %}
       {% assign og_description = product.description | strip_html | strip_newlines | escape | truncate: 200 %}
       {% assign og_url = product.url %}
       {% assign og_image = product.images.first.original_url | default: '' %}
+      {% assign og_type = 'product' %}
     {% elsif template contains 'collection' %}
       {% assign og_title = collection.title | escape | append: ' | Veles Legs' %}
       {% assign og_description = collection.description | strip_html | strip_newlines | escape | truncate: 200 %}
       {% assign og_url = collection.url %}
       {% assign og_image = '' %}
+      {% assign og_type = 'website' %}
     {% elsif template contains 'page' %}
       {% assign og_title = page.title | escape | append: ' | Veles Legs' %}
       {% assign og_description = page.content | strip_html | strip_newlines | escape | truncate: 200 %}
       {% assign og_url = page.url %}
       {% assign og_image = '' %}
+      {% assign og_type = 'website' %}
     {% else %}
       {% assign og_title = 'Veles Legs | Мебельные опоры от производителя' %}
       {% assign og_description = 'Поставляем комплектующие для фабрик России. Деревянные и металлические ножки, фурнитура. Изготовление по чертежам.' %}
       {% assign og_url = '/' %}
       {% assign og_image = 'https://static.insales-cdn.com/files/1/3497/103632297/original/logo.png' %}
+      {% assign og_type = 'website' %}
     {% endif %}
 
     <meta property="og:title" content="{{ og_title }}" />
     <meta property="og:description" content="{{ og_description }}" />
     <meta property="og:url" content="https://veles-legs.ru{{ og_url }}" />
-    <meta property="og:type" content="website" />
+    <meta property="og:type" content="{{ og_type }}" />
     <meta property="og:site_name" content="Veles Legs" />
     
     {% if og_image != blank %}
