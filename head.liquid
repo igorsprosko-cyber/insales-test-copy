@@ -101,6 +101,18 @@
   <meta name="description" content="Результаты поиска товаров в каталоге производителя Veles Legs.">
 {% endif %}
 
+<!-- ИЗБРАННОЕ -->
+{% if template contains "favorite" %}
+  <title>Избранное | Veles Legs</title>
+  <meta name="description" content="Сохранённые товары Veles Legs для последующего просмотра и заказа.">
+{% endif %}
+
+<!-- СРАВНЕНИЕ -->
+{% if template contains "compare" %}
+  <title>Сравнение товаров | Veles Legs</title>
+  <meta name="description" content="Сравнение выбранных товаров Veles Legs по характеристикам и цене.">
+{% endif %}
+
 <!-- ========================================== -->
 <!-- МИКРОРАЗМЕТКА SCHEMA.ORG (JSON-LD)        -->
 <!-- ========================================== -->
