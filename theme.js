@@ -7,13 +7,6 @@
     '/collections/opory-dlya-stolov': '/page/izdeliya-pod-zakaz'
   };
 
-  function isHomepage() {
-    var body = document.body;
-    if (!body) return false;
-    var template = body.getAttribute('data-theme-template') || '';
-    return template.indexOf('index') === 0;
-  }
-
   function isStandardizationPage() {
     var body = document.body;
     if (!body) return true;
@@ -111,21 +104,6 @@
     });
   }
 
-  function restoreHomepageHero(root) {
-    if (!root || !root.querySelectorAll || !isHomepage()) return;
-
-    /*
-     * theme.scss globally sets h1 with !important. That rule overrides the
-     * homepage's own .vl-v2-hero h1 scale. Restore the dimensions declared
-     * by V2.1_HOME_APPEND without editing the homepage file itself.
-     */
-    root.querySelectorAll('.vl-v2-hero h1').forEach(function (heading) {
-      heading.style.setProperty('font-size', 'clamp(54px, 8vw, 104px)', 'important');
-      heading.style.setProperty('line-height', '0.9', 'important');
-      heading.style.setProperty('letter-spacing', '-3px', 'important');
-    });
-  }
-
   function normalizePageLinks(root) {
     normalizeFooterCatalogLinks(root);
     if (!isStandardizationPage()) return;
@@ -136,7 +114,6 @@
   document.addEventListener('DOMContentLoaded', function () {
     normalizePageLinks(document);
     removeProductCartOverlay(document);
-    restoreHomepageHero(document);
   });
 
   /*
@@ -184,7 +161,6 @@
             if (node.nodeType !== 1) return;
             normalizePageLinks(node);
             removeProductCartOverlay(node);
-            restoreHomepageHero(node);
           });
         });
       });

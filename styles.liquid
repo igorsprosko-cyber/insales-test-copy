@@ -1,3 +1,52 @@
 {% include "system_v4_fonts" %}
 
 <link href="{{ 'theme.css' | asset_url }}" rel="stylesheet" type="text/css" onload="document.body.classList.add('settings_loaded');" />
+
+<style>
+  /* =========================================================
+     VELES LEGS — HOMEPAGE PHOTO REPAIR
+     Applied from the global styles layer so index.liquid remains
+     untouched and the existing page architecture is preserved.
+     (HERO rules moved into index.liquid directly on 2026-08-29 —
+     see commit consolidating the Hero object-fit conflict.)
+  ========================================================= */
+
+  /* PRODUCTION — show the complete photo, never crop it. */
+  .vl-v2 .vl-v2-blueprint-photo {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    background: #fafaf8 !important;
+  }
+
+  .vl-v2 .vl-v2-blueprint {
+    overflow: hidden !important;
+    background: #fafaf8 !important;
+  }
+
+  /* VELES LIGHT — keep the lamp photo proportional. */
+  .vl-v2 .vl-light-photo {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    background: #111 !important;
+  }
+
+  /* Logo immediately beside the Veles Light link. */
+  .vl-v2 .vl-light-brand-row {
+    justify-content: flex-start !important;
+    align-items: center !important;
+    gap: 18px !important;
+  }
+
+  .vl-v2 .vl-light-brand-row .vl-v2-btn:hover {
+    background: #fff !important;
+    color: #000 !important;
+    border-color: #fff !important;
+  }
+
+</style>
