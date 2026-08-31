@@ -196,9 +196,6 @@
     position: relative;
     padding: 0;
     overflow: hidden;
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
     background: #f7f7f5;
     border: 1px solid #000;
     box-shadow: 16px 16px 0 #000;
@@ -218,14 +215,14 @@
 
   .vl-v2-hero-card strong {
     display: block;
-    margin-bottom: 12px;
+    margin: 24px 24px 12px;
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     letter-spacing: .5px;
   }
 
   .vl-v2-hero-card p {
-    margin: 0;
+    margin: 0 24px;
     color: #555;
     font-size: 14px;
     line-height: 1.6;
@@ -266,7 +263,7 @@
   }
 
   .vl-v2-hero-note {
-    margin-top: 32px;
+    margin: 32px 24px 24px;
     padding-top: 24px;
     border-top: 1px solid #000;
   }
@@ -756,7 +753,7 @@
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center center;
     background: #fafaf8;
   }
@@ -1047,7 +1044,7 @@
     display: block;
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
     object-position: center center;
     background: #111;
   }
@@ -1070,9 +1067,9 @@
 
   .vl-light-logo-inline {
     display: block;
-    height: 34px;
+    height: 44px;
     width: auto;
-    max-width: 160px;
+    max-width: 180px;
     object-fit: contain;
   }
 
@@ -1095,6 +1092,11 @@
 
     .vl-light-visual {
       height: 300px;
+    }
+
+    .vl-light-brand-row {
+      justify-content: center;
+      flex-wrap: wrap;
     }
   }
 
