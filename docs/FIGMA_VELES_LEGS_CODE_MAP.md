@@ -1,531 +1,419 @@
 # VELES LEGS — Figma ↔ Code Technical Map
 
-> Status: `IN PROGRESS — STATIC SOURCE AUDIT`
->
-> This document maps the real repository implementation to the planned Figma design-system structure. It is intentionally based on source files and configuration that are readable through GitHub. Platform-managed InSales system widgets whose internal implementation is not stored in this repository are mapped as `PLATFORM / NOT VERIFIED` rather than guessed.
+Status: `PARTIALLY VERIFIED — REPOSITORY-SIDE ARCHITECTURE MAP`
+Date: 2026-08-31
 
-## 1. Scope and sources
+This is the working technical map between the planned Figma system and the real VELES LEGS InSales implementation. It is governed by `my-first-project/AGENTS.md`, `PROJECT.md`, `ARCHITECTURE.md`, `STYLE_GUIDE.md`, `CONTRIBUTING.md`, `SITE_MAP.md`, `TASKS.md` and the current branch history.
 
-- Repository: `igorsprosko-cyber/insales-test-copy`
-- Source branch: `v2.3-page-standardization-final2`
-- Working branch: `Figma-VELES-LEGS`
-- Architecture/rules source: `igorsprosko-cyber/my-first-project`
-- `foto-redaktor` is a separate tool repository and is not part of the VELES LEGS runtime architecture; it is relevant only as an asset-production support tool.
+## 1. Authority and scope
 
-### Readable source files inspected
+- Architecture/rules source: `igorsprosko-cyber/my-first-project`.
+- Site/code source: `igorsprosko-cyber/insales-test-copy`.
+- Working design branch: `Figma-VELES-LEGS`.
+- Base implementation requested for audit: `v2.3-page-standardization-final2`.
+- `main` must not be changed without explicit approval.
+- `V2.1_HOME_APPEND.liquid` is a protected reference and is not to be redesigned for standardization.
+- Calculator DOM, IDs, handlers, formulas and business logic are protected.
+- `foto-redaktor` is a separate photo-production support project, not a runtime dependency of the site.
 
-`index.liquid`, `V2.1_HOME_APPEND.liquid`, `V2.3_DESIGN_PLAN.md`, `layouts.layout.liquid`, `layouts.checkout2.liquid`, `layouts.client_account.liquid`, `head.liquid`, `styles.liquid`, `theme.scss`, `theme.js`, `product.liquid`, `collection.liquid`, `cart.liquid`, `favorite.liquid`, `compare.liquid`, `search.liquid`, `blog.liquid`, `article.liquid`, `page.liquid`, `settings.json`, `settings_data.json`, `setup.json` (structure partially inspectable through repository tree/config output), `IMPLEMENTATION_REPORT.md`, `ИСТОРИЯ_РАБОТ.md`.
+This map does not authorize refactoring or code changes by itself. It identifies existing responsibilities and the intended Figma representation.
 
-Binary assets/ZIP exports are not used as evidence for internal code structure because the current GitHub connector does not expose binary contents for this audit.
+## 2. Governing conclusion
 
----
+The project rules require a simple modular architecture: each component should have one responsibility, repeated CSS/JS/HTML should be shared rather than duplicated, and visual changes should not become excuses for unrelated code changes.
 
-## 2. Architecture map — actual runtime
+Therefore Figma should be an **approved visual contract**, not a second implementation system. It defines tokens, component anatomy, variants, responsive behavior and page composition. Liquid/CSS/JS and InSales remain responsible for implementation, runtime behavior and data.
+
+## 3. Actual runtime layers
 
 ```text
 InSales runtime
-   │
-   ├── settings/settings_data
-   │       └── theme configuration, widget configuration, limits
-   │
-   ├── layouts.layout.liquid
-   │       ├── head
-   │       ├── header widget list
-   │       ├── content_for_layout
-   │       ├── contextual sidebar widget list
-   │       ├── footer widget list
-   │       ├── bottom/outside widget lists
-   │       └── widgets_assets + styles + theme.js
-   │
-   └── page template
-           ├── index.liquid
-           ├── collection.liquid
-           ├── product.liquid
-           ├── cart.liquid
-           ├── search.liquid
-           ├── favorite.liquid
-           ├── compare.liquid
-           ├── blog.liquid
-           ├── article.liquid
-           └── page.liquid
-
-Global styling:
-   theme.scss → theme.css → styles.liquid loader
-
-Page-specific styling/logic:
-   template-local <style>/<script> blocks
-
-Runtime behavior:
-   theme.js + InSales system widgets
+  ├─ theme settings/configuration
+  ├─ global layout
+  │   ├─ head / SEO
+  │   ├─ header widgets
+  │   ├─ page content
+  │   ├─ contextual sidebar widgets
+  │   ├─ footer widgets + custom footer markup
+  │   └─ fixed / bottom / outside widgets
+  ├─ page templates
+  ├─ global CSS (`theme.scss` → `theme.css`)
+  ├─ template-local CSS/JS
+  ├─ shared `theme.js`
+  └─ platform-managed InSales widgets
 ```
 
-The global layout explicitly renders header/footer/sidebar widget lists and loads page/system assets before `theme.js`. This means Figma must model both the shared shell and page-specific composition, not only isolated pages.
+Figma therefore has to model three categories separately:
 
----
+1. shared shell/components;
+2. page compositions;
+3. states and constraints belonging to platform widgets.
 
-## 3. Figma foundations ↔ actual code
+## 4. Foundations — factual mapping
 
-| Figma Foundation | Real implementation | Current source | Status | Decision |
+| Figma Foundation | Current implementation | Source | Status | Decision |
 |---|---|---|---|---|
-| Color tokens | CSS custom properties plus direct values | `theme.scss`, `index.liquid` | PARTIALLY VERIFIED | Consolidate tokens in Figma first; do not blindly change existing settings |
-| Body typography | `--vl-font-body: "Montserrat"` plus page-local Roboto in homepage/product/calculator | `theme.scss`, `index.liquid`, `product.liquid` | PARTIALLY VERIFIED | Figma should document Montserrat as system default and identify Roboto exceptions explicitly |
-| Heading typography | `--vl-font-heading: "Playfair Display"` | `theme.scss` | VERIFIED | Make this a named Figma text style |
-| Spacing | 4px token scale | `theme.scss` | VERIFIED | Use as Figma spacing base |
-| Container | mostly `1240px`, some pages `1200px`, article `1000px` | `theme.scss`, page templates | VERIFIED | Figma needs page/container variants rather than one universal width |
-| Radius | 6/8/12/16px global; page-local 14px and 30px controls exist | `theme.scss`, `index.liquid`, templates | VERIFIED | Resolve into semantic component tokens |
-| Buttons | generic `.button/.btn` plus `.vl-v2-btn` plus page-local overrides | `theme.scss`, `index.liquid`, templates | VERIFIED | Create Button component with semantic variants; map legacy selectors separately |
-| Grid/breakpoints | mostly 768px page breakpoint; homepage has additional responsive rules | `theme.scss`, `index.liquid` | PARTIALLY VERIFIED | Define Figma desktop/tablet/mobile frames from actual CSS, then normalize intentionally |
-| Image behavior | `contain`/`cover` differs by component | page-local CSS | VERIFIED | Component-specific image ratios/fits required |
-| Accent | CSS uses `#5E8C31` while `settings_data.json` uses `#76BC21` | `theme.scss`, `settings_data.json` | VERIFIED | Flag as token conflict; do not resolve silently |
+| Color system | global CSS variables + local values + InSales settings | `theme.scss`, `index.liquid`, `settings_data.json` | VERIFIED | Create semantic Figma tokens; resolve conflicts deliberately |
+| Body font | global Montserrat; local Roboto exceptions | `theme.scss`, `index.liquid`, `product.liquid` | VERIFIED | Montserrat is the project style-guide default; document Roboto as an existing exception, do not silently remove |
+| Heading font | Playfair Display | `theme.scss`, page-local CSS | VERIFIED | Named Figma heading styles |
+| Type sizes | global H1/H2/H3 36/28/20, body 16, etc. | `theme.scss`, `STYLE_GUIDE.md` | VERIFIED | Mirror as semantic Figma text styles |
+| Spacing | 4px base scale | `theme.scss`, `STYLE_GUIDE.md` | VERIFIED | Figma spacing variables should use 4px scale |
+| Radius | 6/8/12/16 etc.; local 14/30 also exist | `theme.scss`, templates | VERIFIED | Semantic component tokens; do not preserve arbitrary local values as system tokens |
+| Container | mostly 1240px; some local 1200/1000 | `theme.scss`, templates | VERIFIED | Figma needs container variants, not one forced width |
+| Borders | 1px/2px black primary | `theme.scss`, `STYLE_GUIDE.md` | VERIFIED | Border tokens |
+| Animation | mostly .2/.3/.4s ease | `theme.scss`, templates | VERIFIED | Restrained motion only |
+| Breakpoints | 768px common; homepage has additional rules | templates/CSS | PARTIALLY VERIFIED | Figma must cover required widths from style guide: 320–1920px |
+| Accent | `#5E8C31` in custom CSS vs `#76BC21` in theme settings | `theme.scss`, `settings_data.json` | VERIFIED | Explicit token conflict; no silent replacement |
 
----
+## 5. Shared Shell
 
-## 4. Shared shell — Figma ↔ code
+### Figma Component: `Shell / Page Frame`
 
-### Header
+**Liquid:** `layouts.layout.liquid`
 
-**Figma component:** `Shell / Header`
+**Responsibilities:** global HTML shell, head include, header widgets, page content, sidebar selection, footer widgets, fixed/bottom/outside widgets, widget assets, `styles` include and `theme.js`.
 
-**Implementation:** system widget(s) rendered by `layouts.layout.liquid` via `widget_lists.header-list`, with visual overrides in `theme.scss`.
+**CSS:** `theme.scss` global shell/header/footer rules plus platform CSS.
 
-**CSS selectors identified:** `.header__content`, `.header__collections-link`, `.header__control-btn`, `.header__show-menu-btn`, `.header__collections-head`, `.header__search-field`, `.side-panel`.
+**JS:** `theme.js` can affect links and InSales cart counters across the document but does not render the shell itself.
 
-**JS:** `theme.js` does not own header rendering; it performs document-wide navigation normalization and therefore can indirectly affect header links.
+**InSales:** header/footer/sidebar/bottom/outside widget lists.
 
-**InSales data:** header is platform widget driven.
+**Status:** `VERIFIED STATIC ARCHITECTURE`
 
-**Status:** `SHARED / PLATFORM WIDGET / VERIFIED STATIC SHELL`
+**Preserve:** page shell and widget contracts.
 
-**Preserve:** widget-driven structure and navigation behavior.
+**Figma:** one shared shell with desktop/mobile variants; never duplicate header/footer per page.
 
-**Figma work:** model desktop/mobile header states, search, collections/navigation, account/favorites/cart controls, and mobile side panel as variants.
+### Figma Component: `Shell / Header`
 
-### Footer
+**Liquid:** platform `widget_lists.header-list` rendered in `layouts.layout.liquid`.
 
-**Figma component:** `Shell / Footer`
+**CSS selectors observed:** `.header__content`, `.header__collections-link`, `.header__control-btn`, `.header__show-menu-btn`, `.header__search-field`, `.header__collections-head`, `.side-panel`.
 
-**Implementation:** system footer widget list in `layouts.layout.liquid`, plus hard-coded supplemental blocks in the same layout: blog link, exhibition card, AI links.
+**JS:** no header renderer; document-wide link normalization can affect header links.
 
-**CSS/JS:** `theme.scss` styles base footer links; `theme.js` normalizes footer catalog links.
+**Status:** `PLATFORM COMPONENT / VERIFIED STATIC`
 
-**Status:** `SHARED / MIXED PLATFORM + CUSTOM / VERIFIED`
+**Preserve:** platform widget structure.
 
-**Important:** footer is not a pure system-widget surface because `layouts.layout.liquid` contains custom HTML blocks.
+**Figma states:** Desktop default, Desktop interaction states, Mobile default, Mobile menu open, search/account/favorites/cart controls.
 
-**Figma work:** footer base + custom VELES blocks as explicit components.
+### Figma Component: `Shell / Footer`
 
-### Global layout
+**Liquid:** footer widget list plus custom blocks in `layouts.layout.liquid`.
 
-**Figma component:** `Shell / Page Frame`
+**CSS:** `theme.scss` footer rules.
 
-**Implementation:** `layouts.layout.liquid`
+**JS:** footer catalog URL normalization in `theme.js`.
 
-**Behavior:** template-aware sidebar selection; header/main/footer; fixed/bottom/outside widgets; asset lists.
+**InSales:** footer widgets + hard-coded supplemental content.
 
-**Status:** `ARCHITECTURAL / VERIFIED STATIC`
+**Status:** `MIXED PLATFORM + CUSTOM / VERIFIED STATIC`
 
-**Preserve:** this file is the primary structural contract for all public templates.
+**Preserve:** functional links/widget list; review legacy commercial content separately.
 
----
+## 6. Product system — highest-priority reusable layer
 
-## 5. Homepage — `index.liquid`
+### Figma Component: `Product Card`
 
-The homepage is the most design-rich file and contains the protected calculator logic. The project history explicitly treats the calculator DOM, IDs, handlers and business logic as protected.
+**Liquid:** primarily InSales product listing/system widget markup consumed by `collection.liquid`, `search.liquid`, `favorite.liquid`, `compare.liquid`, cart recommendations and other widget surfaces.
 
-### Figma page
-`02 Pages / Home / Desktop` + `03 Mobile / Home`
+**CSS:** `theme.scss` `.product-preview*`, `.product-card*`, `.add-cart-counter*` plus page-specific overrides in templates.
 
-### Actual sections identified
+**JS:** `theme.js` explicitly targets `.add-cart-counter` and related controls because the same InSales widget is rendered on multiple page types.
 
-| Figma component/page block | Real implementation | JS | Data/widget | Status | Action |
+**InSales data:** product/variant title, images, price, availability, cart/favorite/compare state.
+
+**Status:** `VERIFIED AS SHARED PLATFORM COMPONENT`
+
+**Preserve:** real widget data contract and cart behavior.
+
+**Redesign:** visual anatomy should be defined once in Figma and then propagated to collection/search/favorite/recommendation surfaces.
+
+### Figma Component: `Product Card / Media`
+
+**Code:** `.product-preview` media area and system widget image markup.
+
+**Decision:** component-level image ratio/fit must be explicit. Do not create generic image rules that conflict with product/gallery behavior.
+
+### Figma Component: `Product Card / Price`
+
+**Code:** `.product-preview__price`, `.product-preview__price-cur`, `.product-preview__price-old`.
+
+**Decision:** one shared price hierarchy; page templates may add context but must not create different basic price languages.
+
+### Figma Component: `Product Card / Actions`
+
+**Code:** `.product-preview__controls*`, `.add-cart-counter*`.
+
+**JS:** `theme.js`.
+
+**Decision:** preserve InSales interaction; skin visually through scoped rules.
+
+## 7. Home — `index.liquid`
+
+Figma page: `02 Pages / Home / Desktop` + `03 Mobile / Home`.
+
+The homepage is the visual storytelling layer but is constrained by protected calculator internals and by the protected V2.1 reference.
+
+| Figma Component | Liquid | CSS | JS | Data/Widget | Status | Action |
+|---|---|---|---|---|---|---|
+| Hero | `.vl-v2-hero*` | local homepage CSS | visual only | hard-coded copy + approved image asset | VERIFIED STATIC | Redesign visual composition in Figma; preserve semantic intent |
+| Trust strip | `.vl-v2-trust*` | local CSS | none | hard-coded | VERIFIED STATIC | Convert concept into reusable stats/trust component |
+| Category teaser | `.vl-v2-category*` | local CSS | none | hard-coded links/content | VERIFIED STATIC | Reuse for collection/category entry points |
+| Calculator shell | `.vl-v2-calculator-intro` + wrappers | local homepage CSS | protected calculator JS | hard-coded intro + live form | VERIFIED | Figma skin around exact functional DOM |
+| Calculator controls | `.vl-selector*`, `.vl-select-group*` | local CSS | protected functions/handlers | calculation state | PROTECTED | Do not change DOM, IDs, formulas or business logic |
+| Calculator result | `.vl-calc-result*` | local CSS | calculator JS | calculated values | PROTECTED | Visual hierarchy only |
+| Custom production | `.vl-v2-section--custom` and related blocks | local CSS | none/limited visual | approved copy + assets | VERIFIED STATIC | Reusable `Custom Production` pattern |
+| B2B proof | `.vl-v2-section--b2b` | local CSS | none | approved factual claims | VERIFIED STATIC | Reusable proof/capability pattern |
+| Why Veles | `.vl-v2-section--why` | local CSS | none | approved copy | VERIFIED STATIC | Reusable proof section |
+| Final CTA | homepage CTA section | local CSS/global button system | none | hard-coded | VERIFIED STATIC | Use shared CTA component |
+
+### Home technical conflicts
+
+- Local homepage `--vl-*` variables overlap the global `theme.scss` token layer.
+- Homepage imports Roboto in addition to Montserrat/Playfair.
+- Generic/global button rules coexist with local `.vl-v2-btn` rules.
+- These are architecture/design-system issues to resolve deliberately; no blind cleanup is authorized.
+
+## 8. Product page — `product.liquid`
+
+Figma page: `02 Pages / Product / Desktop` + `03 Mobile / Product`.
+
+| Figma Component | Liquid/CSS | JS | InSales Data/Widget | Status | Action |
 |---|---|---|---|---|---|
-| Home Hero | `.vl-v2-hero` and related classes in `index.liquid` | none required for current visual behavior | hard-coded copy + real image slot | VERIFIED | Preserve content intent; redesign visually through Figma |
-| Trust strip | `.vl-v2-trust*` | none | hard-coded | VERIFIED | Convert to reusable `Trust / Stat Strip` component |
-| Categories | `.vl-v2-category*` | none | hard-coded links/content | VERIFIED | Convert to reusable category/collection teaser component |
-| Calculator intro | `.vl-v2-calculator-intro` | protected calculator JS below | hard-coded copy | VERIFIED | Visual shell can change; calculator internals protected |
-| Calculator controls | `.vl-selector`, `.vl-column`, `.vl-select-group`, tabs/panels | protected inline handlers/functions and form DOM | calculator state + business logic | VERIFIED | `DO NOT ALTER` functional layer; create Figma visual skin around exact DOM |
-| Calculator result | `.vl-calc-result`, `.vl-calc-row` | calculator JS | calculated data | VERIFIED | Figma can define hierarchy, not formulas |
-| Custom production | `.vl-v2-section--custom` and associated blocks in homepage | none/limited visual | hard-coded/copy + image | VERIFIED STATIC | Make a reusable `Custom Production` pattern |
-| B2B | `.vl-v2-section--b2b` | none | hard-coded | VERIFIED STATIC | Make reusable proof/capability section |
-| Why Veles | `.vl-v2-section--why` | none | hard-coded | VERIFIED STATIC | Make proof section component |
-| Final CTA | homepage section | none | hard-coded | VERIFIED STATIC | Standardize against shared CTA component |
+| Product frame | `.vl-product-wrapper` | none | product | VERIFIED STATIC | Standardize container |
+| Product title | `.product-title` | none | `product.title` | VERIFIED | Shared H1 |
+| Product gallery | compatibility selectors around InSales product media | image-load enhancement | `product.images` + widget | PARTIALLY VERIFIED | Define Figma gallery states; retain defensive selectors until runtime markup is stable |
+| Price block | `.product__price`, `.product-price`, `.price` | none | variant/product prices | VERIFIED | Shared price component |
+| Purchase area | `.product__cart`, `.product__buy`, `.add-cart`, `.btn-buy` etc. | platform behavior | variant/cart state | VERIFIED STATIC | Visual skin only |
+| Specifications | `.vl-auto-description` / characteristic markup | none | `product.characteristics` | VERIFIED | Shared Specifications component |
+| Schema | inline Product JSON-LD | none | product/variants | VERIFIED STATIC | Technical layer outside Figma visual system |
 
-### Homepage-specific design issues found in source
+**Constraint:** product template contains defensive compatibility selectors for InSales-generated markup. Preserve until actual runtime DOM proves they can be simplified.
 
-1. Homepage has its own local font import (`Roboto`, `Montserrat`, `Playfair Display`) despite global design tokens. `Roboto` is a deliberate/useful exception for calculator/system content but is not aligned with the project's stated two-font style guide.
-2. Homepage uses several local variables (`--vl-*`) duplicating or partially overlapping global `theme.scss` variables.
-3. Button tokens/classes exist both globally and locally.
-4. Homepage is the strongest candidate to become the visual reference page, but the protected calculator means it must be treated as a constrained component rather than freely redesigned.
+## 9. Catalog / Collection — `collection.liquid`
 
----
+Figma pages: `02 Pages / Catalog`, `02 Pages / Collection` and mobile variants.
 
-## 6. Product page — `product.liquid`
-
-### Figma page
-`02 Pages / Product / Desktop` + `03 Mobile / Product`
-
-### Real structure
-
-```text
-Product title
-   ↓
-InSales product widget list
-   ↓
-Product media / price / cart / system controls
-   ↓
-Generated characteristics/description block
-   ↓
-Back link
-```
-
-### Mapping
-
-| Figma component | Code | JS | InSales data | Status | Action |
+| Figma Component | Liquid/CSS | JS | InSales | Status | Action |
 |---|---|---|---|---|---|
-| Product Page Frame | `.vl-product-wrapper` | none for structure | product | VERIFIED | Standardize container |
-| Product Title | `.product-title` | none | `product.title` | VERIFIED | Use Typography/H1 token |
-| Product Gallery/Media | selectors targeting InSales product image/gallery classes | small DOM enhancement for eager image | `product.images` via widget | PARTIALLY VERIFIED | Define Figma gallery states; keep widget data contract |
-| Price | `.product__price`, `.product-price`, `.price` | none | product/variant price | VERIFIED | Standardize price hierarchy |
-| Buy area | `.product__cart`, `.product__buy`, `.add-cart`, `.btn-buy`, quick checkout selectors | InSales widget behavior; no product purchase logic in custom JS | variant/cart state | VERIFIED | Skin system buttons without changing behavior |
-| Characteristics | `.vl-auto-description` | none | `product.characteristics` | VERIFIED | Convert into `Specifications` component |
-| JSON-LD | inline Product schema | none | product/variants | VERIFIED | Not represented as visual component; document as technical layer |
+| Collection frame | `.vl-collection` | none | collection | VERIFIED | Map to Page Frame |
+| Breadcrumb | `.breadcrumb*` | none | breadcrumb widget/data | VERIFIED | Shared Breadcrumb |
+| Sorting | `.collection-sort`, `.collection-order*` | platform | collection products | VERIFIED | Shared Sort/Select |
+| Product Card | `.product-preview*` | `theme.js` | product widget | VERIFIED | Highest-priority reuse |
+| Product actions | `.product-preview__controls*`, `.add-cart-counter*` | `theme.js` | cart widget | VERIFIED | Shared action component |
+| Filter | `.filter*` | platform | filter widget | PARTIALLY VERIFIED | Figma visual component; platform behavior stays external |
+| Pagination | `.pagination*` | platform | pagination widget | VERIFIED STATIC | Shared pagination |
 
-### Significant design-system observation
+**Architecture finding:** collection styles exist both globally and locally. The correct future direction is one visual contract, but the first step is Figma standardization and DOM verification, not mass selector deletion.
 
-`product.liquid` uses a broad compatibility selector list for multiple possible InSales image/gallery class names. This is defensive integration code and should be preserved until the runtime markup is known to be stable.
+## 10. Cart — `cart.liquid`
 
----
+Figma page: `02 Pages / Cart`.
 
-## 7. Collection/catalog — `collection.liquid`
-
-### Figma page
-`02 Pages / Catalog` + `02 Pages / Collection` + mobile variants.
-
-### Mapping
-
-| Figma component | Code | JS | InSales widget/data | Status | Action |
+| Figma Component | Code | JS | Data | Status | Action |
 |---|---|---|---|---|---|
-| Collection frame | `.vl-collection` | none | collection | VERIFIED | Replace with shared Page Frame token |
-| Breadcrumb | `.breadcrumb-wrapper`, `.breadcrumb`, `.breadcrumb-item` | none | InSales breadcrumb | VERIFIED | Shared Breadcrumb component |
-| Sorting | `.collection-sort`, `.collection-order.is-sort .form-control` | InSales sorting | collection products | VERIFIED | Shared Select/Sort component |
-| Product Card | `.product-preview` and sub-elements | `theme.js` affects add-cart-counter widget | system catalog widget | VERIFIED | Highest-priority reusable component |
-| Product price | `.product-preview__price*` | none | product/variant | VERIFIED | Shared Price atom |
-| Product actions | `.product-preview__controls*`, `.add-cart-counter*` | `theme.js` | InSales cart widget | VERIFIED | Preserve widget behavior; standardize visual shell |
-| Filter | `.filter__content`, `.filter__head`, `.filter-option*` | platform behavior | InSales filter widget | PARTIALLY VERIFIED | Shared Filter component, platform internals remain external |
-| Pagination | `.pagination*` | platform | InSales pagination | VERIFIED | Shared Pagination |
+| Cart frame | `.vl-cart` | local JS | cart | VERIFIED | Shared Page Frame variant |
+| Cart item | `.cart-item`, `.item` | platform | cart line | VERIFIED | Reusable Cart Item |
+| Item media | `.item-image` | none | item image | VERIFIED | Shared media token |
+| Item title | `.item-title` | none | product title | VERIFIED | Shared text |
+| Item price/total | `.item-price`, `.item-total` | VAT rendering | cart totals | VERIFIED | Visual only; preserve formulas |
+| Quantity control | `.item-counter`, `.counter-*` | platform widget | quantity | VERIFIED | Shared Quantity Control |
+| Remove/favorite | `.item-delete`, `.favorites_btn`, `.js-item-delete` | platform/system | cart/favorites | VERIFIED | Shared action state |
+| Order summary | `.cart__area-controls-sticky`, `.cart-total` etc. | VAT/invoice JS | cart total | VERIFIED | Shared Order Summary |
+| Checkout CTA | checkout selectors | platform | checkout route | VERIFIED | Shared Primary Button |
+| Recommendations | `.special-products`, `.product-preview` | platform | product catalog | VERIFIED | Product Card reuse |
 
-### Key finding
+**Hard constraint:** VAT/invoice JavaScript in `cart.liquid` is business logic and is outside visual redesign authority.
 
-There are page-local rules in `collection.liquid` while `theme.scss` also contains collection/product-preview rules. This is a real overlap that should be represented in the Figma/code map and gradually reduced after visual standardization.
+## 11. Search — `search.liquid`
 
----
+Figma: `02 Pages / Search`.
 
-## 8. Cart — `cart.liquid`
+Liquid: `.vl-search-page`, `.vl-search-title`, `.vl-search-content`; `search.results`; `widget_lists.search-list.widgets`.
 
-### Figma page
-`02 Pages / Cart`
+CSS: page-local wrapper rules + global product/filter/pagination rules.
 
-### Mapping
+JS: common `theme.js` behaviors.
 
-| Figma component | Code | JS | Data | Status | Action |
-|---|---|---|---|---|---|
-| Cart frame | `.vl-cart` | custom JS | cart | VERIFIED | Standardize frame |
-| Cart item | `.cart-item` / `.item` | system/cart behavior | cart items | VERIFIED | Reusable `Cart Item` component |
-| Media | `.item-image` | none | item image | VERIFIED | Shared media token |
-| Title | `.item-title` | none | item/product title | VERIFIED | Shared text |
-| Price | `.item-price`, `.item-total` | custom VAT calculations | cart line totals | VERIFIED | Visual design only; preserve formulas |
-| Quantity | `.item-counter`, `.counter-*` | InSales widget | cart quantity | VERIFIED | Shared Quantity Control |
-| Remove/favorite | `.item-delete`, `.favorites_btn`, `.js-item-delete` | platform/system | cart/favorites | VERIFIED | Shared icon/action states |
-| Cart summary | `.cart__area-controls-sticky`, `.cart-total`, `.cart-summary` | custom VAT/invoice rendering | cart totals | VERIFIED | Shared `Order Summary` |
-| Checkout CTA | checkout selectors | platform | checkout route | VERIFIED | Shared Primary CTA |
-| Recommended products | `.special-products`, `.product-preview` | InSales | product catalog | VERIFIED | Shared Product Card |
+Status: `VERIFIED STATIC`.
 
-### Important constraint
+Decision: treat Search as a listing state that reuses Product Card, Filter and Pagination.
 
-The cart has substantial custom JavaScript for VAT breakdown and invoice rendering based on live InSales DOM classes. Figma changes must not be used as justification to rewrite that logic.
+## 12. Favorites — `favorite.liquid`
 
----
+Figma: `02 Pages / Favorites`.
 
-## 9. Search — `search.liquid`
+Liquid: `.vl-favorite-page`, `.vl-favorite-content`; `widget_lists.favorite-list.widgets`.
 
-**Figma page:** `02 Pages / Search`
+Status: `VERIFIED STATIC`.
 
-**Code:** `.vl-search-page`, `.vl-search-title`, `.vl-search-content`
+Decision: do not create a separate design language. Reuse listing components and shared Empty State.
 
-**Data/widget:** `widget_lists.search-list.widgets`, `search.results`
+## 13. Compare — `compare.liquid`
 
-**JS:** no page-specific search logic in `search.liquid`; `theme.js` applies document-wide link/cart-counter normalization.
+Figma: `02 Pages / Compare`.
 
-**Status:** `VERIFIED STATIC`
+Liquid/CSS: `.vl-compare-page`, `.vl-compare-wrapper`, `.vl-compare-table`, `.vl-compare-empty`.
 
-**Design action:** build a generic listing-result shell reusing Catalog/Product Card/Filter/Pagination components.
+InSales: `widget_lists.compare-list.widgets`.
 
----
+Status: `VERIFIED STATIC`.
 
-## 10. Favorite — `favorite.liquid`
+Decision: shared Comparison component. Preserve horizontal overflow on mobile until an approved redesign replaces it.
 
-**Figma page:** `02 Pages / Favorites`
+## 14. Blog — `blog.liquid`
 
-**Code:** `.vl-favorite-page`, `.vl-favorite-title`, `.vl-favorite-content`
+Figma: `02 Pages / Blog`.
 
-**Data/widget:** `widget_lists.favorite-list.widgets`
+Liquid/data: `articles`, `blog_size`, pagination; `.vl-blog-page`, `.vl-blog-grid`, `.vl-blog-article`.
 
-**Status:** `VERIFIED STATIC`
+Status: `VERIFIED STATIC`.
 
-**Design action:** treat as a listing state, not a separate visual language. Reuse Product Card and empty-state components.
+Decision: create reusable `Article Card`, `Blog Grid`, `Pagination` components. Do not duplicate Product Card patterns into blog cards.
 
----
+## 15. Article — `article.liquid`
 
-## 11. Compare — `compare.liquid`
+Figma: `02 Pages / Article`.
 
-**Figma page:** `02 Pages / Compare`
+Liquid/data: `article`, image, author/date, related articles, article products widget.
 
-**Code:** `.vl-compare-page`, `.vl-compare-wrapper`, `.vl-compare-table`, `.vl-compare-empty`
+CSS: `.vl-article-page`, `.vl-article-cover`, `.vl-related-grid`, `.vl-related-card`.
 
-**Data/widget:** `widget_lists.compare-list.widgets`
+JS: none central to article layout.
 
-**Status:** `VERIFIED STATIC`
+InSales: `widget_lists.article-list.widgets` for article content widgets/products/comments.
 
-**Design action:** create responsive comparison component; preserve horizontal-scroll behavior on mobile unless a deliberate redesign is approved.
+Status: `VERIFIED STATIC`.
 
----
+Decision: shared Article Header, Article Body, Related Articles, Product Recommendation components.
 
-## 12. Blog — `blog.liquid`
+## 16. Generic Content Page — `page.liquid`
 
-**Figma page:** `02 Pages / Blog`
+Figma: `02 Pages / Content Page`.
 
-**Code:** `.vl-blog-page`, `.vl-blog-grid`, `.vl-blog-article`, `.vl-blog-pagination`
+CSS: `.vl-page-wrapper`, `.vl-page-title`, `.vl-page-content`.
 
-**Data:** `articles`, `blog_size`, `paginate`
+Data: `page.title`, `page.content`.
 
-**Status:** `VERIFIED STATIC`
+Status: `VERIFIED STATIC`.
 
-**Design action:** create `Article Card`, `Blog Grid`, `Pagination` components. The current implementation is a custom wrapper around content rather than a pure shared system widget.
+Decision: one shared content-page template with semantic typography, tables, images and links. Technical pages should reuse the same system.
 
----
+## 17. Checkout / Client Account
 
-## 13. Article — `article.liquid`
+`layouts.checkout2.liquid` and `layouts.client_account.liquid` use the same broad shell pattern: header/footer widgets, contextual content, fixed/bottom/outside widgets, widget assets, `styles`, `theme.js`.
 
-**Figma page:** `02 Pages / Article`
+Figma representation: `Shell / Checkout Frame` and `Shell / Account Frame` built from shared shell tokens, not duplicate full site layouts.
 
-**Code:** `.vl-article-page`, title/meta/cover/products/related blocks
+Status: `VERIFIED STATIC SHELL`.
 
-**Data:** `article`, `blogs.blog.articles`
+Runtime behavior remains platform-managed and requires browser verification before any redesign.
 
-**Widget:** `widget_lists.article-list.widgets` for article-linked products/comments
+## 18. SEO / Technical layers
 
-**Status:** `VERIFIED STATIC`
+### Figma representation: none as a visual replacement
 
-**Design action:** create `Article Header`, `Article Cover`, `Related Articles`, `Article Products`, `Comments` component states.
+**Liquid:** `head.liquid`, product JSON-LD, layout BreadcrumbList/OpenGraph.
 
----
+**Data:** page/product/article/collection context.
 
-## 14. Generic content page — `page.liquid`
+**Status:** `VERIFIED STATIC` for source presence.
 
-**Figma page:** `02 Pages / Content Template`
+**Decision:** maintain as technical modules. Figma may document where technical requirements affect visible UI (title hierarchy, breadcrumbs), but must not duplicate implementation.
 
-**Code:** `.vl-page-wrapper`, `.vl-page-title`, `.vl-page-content`
+## 19. InSales configuration / widget map
 
-**Data:** `page.title`, `page.content`
+`settings.json`, `settings_data.json` and `setup.json` are configuration sources. The repository uses system widgets extensively. `setup.json`/widget configuration is the authoritative repository-side source for widget inventory.
 
-**Status:** `VERIFIED STATIC`
+Important: system widget internals are platform-managed and are not stored as ordinary project source files. Their internal DOM must be verified at runtime before making selector assumptions.
 
-**Design action:** treat as content template; define rich-text typography and media tokens in Figma rather than separate page-by-page styling.
+Examples confirmed in current configuration/source:
 
----
+- article widget + article products + comments;
+- blog widget + pagination;
+- bottom navigation widget;
+- collection/product listing widgets;
+- search/favorite/compare widgets;
+- cart widgets;
+- header/footer/sidebar widget lists.
 
-## 15. Checkout/account layouts
+Status: `PARTIALLY VERIFIED` where internal platform implementation is not exposed.
 
-### `layouts.checkout2.liquid`
+## 20. Critical conflicts discovered
 
-**Role:** InSales checkout wrapper.
+### A. Token conflict
+`theme.scss`: `#5E8C31`; `settings_data.json`: `#76BC21`.
 
-**Shared shell:** header/footer widgets, `head`, bottom/outside widgets.
+### B. Typography conflict
+Project style guide requires Montserrat + Playfair Display. Actual platform settings contain PT Root UI; homepage/product code also use Roboto in places.
 
-**Platform:** checkout-specific `checkout2.core` stylesheet and yield regions.
+### C. CSS ownership conflict
+Several page templates contain local CSS while `theme.scss` contains related global selectors.
 
-**Figma:** only a checkout/account shell reference is needed; visual behavior is constrained by platform.
+### D. Homepage token duplication
+`index.liquid` defines local `--vl-*` values overlapping global design tokens.
 
-**Status:** `PLATFORM-CONSTRAINED / STATIC VERIFIED`
+### E. Button duplication
+Global `.btn/.button` rules coexist with `.vl-v2-btn` and page-local button overrides.
 
-### `layouts.client_account.liquid`
+### F. JS ownership is mixed by design/history
+`theme.js` handles cross-page normalization while business logic remains inline in templates, notably homepage calculator and cart VAT/invoice behavior.
 
-**Role:** client account wrapper.
+## 21. What belongs in Figma vs what does not
 
-**Figma:** account shell + account menu/content states.
+### Figma SHOULD contain
 
-**Status:** `PLATFORM-CONSTRAINED / STATIC VERIFIED`
+- semantic color/type/spacing/radius tokens;
+- shared Shell/Header/Footer;
+- Product Card and its variants;
+- Breadcrumb, Button, Price, Quantity, Filter, Pagination;
+- Product Gallery, Product Info, Specifications;
+- page compositions;
+- desktop/mobile states;
+- visual interaction states.
 
----
+### Figma MUST NOT replace
 
-## 16. Technical/non-visual layers
+- InSales product data;
+- calculator formulas and business logic;
+- cart VAT/invoice calculations;
+- platform widget internals;
+- SEO/JSON-LD implementation;
+- routing/link logic.
 
-### `head.liquid`
+## 22. Implementation order after this audit
 
-SEO, robots, canonical, title/description, Organization/Product/Article metadata.
+1. **Foundations** — reconcile semantic tokens against actual code without changing runtime yet.
+2. **Shell** — define canonical Header/Footer/Page Frame in Figma.
+3. **Product Card** — highest-leverage shared component because it appears across listing/recommendation surfaces.
+4. **Catalog + Product** — use the same card/typography/price contracts.
+5. **Home** — make the visual reference while isolating the calculator as a protected component.
+6. **Cart** — standardize visual composition only; preserve VAT/invoice logic.
+7. **Search/Favorites/Compare** — turn them into listing states.
+8. **Blog/Article/Content** — reuse typography, page frame and related cards.
+9. **Checkout/Account** — shared shell only; runtime verification before changes.
+10. **Desktop/mobile visual QA** — required across 320, 375, 390, 414, 480, 768, 1024, 1280, 1440 and 1920px targets.
 
-**Figma relevance:** none visually; retain as technical contract.
+## 23. Definition of done for a Figma-driven change
 
-### `theme.js`
+- design intent exists in Figma;
+- affected reusable component is identified;
+- exact Liquid/CSS/JS ownership is recorded;
+- InSales data/widget dependency is recorded;
+- protected logic is identified before coding;
+- desktop/mobile states are defined;
+- implementation is scoped to the task;
+- source is re-read after change;
+- actual diff is reviewed;
+- verification status is recorded in the work archive.
 
-Current responsibilities:
-- normalize footer catalog links;
-- normalize internal `_blank` targets on standardization pages;
-- normalize known internal link mapping;
-- remove cart-counter background overlay;
-- observe dynamically inserted widgets.
+## 24. Verification limits
 
-**Figma relevance:** maps to behavior/state requirements, not visual tokens.
+`VERIFIED`: repository-side files and configuration exposed through GitHub and directly read during the audit.
 
-### `styles.liquid`
+`PARTIALLY VERIFIED`: platform-managed widget internals, live browser DOM/Computed Style, and binary archive contents.
 
-Three-line loader for system fonts + `theme.css`.
-
-**Figma relevance:** indirect; it is the delivery mechanism for the global style layer.
-
-### `theme.scss`
-
-Primary global visual implementation layer.
-
-**Figma relevance:** highest-priority source for current design tokens and shared components.
-
----
-
-## 17. Real component inventory for Figma
-
-### Tier A — must become canonical shared components
-
-1. `Shell / Header`
-2. `Shell / Footer`
-3. `Layout / Container`
-4. `Typography / Display`
-5. `Typography / H1-H3`
-6. `Typography / Body`
-7. `Button / Primary`
-8. `Button / Secondary`
-9. `Button / Text`
-10. `Form / Input`
-11. `Form / Select`
-12. `Form / Textarea`
-13. `Navigation / Breadcrumb`
-14. `Product / Card`
-15. `Product / Price`
-16. `Product / Media`
-17. `Product / Actions`
-18. `Catalog / Filter`
-19. `Catalog / Sort`
-20. `Navigation / Pagination`
-21. `Cart / Item`
-22. `Cart / Quantity`
-23. `Cart / Summary`
-24. `Content / Article Card`
-25. `Content / Related Articles`
-26. `Content / Rich Text`
-27. `Content / CTA`
-28. `Trust / Proof Strip`
-29. `Manufacturing / Custom Production`
-30. `Calculator / Visual Shell`
-
-### Tier B — page-specific compositions
-
-- Home Hero
-- Home Category Story
-- VELES LIGHT section
-- Home B2B proof
-- Home Why Veles section
-- Product technical section
-- Cart invoice/VAT presentation
-- Compare table layout
-- Article cover + related layout
-
----
-
-## 18. Figma ↔ repository file matrix
-
-| Figma layer | Main source file(s) | Secondary source(s) | Priority |
-|---|---|---|---|
-| Foundations | `theme.scss`, `settings_data.json` | `index.liquid`, `product.liquid`, `collection.liquid` | P0 |
-| Shell | `layouts.layout.liquid` | `theme.scss`, `theme.js` | P0 |
-| Header | `layouts.layout.liquid` | `theme.scss` | P0 |
-| Footer | `layouts.layout.liquid` | `theme.scss`, `theme.js` | P0 |
-| Product Card | `collection.liquid` | `theme.scss`, `theme.js`, widgets | P0 |
-| Product Page | `product.liquid` | `theme.scss`, system widgets | P0 |
-| Home | `index.liquid` | `theme.scss`, `V2.3_DESIGN_PLAN.md` | P1 |
-| Catalog | `collection.liquid` | `theme.scss` | P1 |
-| Cart | `cart.liquid` | `theme.scss`, `theme.js` | P1 |
-| Search | `search.liquid` | `theme.scss`, widgets | P2 |
-| Favorites | `favorite.liquid` | widgets | P2 |
-| Compare | `compare.liquid` | widgets | P2 |
-| Blog | `blog.liquid` | widgets, `theme.scss` | P2 |
-| Article | `article.liquid` | widgets, `theme.scss` | P2 |
-| Generic page | `page.liquid` | `theme.scss` | P2 |
-| Checkout | `layouts.checkout2.liquid` | InSales platform CSS | P3 |
-| Account | `layouts.client_account.liquid` | InSales platform CSS | P3 |
-| SEO/metadata | `head.liquid` | `layouts.layout.liquid` | TECH |
-| Runtime navigation/cart fixes | `theme.js` | `theme.scss` | TECH |
-| Settings model | `settings.json`, `settings_data.json`, `setup.json` | widgets | TECH |
-
----
-
-## 19. What must be preserved
-
-### Absolute protection
-
-The homepage calculator functional layer is protected by project rules. Do not change its DOM IDs, protected handlers/functions, pricing/VAT/business logic, or metal-routing behavior during visual work.
-
-### Protected visual reference
-
-`V2.1_HOME_APPEND.liquid` remains a protected reference and must not be modified merely to achieve standardization elsewhere.
-
-### Global architecture
-
-Do not move or rewrite `layouts.layout.liquid` casually. It is the actual shared runtime frame.
-
-### Platform widgets
-
-Do not replace InSales system widget behavior with fake/static markup without an explicit architectural decision.
-
----
-
-## 20. Highest-value standardization opportunities
-
-### P0 — establish visual source of truth
-
-- Resolve `#5E8C31` vs `#76BC21` as a documented token conflict.
-- Document Montserrat/Playfair as global system and Roboto as a current exception where actually used.
-- Create semantic container widths.
-- Create button/input/radius/spacing tokens.
-
-### P0 — Product Card
-
-The same product-preview pattern appears across collection/cart/search/favorites/compare and is a core reusable business component.
-
-### P0 — Shell
-
-Header/footer are global and currently partly platform-driven. Figma should define states without pretending the widget markup is fully ours.
-
-### P1 — Product Page
-
-It is the most important conversion page and contains a mixture of system widget markup and custom technical description.
-
-### P1 — Home
-
-Use the existing V2 structure and design plan as the narrative baseline; create a visual reference without touching the protected calculator internals.
-
-### P1 — Cart
-
-Standardize visual hierarchy while preserving custom VAT/invoice behavior.
-
-### P2 — secondary pages
-
-Search/favorite/compare/blog/article/page can then inherit the shared system.
-
----
-
-## 21. Verification status
-
-- `VERIFIED`: file existence and readable source mapping for the inspected text files.
-- `PARTIALLY VERIFIED`: exact runtime DOM of platform-managed widgets, browser behavior, computed styles, and system snippets not stored in this repository.
-- `NOT VERIFIED`: internal source of InSales-managed system widgets and binary ZIP contents.
-
-This document must be updated whenever a Figma component is approved or a corresponding implementation file/selector changes.
+`NOT VERIFIED`: any claim requiring a fresh local clone or live runtime execution that the current environment cannot perform.
