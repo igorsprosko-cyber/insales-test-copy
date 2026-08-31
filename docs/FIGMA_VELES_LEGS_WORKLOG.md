@@ -50,25 +50,38 @@ Working branch: `Figma-VELES-LEGS`
 - Commits created by this reconciliation: `3db8e660fc30af2404c27a1c41f9a13cff3200af` (code map) and `3176f07da07dd383711951f0eee9d7aa5a2b209a` (audit status).
 - Verification: `VERIFIED` for the repository-side documentation writes returned by GitHub; runtime/browser behavior remains outside this step.
 
+### 2026-08-31 — InSales documentation reference
+
+- Reviewed the current official InSales documentation catalog and developer-facing sections relevant to VELES LEGS: theme architecture, layouts, widgets, Liquid, Core.css, Common.js/EventBus, API/data model, settings/configuration and runtime/SEO.
+- Added `docs/insales-reference/` as a dedicated project reference folder.
+- Added concise project-specific reference notes and an official-source catalog rather than mirroring the full copyrighted documentation verbatim.
+- Added: `README.md`, `01-template-architecture.md`, `02-widgets.md`, `03-liquid.md`, `04-core-css.md`, `05-javascript.md`, `06-api-and-data.md`, `07-settings-and-config.md`, `08-seo-and-runtime.md`, `09-veles-application.md`, `SOURCES.md`.
+- Confirmed from official InSales documentation that themes combine templates, layouts, widgets, Liquid, Core.css/CSS variables, JavaScript/Common.js and configuration; this directly informs the Figma-to-code map.
+- Confirmed that Core.css and widget settings can affect runtime presentation through CSS variables, so Figma tokens must be reconciled with the platform layer rather than replacing it blindly.
+- Confirmed Common.js/EventBus and widget DOM behavior as relevant runtime contracts for the future Product Card bridge.
+- Commits for the reference folder were created sequentially by GitHub: `cd568734e78c41eede2bcc8843d22d8e9267e79e`, `d93016dc37fe950935d2c50c38799f7219350c19`, `90b37378773d571bb497f69fdd3cc8643086df14`, `cebdf10311e2e55a4561ad913b457bc70c3bd73e`, `9af38723f09772218386dd361aef44ec078c6464`, `35d0b1ae2a08eb1d5eed34aa04b88f0f342b6d78`, `f0f229f1d82ee316167a062faca1e68f2df5a643`, `7bd502c553a4dcbc577b0b834997fd8a24a09f3f`, `2438eed6c2dc9dfbdd41f6f1f7ecbf337d2fc8fa`, `d294e680305b3a56c217d5320c6bdfb2ee4c0547`, `7cc72fe3d64b5521bd5ac61d48bac513b25d2b14`.
+- Verification: `VERIFIED` for the GitHub file creation operations returned successfully. Official documentation content remains externally hosted and should be rechecked before platform-sensitive changes.
+
 ## Current state
 
-The branch contains the Figma architecture plus a reconciled, repository-derived design-to-code map. No production template has been replaced by this audit/reconciliation work.
+The branch contains the Figma architecture, repository-derived design-to-code map, governing-project reconciliation and a dedicated InSales development reference.
 
-The immediate implementation order is:
+The next implementation order is:
 
-1. Resolve Foundations/token conflicts deliberately in Figma; do not silently overwrite InSales settings.
-2. Define the canonical shared Shell/Header/Footer.
-3. Define the canonical Product Card from the actual InSales widget structure.
-4. Define Product Page and Catalog/Collection compositions.
-5. Define Home as the visual reference while protecting calculator internals.
-6. Standardize Cart visually without touching VAT/invoice business logic.
-7. Convert Search/Favorite/Compare into listing states using shared components.
-8. Standardize Blog/Article/Content pages.
-9. Verify desktop/mobile runtime against approved Figma states.
+1. Build `00 Foundations` in Figma from the verified VELES tokens and the InSales/Core constraints.
+2. Resolve semantic token conflicts explicitly (`#5E8C31` vs `#76BC21`; Montserrat/Playfair vs platform/default exceptions) without changing theme settings prematurely.
+3. Define the canonical shared Shell/Header/Footer.
+4. Define the canonical Product Card from the actual InSales widget contract.
+5. Define Product Page and Catalog/Collection compositions.
+6. Define Home as the visual reference while protecting calculator internals.
+7. Standardize Cart visually without touching VAT/invoice business logic.
+8. Convert Search/Favorite/Compare into listing states using shared components.
+9. Standardize Blog/Article/Content pages.
+10. Verify desktop/mobile runtime against approved Figma states.
 
 ## Verification policy
 
-This work follows the project requirement: do not claim `VERIFIED` without direct evidence. The current environment could not perform a local `git clone` because external DNS/network resolution was unavailable. Therefore binary archive internals and a byte-for-byte checkout of every repository file remain outside the verified scope; GitHub-exposed source/config/documentation is the factual basis of the current map.
+This work follows the project requirement: do not claim `VERIFIED` without direct evidence. The current environment could not perform a local `git clone` because external DNS/network resolution was unavailable. Therefore binary archive internals and a byte-for-byte checkout of every repository file remain outside the verified scope; GitHub-exposed source/config/documentation and the official InSales documentation pages are the factual basis of the current map/reference.
 
 ## Change policy
 
