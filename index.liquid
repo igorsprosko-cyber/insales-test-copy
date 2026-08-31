@@ -537,6 +537,13 @@
     font-family: 'Roboto', sans-serif;
   }
 
+  .vl-select-group select:focus-visible,
+  .vl-select-group input:focus-visible,
+  .vl-select-group textarea:focus-visible {
+    outline: 2px solid #5E8C31;
+    outline-offset: 2px;
+  }
+
   .vl-select-group textarea {
     border-radius: 8px;
     resize: vertical;
@@ -2250,25 +2257,30 @@
             <input
               type="text"
               id="wood-name"
+              aria-label="Ваше имя"
               placeholder="Ваше имя *">
 
             <input
               type="tel"
               id="wood-phone"
+              aria-label="Телефон"
               placeholder="Телефон *">
 
             <input
               type="email"
               id="wood-email"
+              aria-label="Email"
               placeholder="Email *">
 
             <input
               type="text"
               id="wood-org"
+              aria-label="Название компании"
               placeholder="Название компании">
 
             <textarea
               id="wood-comment"
+              aria-label="Комментарий к заказу"
               placeholder="Комментарий к заказу"></textarea>
 
             <button
