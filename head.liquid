@@ -149,6 +149,43 @@
 </script>
 
 <!-- ========================================== -->
+<!-- A11Y: ВИДИМЫЙ FOCUS И ИМЕНА ПОЛЕЙ КАЛЬКУЛЯТОРА -->
+<!-- ========================================== -->
+{% if template == "index" %}
+<style>
+  .vl-v2 .vl-select-group select:focus-visible,
+  .vl-v2 .vl-select-group input:focus-visible,
+  .vl-v2 .vl-select-group textarea:focus-visible,
+  .vl-v2 .vl-form-block input:focus-visible,
+  .vl-v2 .vl-form-block textarea:focus-visible,
+  .vl-v2 .vl-tab:focus-visible,
+  .vl-v2 .vl-action .btn-final:focus-visible,
+  .vl-v2 .vl-form-block .send-btn:focus-visible {
+    outline: 2px solid #5E8C31;
+    outline-offset: 3px;
+  }
+</style>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var fieldLabels = {
+      'wood-name': 'Ваше имя',
+      'wood-phone': 'Телефон',
+      'wood-email': 'Email',
+      'wood-org': 'Название компании',
+      'wood-comment': 'Комментарий к заказу'
+    };
+
+    Object.keys(fieldLabels).forEach(function (id) {
+      var field = document.getElementById(id);
+      if (field && !field.hasAttribute('aria-label')) {
+        field.setAttribute('aria-label', fieldLabels[id]);
+      }
+    });
+  });
+</script>
+{% endif %}
+
+<!-- ========================================== -->
 <!-- ИКОНКИ (FAVICON)                           -->
 <!-- ========================================== -->
 {% include "system_favicon" %}
