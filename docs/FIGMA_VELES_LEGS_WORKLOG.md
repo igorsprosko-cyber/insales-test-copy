@@ -38,20 +38,33 @@ Working branch: `Figma-VELES-LEGS`
 - Do not replace or rewrite historical entries merely to summarize them; append new dated entries so the sequence remains traceable.
 - When an operation cannot be verified, record `PARTIALLY VERIFIED`, `NOT VERIFIED`, `WRITE NOT AVAILABLE`, `READ FAILED`, or `RUNTIME NOT AVAILABLE` as appropriate instead of claiming completion.
 
+### 2026-08-31 — Reconciliation against governing project files
+
+- Re-read and compared the Figma/code work against `my-first-project/AGENTS.md`, `PROJECT.md`, `ARCHITECTURE.md`, `STYLE_GUIDE.md`, `CONTRIBUTING.md`, `SITE_MAP.md`, `TASKS.md`, and `STABILITY_AUDIT.md`.
+- Corrected the Figma approach: Figma is a visual contract and design-system representation, not a parallel implementation architecture and not a replacement for InSales widgets/data or business logic.
+- Strengthened the reuse rule: Product Card, Button, Price, Breadcrumb, Filter, Pagination, Quantity Control, Specifications, Page Frame and Shell are mapped as shared components before page-specific variants.
+- Explicitly documented that local/global CSS overlap is a consolidation target, not permission for mass refactoring.
+- Explicitly preserved the protected calculator and cart VAT/invoice logic.
+- Rewrote `docs/FIGMA_VELES_LEGS_CODE_MAP.md` into a complete working map covering foundations, shell, Home, Product, Collection/Catalog, Cart, Search, Favorites, Compare, Blog, Article, Content, Checkout/Account, SEO and InSales configuration.
+- Updated `docs/FIGMA_VELES_LEGS_AUDIT_STATUS.md` with the reconciliation and the corrected next-step decision.
+- Commits created by this reconciliation: `3db8e660fc30af2404c27a1c41f9a13cff3200af` (code map) and `3176f07da07dd383711951f0eee9d7aa5a2b209a` (audit status).
+- Verification: `VERIFIED` for the repository-side documentation writes returned by GitHub; runtime/browser behavior remains outside this step.
+
 ## Current state
 
-The branch now contains the initial architecture plus a factual source-to-design mapping. No production template has been replaced as part of the Figma audit.
+The branch contains the Figma architecture plus a reconciled, repository-derived design-to-code map. No production template has been replaced by this audit/reconciliation work.
 
 The immediate implementation order is:
 
-1. Resolve Foundations/token conflicts in the Figma layer.
+1. Resolve Foundations/token conflicts deliberately in Figma; do not silently overwrite InSales settings.
 2. Define the canonical shared Shell/Header/Footer.
 3. Define the canonical Product Card from the actual InSales widget structure.
-4. Define Product Page and Catalog/Collection page compositions.
+4. Define Product Page and Catalog/Collection compositions.
 5. Define Home as the visual reference while protecting calculator internals.
-6. Standardize Cart without touching its VAT/invoice business logic.
-7. Propagate the system to Search/Favorite/Compare/Blog/Article/Content pages.
-8. Verify desktop/mobile runtime against the approved Figma states.
+6. Standardize Cart visually without touching VAT/invoice business logic.
+7. Convert Search/Favorite/Compare into listing states using shared components.
+8. Standardize Blog/Article/Content pages.
+9. Verify desktop/mobile runtime against approved Figma states.
 
 ## Verification policy
 
