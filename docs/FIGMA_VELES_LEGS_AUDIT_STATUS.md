@@ -1,79 +1,43 @@
-# VELES LEGS — Full Repository Audit Status
+# VELES LEGS — Figma Audit Status
 
 Date: 2026-08-31
+Status: `PARTIALLY VERIFIED — REPOSITORY-SIDE`
 
-## Important scope note
+## What was reviewed
 
-A full remote `git clone` from the execution environment was attempted but the environment could not resolve `github.com`. Therefore this audit uses direct GitHub connector reads of repository metadata, branch/tree objects, source files, project documentation, and configuration exposed through GitHub.
+The Figma/code work was re-evaluated against the governing repository `my-first-project`, including:
 
-This is sufficient for a factual repository-side architecture map, but it is **not equivalent to a local checkout of every byte of every repository**.
+- `AGENTS.md`
+- `PROJECT.md`
+- `ARCHITECTURE.md`
+- `STYLE_GUIDE.md`
+- `CONTRIBUTING.md`
+- `SITE_MAP.md`
+- `TASKS.md`
+- `STABILITY_AUDIT.md`
 
-## Repositories reviewed
+The working implementation source was cross-checked in `insales-test-copy`, branch `v2.3-page-standardization-final2`, with the current Figma workspace on `Figma-VELES-LEGS`.
 
-### `igorsprosko-cyber/my-first-project`
-Role: project rules, architecture, style, contribution process, task/audit documentation.
+## Corrections made to the earlier Figma approach
 
-Relevant verified areas include the project documentation and CI/static-audit history. The repository's own process requires source-first verification and identifies `PROJECT.md`, `STYLE_GUIDE.md`, `ARCHITECTURE.md`, `AGENTS.md`, `TASKS.md`, `SITE_MAP.md`, `CONTRIBUTING.md`, `STABILITY_AUDIT.md`, `REVIEW_SCOPE.md`, and `PR5_AUDIT_NOTES.md` as governing documentation.
+1. Figma is now treated as a visual contract, not a parallel implementation architecture.
+2. Reuse is mandatory: the map prioritizes shared components over page-specific duplicates.
+3. Platform widgets remain platform contracts; Figma does not replace their runtime behavior.
+4. Protected calculator and cart business logic are explicit constraints, not redesign targets.
+5. Existing local/global CSS overlap is recorded as a future consolidation target, not permission for mass refactoring.
+6. Token conflicts (`#5E8C31` vs `#76BC21`; Montserrat/Playfair vs PT Root UI/Roboto) are recorded as decisions to resolve, not facts to silently overwrite.
+7. Runtime DOM/Computed Style remains a separate verification stage because source inspection alone cannot prove browser behavior.
 
-### `igorsprosko-cyber/insales-test-copy`
-Role: actual InSales theme/source and current working site code.
+## Key conclusion
 
-Audited branch: `v2.3-page-standardization-final2` as requested. The dedicated working branch is `Figma-VELES-LEGS`.
+The strongest next move is **not** immediate global CSS cleanup.
 
-Verified source/config areas include the layout, page templates, global styling, JavaScript, SEO/head, settings, setup/widget configuration, documentation history, and current Figma branch artifacts.
+The strongest next move is to establish a canonical Figma Foundations layer and then define one reusable Product Card from the actual InSales widget markup. This gives the project a visual contract before touching multiple page templates.
 
-### `igorsprosko-cyber/foto-redaktor`
-Role: separate React/TypeScript photo editor support project.
+## Protection
 
-It is not part of the VELES LEGS runtime/theme architecture. No evidence was found that its source should be mapped into the site's Figma component-to-Liquid implementation chain. It remains an asset-production support repository.
+No production template was replaced in this reconciliation. `main` remains outside scope. `V2.1_HOME_APPEND.liquid` and calculator logic remain protected.
 
-## Current Figma mapping conclusion
+## Verification limits
 
-The actual website architecture resolves into these layers:
-
-1. **Global runtime shell** — `layouts.layout.liquid` + platform header/footer/sidebar widgets.
-2. **Global visual system** — `theme.scss` delivered through `styles.liquid`.
-3. **Page templates** — `index.liquid`, `collection.liquid`, `product.liquid`, `cart.liquid`, `search.liquid`, `favorite.liquid`, `compare.liquid`, `blog.liquid`, `article.liquid`, `page.liquid`.
-4. **Runtime behavior** — `theme.js` plus platform widget behavior and template-local protected calculator logic.
-5. **Content/configuration** — `settings.json`, `settings_data.json`, `setup.json`, and InSales product/collection/article runtime data.
-6. **Technical metadata** — `head.liquid` and JSON-LD/SEO logic.
-
-## Figma source-of-truth strategy
-
-Figma should model:
-
-- Foundations/tokens;
-- shared shell;
-- reusable components;
-- page compositions;
-- responsive states;
-- interaction states where they affect visual behavior.
-
-Figma should **not** model as a replacement for:
-
-- InSales product data;
-- calculator formulas/business logic;
-- platform widget internals;
-- SEO/JSON-LD implementation;
-- cart VAT/invoice calculations.
-
-## Critical conflicts to resolve during design-system definition
-
-- `theme.scss` defines VELES design tokens using Montserrat/Playfair and `#5E8C31`, while `settings_data.json` still contains PT Root UI and `#76BC21` platform settings.
-- Multiple page templates carry local `<style>` blocks which overlap global selectors in `theme.scss`.
-- `index.liquid` defines a second local `--vl-*` token layer overlapping global tokens.
-- Product/catalog/cart/search/favorite/compare share platform product widgets but currently have different wrapper-level visual rules.
-- `theme.js` contains behavior fixes that are not purely visual; they must remain outside Figma-only changes.
-
-## Protection rules confirmed
-
-- `main` is not part of this implementation branch and must not be changed without explicit approval.
-- `V2.1_HOME_APPEND.liquid` is a protected visual/functional reference.
-- Calculator DOM/IDs/functions/business logic are protected.
-- Platform widget behavior must not be replaced by static design-only markup.
-
-## Audit result
-
-`PARTIALLY VERIFIED` for the phrase “all bytes of every file in all repositories”, because the current environment could not establish a local clone and binary contents are not available through the connector.
-
-`VERIFIED` for the repository metadata, requested branch structure, major source/config/document files read through GitHub, and the resulting Figma↔code architecture map.
+Repository-side text/configuration evidence is directly verified through GitHub. A local byte-for-byte clone, binary archive internals, live DOM/Computed Style and full browser/device validation remain `NOT VERIFIED` or `PARTIALLY VERIFIED` where applicable.
