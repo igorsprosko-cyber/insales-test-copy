@@ -42,11 +42,10 @@
   .vl-compare-wrapper .heading { display: none !important; }
 
   .vl-compare-remove-list {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-end;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: 8px;
-    margin: 0 0 12px;
+    margin: 0 0 4px;
   }
 
   .vl-compare-remove-item {
@@ -59,6 +58,7 @@
 
   .vl-compare-remove {
     display: inline-flex;
+    justify-self: center;
     align-items: center;
     justify-content: center;
     width: 32px;
