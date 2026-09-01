@@ -5,8 +5,8 @@
   "presets": {
     "custom": {
       "bg": "#FFFFFF",
-      "color-btn-bg": "#76BC21",
-      "color-accent-text": "#76BC21",
+      "color-btn-bg": "#5E8C31",
+      "color-accent-text": "#5E8C31",
       "color-text-dark": "#333333",
       "color-text-light": "#ffffff",
       "icons_pack": "insales-default",

@@ -40,7 +40,7 @@
       "block_template":"system-text-hex-2",
       "title":"Новинка",
       "name":"Новинка",
-      "hex":"#76BC21"
+      "hex":"#5E8C31"
     },
     "tsvet-stikerov-2-3-pf9b3e7237a4265a7e-2":{
       "block_template":"system-text-hex-2",
@@ -434,7 +434,7 @@
               "layout-pb":0.5,
               "hide-mobile":false,
               "hide-desktop":true,
-              "bage-bg":"#76BC21",
+              "bage-bg":"#5E8C31",
               "hide-search":false,
               "hide-personal":false,
               "hide-cart":false,
@@ -1983,8 +1983,8 @@
               "product-hide-variants-title":false,
               "product-hide-compare":true,
               "product-hide-sku":false,
-              "rating-color":"#76BC21",
-              "sale-bg":"#76BC21",
+              "rating-color":"#5E8C31",
+              "sale-bg":"#5E8C31",
               "sticker-font-size":0.9,
               "img-fit":"contain",
               "show-selected-variant-photos":false,
