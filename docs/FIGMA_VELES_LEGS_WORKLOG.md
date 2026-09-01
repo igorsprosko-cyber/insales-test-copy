@@ -50,27 +50,28 @@ Working branch: `Figma-VELES-LEGS`
 - Commits created by this reconciliation: `3db8e660fc30af2404c27a1c41f9a13cff3200af` (code map) and `3176f07da07dd383711951f0eee9d7aa5a2b209a` (audit status).
 - Verification: `VERIFIED` for the repository-side documentation writes returned by GitHub; runtime/browser behavior remains outside this step.
 
-### 2026-08-31 — InSales documentation reference
+### 2026-09-01 — InSales documentation and foundation preparation
 
-- Reviewed the current official InSales documentation catalog and developer-facing sections relevant to VELES LEGS: theme architecture, layouts, widgets, Liquid, Core.css, Common.js/EventBus, API/data model, settings/configuration and runtime/SEO.
-- Added `docs/insales-reference/` as a dedicated project reference folder.
-- Added concise project-specific reference notes and an official-source catalog rather than mirroring the full copyrighted documentation verbatim.
-- Added: `README.md`, `01-template-architecture.md`, `02-widgets.md`, `03-liquid.md`, `04-core-css.md`, `05-javascript.md`, `06-api-and-data.md`, `07-settings-and-config.md`, `08-seo-and-runtime.md`, `09-veles-application.md`, `SOURCES.md`.
-- Confirmed from official InSales documentation that themes combine templates, layouts, widgets, Liquid, Core.css/CSS variables, JavaScript/Common.js and configuration; this directly informs the Figma-to-code map.
-- Confirmed that Core.css and widget settings can affect runtime presentation through CSS variables, so Figma tokens must be reconciled with the platform layer rather than replacing it blindly.
-- Confirmed Common.js/EventBus and widget DOM behavior as relevant runtime contracts for the future Product Card bridge.
-- Commits for the reference folder were created sequentially by GitHub: `cd568734e78c41eede2bcc8843d22d8e9267e79e`, `d93016dc37fe950935d2c50c38799f7219350c19`, `90b37378773d571bb497f69fdd3cc8643086df14`, `cebdf10311e2e55a4561ad913b457bc70c3bd73e`, `9af38723f09772218386dd361aef44ec078c6464`, `35d0b1ae2a08eb1d5eed34aa04b88f0f342b6d78`, `f0f229f1d82ee316167a062faca1e68f2df5a643`, `7bd502c553a4dcbc577b0b834997fd8a24a09f3f`, `2438eed6c2dc9dfbdd41f6f1f7ecbf337d2fc8fa`, `d294e680305b3a56c217d5320c6bdfb2ee4c0547`, `7cc72fe3d64b5521bd5ac61d48bac513b25d2b14`.
-- Verification: `VERIFIED` for the GitHub file creation operations returned successfully. Official documentation content remains externally hosted and should be rechecked before platform-sensitive changes.
+- Reviewed current official InSales developer documentation relevant to this project: theme/template architecture, widgets, Liquid, Common.js, EventBus, settings and widget metadata. Official sources were checked directly on `insales.ru`.
+- Added/updated the dedicated `docs/insales-reference/` reference layer with official source links and concise VELES-specific notes instead of mirroring copyrighted documentation verbatim.
+- Added reference notes for Common.js/EventBus and widget development contracts, including the rule not to redefine reserved Common.js globals and the need to account for multiple widget instances.
+- Created `docs/FIGMA_VELES_LEGS_FOUNDATIONS_SPEC.md` as the code-derived specification for `00 Foundations`: color, typography, spacing, radius, containers, breakpoints, buttons, form states and image rules.
+- Created `docs/FIGMA_VELES_LEGS_RUNTIME_QA_PLAN.md` defining the evidence required to promote a Figma component from source-derived to runtime-verified.
+- Confirmed that the Foundations layer must record unresolved platform/design conflicts explicitly rather than silently changing InSales settings.
+- Confirmed that Product Card remains the first canonical component after Foundations because it spans catalog/product/cart/search/favorite/compare surfaces.
+- Created Figma file `VELES LEGS — Design System` at `https://www.figma.com/design/uh8Bu4poOyvAxUWZRfbR0T` and initialized the `00 Foundations`, `01 Components`, `02 Pages`, `03 Mobile`, and `99 Archive` page structure.
+- Added an initial code-derived `00 Foundations` content draft to the Figma file, including current token evidence and unresolved-token annotations.
+- Verification: GitHub documentation writes are confirmed by returned commit SHAs. Figma file creation is confirmed by the returned file key and URL; detailed Figma node-level verification remains `PARTIALLY VERIFIED` until the file can be read back through Figma metadata/screenshot access.
 
 ## Current state
 
-The branch contains the Figma architecture, repository-derived design-to-code map, governing-project reconciliation and a dedicated InSales development reference.
+The branch contains the Figma architecture, repository-derived design-to-code map, governing-project reconciliation, official InSales reference material, Foundations specification, runtime QA plan and a Figma design-system file with the initial Foundations page structure.
 
-The next implementation order is:
+The immediate implementation order is:
 
-1. Build `00 Foundations` in Figma from the verified VELES tokens and the InSales/Core constraints.
-2. Resolve semantic token conflicts explicitly (`#5E8C31` vs `#76BC21`; Montserrat/Playfair vs platform/default exceptions) without changing theme settings prematurely.
-3. Define the canonical shared Shell/Header/Footer.
+1. Read back and verify the Figma `00 Foundations` nodes.
+2. Resolve semantic token conflicts explicitly (`#5E8C31` vs `#76BC21`; Montserrat/Playfair vs platform/default exceptions).
+3. Define the canonical shared Shell/Header/Footer in Figma.
 4. Define the canonical Product Card from the actual InSales widget contract.
 5. Define Product Page and Catalog/Collection compositions.
 6. Define Home as the visual reference while protecting calculator internals.
