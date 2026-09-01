@@ -44,6 +44,65 @@
   .vl-compare-wrapper h2,
   .vl-compare-wrapper .heading { display: none !important; }
 
+  .vl-compare-remove-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .vl-compare-remove-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-width: 0;
+    padding: 8px 10px;
+    border: 1px solid #000;
+    background: #fff;
+  }
+
+  .vl-compare-remove-name {
+    min-width: 0;
+    overflow: hidden;
+    color: #000;
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 1.3;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .vl-compare-remove {
+    display: inline-flex;
+    flex: 0 0 28px;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid #000;
+    background: #fff;
+    color: #000;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1;
+    transition: background .2s ease, color .2s ease;
+  }
+
+  .vl-compare-remove:hover,
+  .vl-compare-remove:focus-visible {
+    background: #000;
+    color: #fff;
+  }
+
+  .vl-compare-remove:focus-visible {
+    outline: 2px solid #5E8C31;
+    outline-offset: 2px;
+  }
+
   .vl-compare-table {
     width: 100%;
     border-collapse: collapse;
@@ -63,14 +122,6 @@
   .vl-compare-table th {
     font-weight: 600;
     background: #f7f7f5;
-  }
-
-  .vl-compare-table .compare-remove {
-    border: 0;
-    background: transparent;
-    color: #000;
-    cursor: pointer;
-    transition: opacity .2s ease;
   }
 
   .vl-compare-table .compare-remove:hover { opacity: .6; }
@@ -162,6 +213,23 @@
   <h1 class="vl-compare-title">Сравнение</h1>
 
   <div class="vl-compare-wrapper">
+    {% if products.size > 0 %}
+      <div class="vl-compare-remove-list" aria-label="Удалить товары из сравнения">
+        {% for product in products %}
+          <div class="vl-compare-remove-item">
+            <span class="vl-compare-remove-name" title="{{ product.title }}">{{ product.title }}</span>
+            <button
+              type="button"
+              class="vl-compare-remove"
+              data-compare-delete="{{ product.id }}"
+              aria-label="Удалить {{ product.title }} из сравнения">
+              ×
+            </button>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
     {% for widgetDrop in widget_lists.compare-list.widgets %}
       {% widget widgetDrop %}
     {% endfor %}
