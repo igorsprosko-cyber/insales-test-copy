@@ -1,18 +1,28 @@
 # VELES LEGS — 00 Foundations Specification
 
 Status: DRAFT / CODE-DERIVED
-Source of truth for design decisions: `my-first-project` rules + verified current theme code. This document does not authorize production code changes.
+
+Purpose: canonical preparation for the Figma `00 Foundations` page and later code reconciliation. This document does not authorize production code changes.
+
+## 0. Authority order
+
+1. `my-first-project/AGENTS.md` — change-control authority.
+2. `my-first-project/STYLE_GUIDE.md` — visual-system authority.
+3. `my-first-project/ARCHITECTURE.md` / `PROJECT.md` — architecture and quality goals.
+4. Current verified InSales theme source.
+5. Official InSales documentation for platform behavior.
+6. Figma — visual contract once decisions are approved.
 
 ## 1. Principles
 
 - Industrial minimalism.
 - Black/white first; gray for secondary information.
-- Green only for success/interactive accent according to the approved token decision.
-- Montserrat for body/UI and Playfair Display for large editorial headings, per `STYLE_GUIDE.md`.
+- Green only for approved interactive/success semantics.
+- Montserrat for body/UI and Playfair Display for large editorial headings, per project style guide.
 - 4px spacing base.
-- 1px/2px black borders for system components where specified.
+- 1px/2px borders where the component contract requires them.
 - Minimal animation; motion must support interaction and performance.
-- Figma defines visual behavior; InSales owns data and platform behavior.
+- Figma defines visual behavior; InSales owns platform runtime and shop data.
 
 ## 2. Color tokens — current evidence
 
@@ -20,23 +30,30 @@ Source of truth for design decisions: `my-first-project` rules + verified curren
 |---|---|---|
 | Background | `#FFFFFF` | baseline |
 | Surface | `#FFFFFF` | baseline |
-| Text primary | `#000000` / `#151515` / `#333333` appear in different layers | consolidate before code |
-| Text secondary | `#555555` / `#666666` / `#777777` | consolidate before code |
-| Border | `#000000` and lighter borders | semantic variants needed |
+| Text primary | `#000000`, `#151515`, `#333333` appear in different layers | consolidate deliberately |
+| Text secondary | `#555555`, `#666666`, `#777777` | consolidate deliberately |
+| Border | `#000000` plus lighter neutral borders | semantic variants needed |
 | Accent | `#5E8C31` in project design layer | candidate canonical |
 | InSales setting accent | `#76BC21` | unresolved platform/config value |
-| Error | `#F8D7DA` in theme settings | keep as semantic error token |
-| Success | `#D4EDDA` in theme settings | keep as semantic success token |
+| Error | `#F8D7DA` in theme settings | semantic error baseline |
+| Success | `#D4EDDA` in theme settings | semantic success baseline |
 
-No accent value is to be changed in production until the conflict between `#5E8C31` and `#76BC21` is deliberately resolved.
+No production accent value is to be changed until the `#5E8C31` / `#76BC21` conflict is explicitly resolved.
 
 ## 3. Typography
 
-Canonical project style: Montserrat + Playfair Display.
+Canonical project rule: Montserrat + Playfair Display.
 
-Reference sizes from `STYLE_GUIDE.md`: H1 36px, H2 28px, H3 20px, body 16px, small 14px, service 13px, captions 12px.
+Style-guide reference sizes:
+- H1: 36px
+- H2: 28px
+- H3: 20px
+- Body: 16px
+- Small: 14px
+- Service: 13px
+- Caption: 12px
 
-Runtime evidence also shows local product/calculator use of Roboto and InSales settings containing PT Root UI. These are exceptions/conflicts to be mapped, not silently deleted.
+Runtime evidence also includes local Roboto usage and InSales settings containing PT Root UI. These are exceptions/conflicts to document, not silently delete.
 
 ## 4. Spacing
 
@@ -48,17 +65,17 @@ Approved project values: 4, 8, 12, 16, 20, 24, 32, 40, 48, 64, 80, 96, 128.
 
 Approved style-guide values: 0, 6, 8, 12, 16, 24, 30, 50%.
 
-Current source additionally contains local values such as 3px, 10px, 14px. These must be treated as implementation evidence until component consolidation is approved.
+Current source contains additional local values. Those remain implementation evidence until a component-specific consolidation decision is approved.
 
 ## 6. Containers and responsive reference
 
-Design reference widths: 320, 375, 390, 414, 480, 768, 1024, 1280, 1440, 1920.
+Control widths: 320, 375, 390, 414, 480, 768, 1024, 1280, 1440, 1920.
 
-Current code has 1240px as a frequent content max-width, with some page-specific values. Figma must model semantic container variants rather than force one value globally before runtime validation.
+Current code frequently uses a 1240px content max-width, while some page-specific contexts differ. Figma should therefore model semantic container variants rather than force one width across all pages before runtime verification.
 
 ## 7. Buttons
 
-Canonical semantic variants to model:
+Semantic variants:
 - Primary
 - Secondary / Outline
 - Link / Text
@@ -71,11 +88,11 @@ States:
 - Disabled
 - Focus-visible
 
-The visual component may be standardized, but platform purchase/cart behavior must remain owned by InSales.
+Platform cart/purchase behavior remains InSales-owned.
 
 ## 8. Form controls
 
-Model shared states for:
+Shared states:
 - Text input
 - Select
 - Textarea
@@ -84,26 +101,44 @@ Model shared states for:
 - Validation/error
 - Focus-visible
 
-The calculator's existing DOM, IDs, formulas and business logic are protected and must not be replaced with a new Figma-driven form implementation.
+The calculator is a protected implementation surface. Its DOM, IDs, formulas, handlers and business logic are not replaced by Figma redesign.
 
 ## 9. Images
 
-Define image tokens by semantic purpose, not one global crop:
+Semantic image roles:
 - Product commerce image
 - Editorial/hero image
 - Production/workshop image
 - Technical/drawing image
 - Veles Light dark-scene image
 
-Each component gets a documented fit/ratio. Existing `contain` vs `cover` behavior remains component-specific until visual QA proves a standard.
+Fit/crop is defined per component. Existing `contain` vs `cover` behavior remains evidence until runtime visual QA establishes the canonical rule.
 
-## 10. Completion criteria
+## 10. Figma page content to create
 
-`00 Foundations` is complete only when:
-- semantic tokens have explicit values or explicit unresolved status;
+`00 Foundations` should contain these sections in order:
+
+1. Project principles / authority note
+2. Color tokens
+3. Typography styles
+4. Spacing scale
+5. Radius scale
+6. Container/grid/breakpoint reference
+7. Border rules
+8. Buttons and states
+9. Form controls and states
+10. Image roles and fit rules
+11. Token conflicts / unresolved decisions
+12. Implementation handoff notes
+
+## 11. Completion criteria
+
+Foundations becomes `APPROVED` only when:
+- all semantic tokens have explicit values or explicit unresolved status;
 - typography is resolved with documented exceptions;
-- container/breakpoint behavior is documented;
-- Button/Input states exist;
-- component-level image rules are defined;
-- decisions are reflected in the work archive;
-- no production code was changed merely to prepare the Figma system.
+- container and breakpoint behavior is documented;
+- button/form states exist;
+- image rules are defined by component role;
+- the work archive records the decision;
+- no production code was changed merely to construct the Figma system;
+- Figma metadata can be read back to confirm the expected structure.
