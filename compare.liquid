@@ -8,16 +8,16 @@
   .vl-compare-page {
     width: min(100% - 40px, 1200px);
     margin: 0 auto;
-    padding: 64px 0;
+    padding: 32px 0;
     background: #fff;
     color: #000;
     font-family: 'Montserrat', sans-serif;
   }
 
   .vl-compare-title {
-    margin: 0 0 40px;
+    margin: 0 0 24px;
     font-family: 'Playfair Display', serif;
-    font-size: 36px;
+    font-size: 32px;
     font-weight: 700;
     line-height: 1.2;
     text-align: center;
@@ -26,9 +26,9 @@
   .vl-compare-title::after {
     content: '';
     display: block;
-    width: 80px;
+    width: 64px;
     height: 2px;
-    margin: 16px auto 0;
+    margin: 10px auto 0;
     background: #000;
   }
 
@@ -40,6 +40,31 @@
   .vl-compare-wrapper .compare-title,
   .vl-compare-wrapper h2,
   .vl-compare-wrapper .heading { display: none !important; }
+
+  .vl-compare-widget .layout {
+    --layout-pt: 0 !important;
+    --layout-pb: 0 !important;
+  }
+
+  .vl-compare-widget .layout__content {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .vl-compare-widget .grid-list {
+    --grid-list-row-gap: 0px !important;
+  }
+
+  .vl-compare-widget table {
+    border-collapse: collapse !important;
+  }
+
+  .vl-compare-widget th,
+  .vl-compare-widget td {
+    padding-top: 7px !important;
+    padding-bottom: 7px !important;
+    line-height: 1.3 !important;
+  }
 
   .vl-compare-remove-list {
     display: none;
@@ -104,7 +129,7 @@
 
   .vl-compare-table th,
   .vl-compare-table td {
-    padding: 12px;
+    padding: 8px;
     border: 1px solid #000;
     text-align: center;
     vertical-align: middle;
@@ -165,19 +190,19 @@
   }
 
   .vl-compare-empty {
-    padding: 48px 20px;
+    padding: 32px 20px;
     text-align: center;
   }
 
   .vl-compare-empty p {
-    margin: 0 0 24px;
+    margin: 0 0 20px;
     color: #555;
     font-size: 16px;
   }
 
   .vl-compare-back {
     display: block;
-    margin-top: 40px;
+    margin-top: 24px;
     color: #000;
     font-size: 14px;
     font-weight: 500;
@@ -190,13 +215,13 @@
   @media (max-width: 768px) {
     .vl-compare-page {
       width: min(100% - 30px, 1200px);
-      padding: 48px 0;
+      padding: 24px 0;
     }
 
-    .vl-compare-title { font-size: 28px; margin-bottom: 32px; }
+    .vl-compare-title { font-size: 28px; margin-bottom: 20px; }
     .vl-compare-wrapper { padding: 0; }
     .vl-compare-table th,
-    .vl-compare-table td { padding: 8px; font-size: 12px; }
+    .vl-compare-table td { padding: 6px; font-size: 12px; }
 
     .vl-compare-remove {
       top: 6px;
