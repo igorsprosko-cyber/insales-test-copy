@@ -81,18 +81,6 @@
   function removeProductCartOverlay(root) {
     if (!root || !root.querySelectorAll) return;
 
-    /*
-     * InSales data-add-cart-counter renders the actual add-to-cart button
-     * and its quantity controls. Remove only the fill from that component;
-     * do not restyle the product price, quantity logic or surrounding card.
-     *
-     * This widget renders on every page that lists products (catalog/collection,
-     * search, favorites, compare, cart, single product) — each page uses its own
-     * wrapper class (.vl-collection, .vl-search-page, .vl-product-wrapper, etc.).
-     * Scoping the selector to .vl-product-wrapper meant it only ever matched on
-     * the single-product page, never on the catalog cards. Selecting by the
-     * widget's own class directly fixes it everywhere it appears.
-     */
     root.querySelectorAll('.add-cart-counter').forEach(function (counter) {
       counter.style.setProperty('background', 'transparent', 'important');
       counter.style.setProperty('background-color', 'transparent', 'important');
@@ -104,8 +92,30 @@
     });
   }
 
+  function ensureCategoryPhotoStyles() {
+    if (document.getElementById('vl-v2-category-photo-fix')) return;
+
+    var style = document.createElement('style');
+    style.id = 'vl-v2-category-photo-fix';
+    style.textContent = [
+      '.vl-v2-category-grid .vl-v2-category--photo{height:300px;min-height:0;overflow:hidden;position:relative;background:#fff;color:#fff;}',
+      '.vl-v2-category-grid .vl-v2-category--photo .vl-v2-category-photo{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:contain !important;object-position:center center !important;background:#fff;z-index:0;}',
+      '.vl-v2-category-grid .vl-v2-category--photo:after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(0,0,0,0) 25%,rgba(0,0,0,.82) 100%);pointer-events:none;}',
+      '.vl-v2-category-grid .vl-v2-category--photo h3,.vl-v2-category-grid .vl-v2-category--photo p{position:relative;z-index:2;color:#fff !important;text-shadow:0 1px 5px rgba(0,0,0,.7);}',
+      '.vl-v2-category-grid .vl-v2-category--photo h3{margin:0 0 6px;font-size:24px;line-height:1.15;}',
+      '.vl-v2-category-grid .vl-v2-category--photo p{margin:0;font-size:12px;line-height:1.4;max-width:100%;}',
+      '.vl-v2-category-grid .vl-v2-category--photo:hover{background:#fff;color:#fff;transform:translateY(-5px);}',
+      '.vl-v2-category-grid .vl-v2-category--photo:hover:after{background:linear-gradient(180deg,rgba(0,0,0,.12) 20%,rgba(0,0,0,.9) 100%);}',
+      '@media (max-width:767px){.vl-v2-category-grid .vl-v2-category--photo{height:260px;}.vl-v2-category-grid .vl-v2-category--photo h3{font-size:21px;}.vl-v2-category-grid .vl-v2-category--photo p{font-size:11px;}}'
+    ].join('');
+
+    (document.head || document.documentElement).appendChild(style);
+  }
+
   function normalizeCategoryPhotos(root) {
     if (!root || !root.querySelectorAll) return;
+
+    ensureCategoryPhotoStyles();
 
     var photoUrls = {
       '01': 'https://cdn.insales-shop.ru/files/1/3865/133353241/original/foto_derevo.jpg',
@@ -124,13 +134,8 @@
       image.style.setProperty('object-position', 'center center', 'important');
       image.style.setProperty('background-color', '#fff', 'important');
 
-      card.style.setProperty('height', '300px', 'important');
+      card.style.setProperty('height', window.innerWidth <= 767 ? '260px' : '300px', 'important');
       card.style.setProperty('min-height', '0', 'important');
-
-      card.querySelectorAll('h3, p').forEach(function (text) {
-        text.style.setProperty('color', '#fff', 'important');
-        text.style.setProperty('text-shadow', '0 1px 4px rgba(0,0,0,.55)', 'important');
-      });
     });
   }
 
@@ -141,17 +146,14 @@
     normalizeKnownLinks(root);
   }
 
+  ensureCategoryPhotoStyles();
+
   document.addEventListener('DOMContentLoaded', function () {
     normalizePageLinks(document);
     removeProductCartOverlay(document);
     normalizeCategoryPhotos(document);
   });
 
-  /*
-   * Safety net for system widgets that may render links or product controls
-   * after DOMContentLoaded. External links keep their original target="_blank"
-   * behavior. Homepage/index.* remains excluded from non-footer navigation normalization.
-   */
   document.addEventListener('click', function (event) {
     if (event.defaultPrevented || event.button !== 0) return;
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
