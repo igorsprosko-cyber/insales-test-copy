@@ -42,10 +42,7 @@
   .vl-compare-wrapper .heading { display: none !important; }
 
   .vl-compare-remove-list {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 8px;
-    margin: 0 0 4px;
+    display: none;
   }
 
   .vl-compare-remove-item {
@@ -57,33 +54,44 @@
   }
 
   .vl-compare-remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    z-index: 20;
     display: inline-flex;
-    justify-self: center;
     align-items: center;
     justify-content: center;
     width: 32px;
     height: 32px;
     padding: 0;
     border: 0;
-    background: transparent;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, .94);
     color: #000;
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
     font-size: 24px;
     font-weight: 400;
     line-height: 1;
-    transition: background .2s ease, color .2s ease;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .12);
+    transition: background .2s ease, color .2s ease, transform .2s ease;
   }
 
-  .vl-compare-remove:hover,
+  .vl-compare-remove:hover {
+    background: #000;
+    color: #fff;
+    transform: scale(1.05);
+  }
+
   .vl-compare-remove:focus-visible {
     background: #000;
     color: #fff;
-  }
-
-  .vl-compare-remove:focus-visible {
     outline: 2px solid #5E8C31;
     outline-offset: 2px;
+  }
+
+  .vl-compare-card-target {
+    position: relative !important;
   }
 
   .vl-compare-table {
@@ -189,6 +197,13 @@
     .vl-compare-wrapper { padding: 0; }
     .vl-compare-table th,
     .vl-compare-table td { padding: 8px; font-size: 12px; }
+
+    .vl-compare-remove {
+      top: 6px;
+      right: 6px;
+      width: 30px;
+      height: 30px;
+    }
   }
 </style>
 
@@ -213,9 +228,11 @@
       </div>
     {% endif %}
 
-    {% for widgetDrop in widget_lists.compare-list.widgets %}
-      {% widget widgetDrop %}
-    {% endfor %}
+    <div class="vl-compare-widget">
+      {% for widgetDrop in widget_lists.compare-list.widgets %}
+        {% widget widgetDrop %}
+      {% endfor %}
+    </div>
   </div>
 
   <a href="/" class="vl-compare-back">← Вернуться к покупкам</a>
@@ -223,10 +240,72 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    if (typeof EventBus === 'undefined' || typeof EventBus.subscribe !== 'function') return;
+    var page = document.querySelector('.vl-compare-page');
+    if (!page) return;
 
-    EventBus.subscribe('remove_item:insales:compares', function () {
-      window.location.reload();
+    function findCardByProductId(button) {
+      var id = button.getAttribute('data-compare-delete');
+      if (!id) return null;
+
+      var selectors = [
+        '[data-product-id="' + id + '"]',
+        '[data-product="' + id + '"]',
+        '.compare-product[data-id="' + id + '"]',
+        '.compare-item[data-id="' + id + '"]'
+      ];
+
+      for (var i = 0; i < selectors.length; i += 1) {
+        var candidate = page.querySelector(selectors[i]);
+        if (candidate && candidate !== button && !candidate.closest('.vl-compare-remove-list')) {
+          return candidate;
+        }
+      }
+
+      var title = button.parentElement && button.parentElement.querySelector('.vl-compare-remove-name');
+      var titleText = title ? title.textContent.trim() : '';
+      if (!titleText) return null;
+
+      var links = page.querySelectorAll('a');
+      for (var j = 0; j < links.length; j += 1) {
+        if (links[j].textContent.trim() !== titleText) continue;
+
+        var card = links[j].closest('td, th, .compare-product, .compare-item, [class*="compare"]');
+        if (card && !card.closest('.vl-compare-remove-list')) return card;
+      }
+
+      return null;
+    }
+
+    function attachRemoveButtons() {
+      var buttons = page.querySelectorAll('.vl-compare-remove[data-compare-delete]');
+      for (var i = 0; i < buttons.length; i += 1) {
+        var button = buttons[i];
+        if (button.dataset.vlCompareAttached === '1') continue;
+
+        var card = findCardByProductId(button);
+        if (!card) continue;
+
+        card.classList.add('vl-compare-card-target');
+        card.appendChild(button);
+        button.dataset.vlCompareAttached = '1';
+      }
+    }
+
+    attachRemoveButtons();
+
+    var observer = new MutationObserver(function () {
+      attachRemoveButtons();
     });
+
+    observer.observe(page.querySelector('.vl-compare-widget') || page, {
+      childList: true,
+      subtree: true
+    });
+
+    if (typeof EventBus !== 'undefined' && typeof EventBus.subscribe === 'function') {
+      EventBus.subscribe('remove_item:insales:compares', function () {
+        window.location.reload();
+      });
+    }
   });
 </script>
