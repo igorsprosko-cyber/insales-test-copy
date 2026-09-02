@@ -107,17 +107,30 @@
   function normalizeCategoryPhotos(root) {
     if (!root || !root.querySelectorAll) return;
 
-    var photoUrls = [
-      'https://cdn.insales-shop.ru/files/1/3865/133353241/original/foto_derevo.jpg',
-      'https://cdn.insales-shop.ru/files/1/3969/133353345/original/foto_metal.jpg',
-      'https://cdn.insales-shop.ru/files/1/3889/133353265/original/foto_furnitura.jpg',
-      'https://cdn.insales-shop.ru/files/1/4057/133353433/original/foto_nazakaz.jpg'
-    ];
+    var photoUrls = {
+      '01': 'https://cdn.insales-shop.ru/files/1/3865/133353241/original/foto_derevo.jpg',
+      '02': 'https://cdn.insales-shop.ru/files/1/3969/133353345/original/foto_metal.jpg',
+      '03': 'https://cdn.insales-shop.ru/files/1/3889/133353265/original/foto_furnitura.jpg',
+      '04': 'https://cdn.insales-shop.ru/files/1/4057/133353433/original/foto_nazakaz.jpg'
+    };
 
-    root.querySelectorAll('.vl-v2-category--photo .vl-v2-category-photo').forEach(function (image, index) {
-      if (photoUrls[index]) {
-        image.src = photoUrls[index];
-      }
+    root.querySelectorAll('.vl-v2-category--photo').forEach(function (card) {
+      var number = card.getAttribute('data-number');
+      var image = card.querySelector('.vl-v2-category-photo');
+      if (!image || !photoUrls[number]) return;
+
+      image.src = photoUrls[number];
+      image.style.setProperty('object-fit', 'contain', 'important');
+      image.style.setProperty('object-position', 'center center', 'important');
+      image.style.setProperty('background-color', '#fff', 'important');
+
+      card.style.setProperty('height', '300px', 'important');
+      card.style.setProperty('min-height', '0', 'important');
+
+      card.querySelectorAll('h3, p').forEach(function (text) {
+        text.style.setProperty('color', '#fff', 'important');
+        text.style.setProperty('text-shadow', '0 1px 4px rgba(0,0,0,.55)', 'important');
+      });
     });
   }
 
