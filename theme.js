@@ -92,53 +92,6 @@
     });
   }
 
-  function ensureCategoryPhotoStyles() {
-    if (document.getElementById('vl-v2-category-photo-fix')) return;
-
-    var style = document.createElement('style');
-    style.id = 'vl-v2-category-photo-fix';
-    style.textContent = [
-      '.vl-v2-category-grid .vl-v2-category--photo{height:300px;min-height:0;overflow:hidden;position:relative;background:#fff;color:#fff;}',
-      '.vl-v2-category-grid .vl-v2-category--photo .vl-v2-category-photo{position:absolute;inset:0;width:100%;height:100%;display:block;object-fit:contain !important;object-position:center center !important;background:#fff;z-index:0;}',
-      '.vl-v2-category-grid .vl-v2-category--photo:after{content:"";position:absolute;inset:0;z-index:0;background:linear-gradient(180deg,rgba(0,0,0,0) 25%,rgba(0,0,0,.82) 100%);pointer-events:none;}',
-      '.vl-v2-category-grid .vl-v2-category--photo h3,.vl-v2-category-grid .vl-v2-category--photo p{position:relative;z-index:2;color:#fff !important;text-shadow:0 1px 5px rgba(0,0,0,.7);}',
-      '.vl-v2-category-grid .vl-v2-category--photo h3{margin:0 0 6px;font-size:24px;line-height:1.15;}',
-      '.vl-v2-category-grid .vl-v2-category--photo p{margin:0;font-size:12px;line-height:1.4;max-width:100%;}',
-      '.vl-v2-category-grid .vl-v2-category--photo:hover{background:#fff;color:#fff;transform:translateY(-5px);}',
-      '.vl-v2-category-grid .vl-v2-category--photo:hover:after{background:linear-gradient(180deg,rgba(0,0,0,.12) 20%,rgba(0,0,0,.9) 100%);}',
-      '@media (max-width:767px){.vl-v2-category-grid .vl-v2-category--photo{height:260px;}.vl-v2-category-grid .vl-v2-category--photo h3{font-size:21px;}.vl-v2-category-grid .vl-v2-category--photo p{font-size:11px;}}'
-    ].join('');
-
-    (document.head || document.documentElement).appendChild(style);
-  }
-
-  function normalizeCategoryPhotos(root) {
-    if (!root || !root.querySelectorAll) return;
-
-    ensureCategoryPhotoStyles();
-
-    var photoUrls = {
-      '01': 'https://cdn.insales-shop.ru/files/1/3865/133353241/original/foto_derevo.jpg',
-      '02': 'https://cdn.insales-shop.ru/files/1/3969/133353345/original/foto_metal.jpg',
-      '03': 'https://cdn.insales-shop.ru/files/1/3889/133353265/original/foto_furnitura.jpg',
-      '04': 'https://cdn.insales-shop.ru/files/1/4057/133353433/original/foto_nazakaz.jpg'
-    };
-
-    root.querySelectorAll('.vl-v2-category--photo').forEach(function (card) {
-      var number = card.getAttribute('data-number');
-      var image = card.querySelector('.vl-v2-category-photo');
-      if (!image || !photoUrls[number]) return;
-
-      image.src = photoUrls[number];
-      image.style.setProperty('object-fit', 'contain', 'important');
-      image.style.setProperty('object-position', 'center center', 'important');
-      image.style.setProperty('background-color', '#fff', 'important');
-
-      card.style.setProperty('height', window.innerWidth <= 767 ? '260px' : '300px', 'important');
-      card.style.setProperty('min-height', '0', 'important');
-    });
-  }
-
   function normalizePageLinks(root) {
     normalizeFooterCatalogLinks(root);
     if (!isStandardizationPage()) return;
@@ -146,12 +99,9 @@
     normalizeKnownLinks(root);
   }
 
-  ensureCategoryPhotoStyles();
-
   document.addEventListener('DOMContentLoaded', function () {
     normalizePageLinks(document);
     removeProductCartOverlay(document);
-    normalizeCategoryPhotos(document);
   });
 
   document.addEventListener('click', function (event) {
@@ -194,7 +144,6 @@
             if (node.nodeType !== 1) return;
             normalizePageLinks(node);
             removeProductCartOverlay(node);
-            normalizeCategoryPhotos(node);
           });
         });
       });
