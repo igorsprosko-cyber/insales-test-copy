@@ -104,6 +104,23 @@
     });
   }
 
+  function normalizeCategoryPhotos(root) {
+    if (!root || !root.querySelectorAll) return;
+
+    var photoUrls = [
+      'https://cdn.insales-shop.ru/files/1/3865/133353241/original/foto_derevo.jpg',
+      'https://cdn.insales-shop.ru/files/1/3969/133353345/original/foto_metal.jpg',
+      'https://cdn.insales-shop.ru/files/1/3889/133353265/original/foto_furnitura.jpg',
+      'https://cdn.insales-shop.ru/files/1/4057/133353433/original/foto_nazakaz.jpg'
+    ];
+
+    root.querySelectorAll('.vl-v2-category--photo .vl-v2-category-photo').forEach(function (image, index) {
+      if (photoUrls[index]) {
+        image.src = photoUrls[index];
+      }
+    });
+  }
+
   function normalizePageLinks(root) {
     normalizeFooterCatalogLinks(root);
     if (!isStandardizationPage()) return;
@@ -114,6 +131,7 @@
   document.addEventListener('DOMContentLoaded', function () {
     normalizePageLinks(document);
     removeProductCartOverlay(document);
+    normalizeCategoryPhotos(document);
   });
 
   /*
@@ -161,6 +179,7 @@
             if (node.nodeType !== 1) return;
             normalizePageLinks(node);
             removeProductCartOverlay(node);
+            normalizeCategoryPhotos(node);
           });
         });
       });
