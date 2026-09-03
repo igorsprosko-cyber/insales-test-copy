@@ -1,6 +1,6 @@
 # FORENSIC PERFORMANCE-ОТЧЁТ: VELES LEGS
 
-## Финальная консолидированная версия 8.0
+## Финальная консолидированная версия 8.1
 
 **Дата актуализации:** 03.09.2026  
 **Репозиторий:** `igorsprosko-cyber/insales-test-copy`  
@@ -33,59 +33,37 @@
 
 # 2. КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ ПРЕДЫДУЩЕЙ ВЕРСИИ
 
-Предыдущая версия forensic-файла содержала экспериментальную таблицу, где результат после удаления изображений был указан как Performance 87 / LCP 10,0 с / TBT 16 мс. Это было смешением данных разных PageSpeed запусков.
+Предыдущая версия forensic-файла смешивала результаты разных PageSpeed запусков и указывала единый результат «Performance 87 / LCP 10,0 с / TBT 16 мс».
 
-**Правильная фиксация эксперимента:**
+Это неверно как единый A/B результат.
+
+**Правильная фиксация:**
 
 - отдельный desktop-запуск после удаления двух тяжёлых изображений: **Performance 87, FCP 0,8 с, LCP 2,0 с, TBT 70 мс, CLS 0, Speed Index 1,8 с**;
 - отдельный mobile-запуск после удаления двух тяжёлых изображений: **Performance 64, FCP 3,2 с, LCP 9,6 с, TBT 140 мс, CLS 0,018, Speed Index 5,0 с**.
 
-Поэтому нельзя использовать «87 / 10,0 с» как единый результат. Это исправлено здесь.
+Поэтому «87 / 10,0 с» больше не используется как результат эксперимента.
 
 ---
 
 # 3. REPOSITORY / SAFETY STATE
 
-На момент текущей актуализации GitHub branch `v2.3-page-standardization-final2` имеет HEAD:
+Работа ведётся только в `v2.3-page-standardization-final2`.
 
-`685f68f6f9a9eb350da11d1acdf60cf31691d961`
-
-Предыдущий commit непосредственно перед этой документационной актуализацией:
-
-`684da6888d50fa610652513041605a1110537594`
-
-Reference:
-
-`046f15e4ac5dae7f6b665314b824501cc8816259`
-
-Production `main`:
-
-`fcbf3daa9d25b9a469757e21501912e903667aed`
-
-В текущей audit-серии `main` и reference не изменялись.
-
-Сравнение `10a171054eb523b0774c81157d70e3f92ef08710` → текущая ветка показывает 12 более ранних commits до forensic update; среди изменённых путей есть `index.liquid` и документация. Поэтому нельзя утверждать, что после `10a171...` вообще не было source-code изменений. Правильная формулировка: **данная актуализация forensic-файла является документационной; runtime-эксперимент с удалением изображений проводился отдельно и не должен автоматически трактоваться как commit-effect.**
-
-### Защищённые границы
-
-Без отдельного разрешения не менять:
+Защищены:
 
 - `main`;
 - `v2.3-page-standardization`;
-- калькуляторную бизнес-логику;
-- `calcWood`;
-- `handleWood*`;
-- `openManagerForm`;
-- `fillComment`;
-- `wood-*`;
-- `panel-wood`;
-- `panel-metal`;
-- цены, НДС, скидки, вес, объём и quantity/business logic;
+- калькуляторная бизнес-логика;
 - Metal Routing;
 - accepted compare behavior;
 - `V2.1_HOME_APPEND.liquid` без отдельного разрешения.
 
-История проекта также закрепляет правило: **не лечить CSS/Liquid-проблему JS-инъекцией**.
+В текущей серии документационных обновлений исходный код не изменялся; последний source-level change в branch и документационные commits должны всегда проверяться по Git diff перед следующим кодовым изменением.
+
+Сравнение непосредственно перед этой серии forensic-documentation обновлений с baseline `10a171054eb523b0774c81157d70e3f92ef08710` показывает, что в ветке существуют более ранние source changes, в том числе изменения `index.liquid`. Поэтому нельзя говорить, что после `10a171...` source code вообще не менялся.
+
+Правильное правило: **каждый конкретный performance fix должен иметь собственный before/after diff и отдельный PageSpeed baseline.**
 
 ---
 
@@ -93,7 +71,7 @@ Production `main`:
 
 ## 4.1. PageSpeed Insights
 
-Сохранены следующие срезы:
+Сохранены следующие релевантные срезы:
 
 1. старый desktop;
 2. исходный mobile с тяжёлыми изображениями;
@@ -101,29 +79,28 @@ Production `main`:
 4. desktop после временного удаления двух тяжёлых изображений;
 5. mobile после временного удаления двух тяжёлых изображений — последний экспериментальный срез.
 
-PageSpeed — лабораторный тест. Он показывает состояние конкретного запуска и не является заменой real-user CrUX/RUM.
+PageSpeed — лабораторный тест конкретного запуска. Field data/CrUX в сохранённых отчётах отсутствуют.
 
 ## 4.2. Chrome DevTools raw trace
 
-Raw trace:
+Raw trace: `Trace-20260903T093228.json`.
 
-`Trace-20260903T093228.json`
+Проанализировано **216 661 событие**.
 
-Размер анализа: **216 661 trace events**.
+Metadata trace подтверждает:
 
-Metadata trace подтверждает сеть **3G** с:
+- network throttling: **3G**;
+- download: **50 000 bytes/s**;
+- upload: **50 000 bytes/s**;
+- latency: **2000 ms**.
 
-- download: 50 000 bytes/s;
-- upload: 50 000 bytes/s;
-- latency: 2 000 ms.
+Отдельного надёжного поля CPU slowdown в raw trace нет. Поэтому «4x CPU» фиксируется только как заявленное условие пользовательского теста, но не как trace-proven metadata.
 
-Raw trace не содержит надёжного отдельного поля, подтверждающего 4x CPU slowdown. Поэтому «4x CPU» фиксируется только как заявленное условие пользовательского теста, но не как значение, доказанное metadata trace.
+## 4.3. Git/source audit
 
-## 4.3. Source-level audit
+Проверены фактические GitHub tree/blob текущей рабочей ветки и ключевые Liquid/JS/CSS/schema файлы.
 
-Проверены фактические GitHub blobs/tree текущей рабочей ветки, включая Liquid templates, `theme.js`, CSS, schema/SEO и проектную документацию.
-
-Локальный fresh clone ранее не завершился из-за DNS/network failure, поэтому независимый local-build/runtime clone не заявляется как VERIFIED.
+Fresh local clone ранее не завершился из-за DNS/network failure, поэтому independent local build/runtime clone не считается VERIFIED.
 
 ---
 
@@ -131,7 +108,7 @@ Raw trace не содержит надёжного отдельного поля
 
 ## 5.1. Старый desktop — 03.09.2026 07:19 GMT+3
 
-Lighthouse 13.4.1, HeadlessChromium 151.0.7922.71, initial load, computer/custom throttling.
+Lighthouse 13.4.1, HeadlessChromium 151.0.7922.71.
 
 | Метрика | Значение |
 |---|---:|
@@ -146,13 +123,11 @@ Lighthouse 13.4.1, HeadlessChromium 151.0.7922.71, initial load, computer/custom
 | SEO | **100** |
 | Agentic Browsing | **3/3** |
 
-Это исходный desktop baseline.
-
 ---
 
-## 5.2. Mobile до эксперимента — 03.09.2026 07:41 GMT+3
+## 5.2. Mobile до удаления изображений — 03.09.2026 07:41 GMT+3
 
-Moto G Power, Lighthouse 13.4.1, initial load, ограничение сети 4G с низкой скоростью.
+Moto G Power, Lighthouse 13.4.1, initial load, low-speed 4G.
 
 | Метрика | Значение |
 |---|---:|
@@ -168,7 +143,7 @@ Moto G Power, Lighthouse 13.4.1, initial load, ограничение сети 4
 | Agentic Browsing | **3/3** |
 | TTFB | **50 мс** |
 
-Дополнительные diagnostics:
+Diagnostics:
 
 - main-thread ≈ **4,0 с**;
 - Script Evaluation ≈ **1602 мс**;
@@ -180,13 +155,9 @@ Moto G Power, Lighthouse 13.4.1, initial load, ограничение сети 4
 - `opora-a178-chrome.jpg` ≈ **2200,8 KiB**;
 - `stol-vintage.jpg` ≈ **2924,8 KiB**.
 
-Главный вывод baseline: mobile performance критически зависел от тяжёлого payload и main-thread/network contention.
-
 ---
 
 ## 5.3. Desktop с тяжёлыми изображениями — 03.09.2026 07:41 GMT+3
-
-Computer emulation, Lighthouse 13.4.1, initial load, custom throttling.
 
 | Метрика | Значение |
 |---|---:|
@@ -201,27 +172,14 @@ Computer emulation, Lighthouse 13.4.1, initial load, custom throttling.
 | SEO | **100** |
 | Agentic Browsing | **3/3** |
 
-Сравнение со старым desktop:
-
-- Performance: **49 → 65**;
-- TBT: **540 → 190 мс**;
-- CLS: **0,016 → 0**;
-- FCP: **0,8 → 0,9 с**;
-- Speed Index: **2,5 → 2,6 с**;
-- LCP: **4,7 → 5,1 с**.
-
-Разница между этими двумя desktop запусками не должна автоматически приписываться одному commit: условия Lighthouse/runtime различаются.
-
-### Image audit
-
-PageSpeed оценил потенциальную экономию изображений примерно в **5882 KiB**.
+PageSpeed image potential savings ≈ **5882 KiB**.
 
 Главные источники:
 
-- `stol-vintage.jpg`: **2924,1 KiB**, potential savings **2900,8 KiB**, source 916×1024, container ≈378×378;
-- `opora-a178-chrome.jpg`: **2200,8 KiB**, potential savings **2156,5 KiB**, source 848×1111, container ≈428×637.
+- `stol-vintage.jpg`: **2924,1 KiB**, savings **2900,8 KiB**, source 916×1024, container ≈378×378;
+- `opora-a178-chrome.jpg`: **2200,8 KiB**, savings **2156,5 KiB**, source 848×1111, container ≈428×637.
 
-Дополнительные изображения также были завышены относительно контейнеров:
+Другие notable images:
 
 - `foto_furnitura.jpg`: 170,6 KiB;
 - `foto_derevo.jpg`: 135,0 KiB;
@@ -231,13 +189,13 @@ PageSpeed оценил потенциальную экономию изобра�
 - `veles-light-logo.png`: 117,4 KiB;
 - `veles-logo-realistic-clover.png`: 81,0 KiB.
 
-Общий payload ≈ **7275 KiB**.
+Total payload ≈ **7275 KiB**.
 
 ---
 
 ## 5.4. Desktop после удаления двух тяжёлых изображений — 03.09.2026 18:57 GMT+3
 
-Это отдельный PageSpeed запуск после временного удаления/блокировки двух самых тяжёлых изображений.
+Отдельный after-removal PageSpeed run.
 
 | Метрика | Значение |
 |---|---:|
@@ -252,34 +210,19 @@ PageSpeed оценил потенциальную экономию изобра�
 | SEO | **100** |
 | Agentic Browsing | **3/3** |
 
-Image optimization warning снизился до ≈ **710 KiB** potential savings.
+Image savings ≈ **710 KiB**.
 
-Remaining notable image sources included category images such as `foto_furnitura.jpg`, `foto_derevo.jpg`, `foto_nazakaz.jpg`, `foto_metal.jpg` and associated Veles Light assets.
+Total network payload ≈ **2149 KiB**.
 
-Network payload warning: ≈ **2149 KiB** total.
+Main-thread ≈ **1,4 с**; JS execution ≈ **0,8 с**; Script Evaluation **642 мс**; Script Parsing & Compilation **358 мс**; Style & Layout **192 мс**; Other **110 мс**; GC **39 мс**; Rendering **28 мс**; Parse HTML/CSS **21 мс**; long tasks **7**.
 
-Critical-path maximum delay: ≈ **1658 мс**. Среди цепочки: document ≈606 мс, `common.v2.27.9.js` ≈1104 мс, `/front_api/cart.json` ≈1658 мс, `my-layout.js` ≈1036 мс, `core-css.css` ≈1039 мс, jQuery ≈1068 мс, Google Fonts WOFF2 ≈1332–1334 мс.
-
-CPU diagnostics:
-
-- JavaScript execution ≈ **0,8 с**;
-- main-thread work ≈ **1,4 с**;
-- Script Evaluation ≈ **642 мс**;
-- Script Parsing & Compilation ≈ **358 мс**;
-- Style & Layout ≈ **192 мс**;
-- Other ≈110 мс;
-- Garbage Collection ≈39 мс;
-- Rendering ≈28 мс;
-- Parse HTML & CSS ≈21 мс;
-- 7 long tasks.
-
-Third-party CPU remained visible, особенно Yandex Metrica.
+Critical path max delay ≈ **1658 мс**.
 
 ---
 
 ## 5.5. Mobile после удаления двух тяжёлых изображений — 03.09.2026 18:57 GMT+3
 
-Moto G Power, Lighthouse 13.4.1, initial load, low-speed 4G emulation.
+Последний mobile experiment.
 
 | Метрика | До | После | Изменение |
 |---|---:|---:|---:|
@@ -290,237 +233,71 @@ Moto G Power, Lighthouse 13.4.1, initial load, low-speed 4G emulation.
 | CLS | 0,018 | **0,018** | без изменения |
 | Speed Index | 8,8 с | **5,0 с** | ≈43% быстрее |
 
-Accessibility **96**, Best Practices **96**, SEO **100**, Agentic Browsing **3/3**.
+Accessibility **96**; Best Practices **96**; SEO **100**; Agentic Browsing **3/3**.
 
-### Что осталось после эксперимента
+### Остаточная image problem
 
-PageSpeed image optimization оценил остаточную потенциальную экономию примерно в **756,5 KiB**.
+Potential savings ≈ **756,5 KiB**.
 
-Основные оставшиеся изображения:
+- `foto_furnitura.jpg`: 170,6 KiB, savings ≈155,0 KiB; source 1339×1044, container 430×298;
+- `veles-light-photo.jpg`: 160,0 KiB, savings ≈134,1 KiB + format savings ≈38 KiB; source 977×768, container 531×300;
+- `veles-light-logo.png`: 117,4 KiB, savings ≈117,2 KiB; source 1024×1002, container ≈45×44;
+- `foto_derevo.jpg`: 135,0 KiB, savings ≈99,4 KiB; source 1024×800;
+- `foto_nazakaz.jpg`: 110,4 KiB, savings ≈87,0 KiB;
+- `foto_metal.jpg`: 113,1 KiB, savings ≈82,9 KiB;
+- `veles-logo-realistic-clover.png`: 81,0 KiB, savings ≈80,8 KiB; source 2480×560, container ≈95×22.
 
-- `foto_furnitura.jpg`: 170,6 KiB, potential savings ≈155,0 KiB; source 1339×1044, container 430×298;
-- `veles-light-photo.jpg`: 160,0 KiB, potential savings ≈134,1 KiB + format savings ≈38 KiB; source 977×768, container 531×300;
-- `veles-light-logo.png`: 117,4 KiB, potential savings ≈117,2 KiB; source 1024×1002, container ≈45×44;
-- `foto_derevo.jpg`: 135,0 KiB, potential savings ≈99,4 KiB; source 1024×800, container ≈382×573;
-- `foto_nazakaz.jpg`: 110,4 KiB, potential savings ≈87,0 KiB; source 1086×846, container ≈382×509;
-- `foto_metal.jpg`: 113,1 KiB, potential savings ≈82,9 KiB; source 1024×800, container ≈382×573;
-- `veles-logo-realistic-clover.png`: 81,0 KiB, potential savings ≈80,8 KiB; source 2480×560, container ≈95×22.
-
-PageSpeed также сообщает:
+### Remaining mobile diagnostics
 
 - cache savings ≈ **147 KiB**;
-- Yandex Metrica cache lifetime ≈ **1 hour**;
-- SmartCaptcha vendor resource cache ≈ **1 day**;
-- legacy JS potential savings ≈ **24 KiB**;
 - unused JS potential savings ≈ **656 KiB**;
-- unused JS groups: Yandex CDN ≈156,1 KiB savings, GTM ≈154,3 KiB, Metrica ≈115,9 KiB, yandex.ru ≈104,6 KiB, InSales common.js ≈101,0 KiB, SmartCaptcha ≈23,7 KiB;
-- 10 long tasks;
+- legacy JS ≈ **24 KiB**;
+- total network payload ≈ **2249 KiB**;
 - JS execution ≈ **0,9 с**;
-- main-thread work ≈ **1,7 с**;
-- Script Evaluation ≈686 мс;
-- Script Parsing & Compilation ≈419 мс;
-- Style & Layout ≈276 мс;
-- Other ≈155 мс;
-- Garbage Collection ≈105 мс;
-- Rendering ≈43 мс;
-- Parse HTML & CSS ≈25 мс.
+- main-thread ≈ **1,7 с**;
+- Script Evaluation **686 мс**;
+- Script Parsing & Compilation **419 мс**;
+- Style & Layout **276 мс**;
+- Other **155 мс**;
+- Garbage Collection **105 мс**;
+- Rendering **43 мс**;
+- Parse HTML & CSS **25 мс**;
+- long tasks **10**.
 
-Third-party CPU in this run:
+Third-party main-thread:
 
-- Yandex Metrica: **237 мс** main-thread, 184 KiB;
-- InSales: **153 мс**, 1129 KiB;
-- GTM: **133 мс**, 123 KiB;
-- yandex.ru: **106 мс**, 157 KiB;
-- Yandex CDN: **97 мс**, 293 KiB;
-- SmartCaptcha: **48 мс**, 81 KiB.
+- Yandex Metrica **237 мс**, 184 KiB;
+- InSales **153 мс**, 1129 KiB;
+- GTM **133 мс**, 123 KiB;
+- yandex.ru **106 мс**, 157 KiB;
+- Yandex CDN **97 мс**, 293 KiB;
+- SmartCaptcha **48 мс**, 81 KiB.
 
-PageSpeed network payload after removal: ≈ **2249 KiB**.
-
-Largest remaining network entries included `foto_furnitura.jpg` ≈171 KiB, `common.v2.27.9.js` ≈164,6 KiB, `veles-light-photo.jpg` ≈160,7 KiB, `foto_derevo.jpg` ≈135,7 KiB, `veles-light-logo.png` ≈118,1 KiB, `foto_metal.jpg` ≈113,8 KiB, `foto_nazakaz.jpg` ≈111,1 KiB, Yandex CDN ≈130,4 KiB, GTM ≈121,1 KiB and yandex.ru ≈108,1 KiB.
-
-### Critical-chain / preconnect
-
-Maximum critical-path delay ≈ **1688 мс**.
-
-Notable entries:
-
-- document ≈598 мс;
-- `common.v2.27.9.js` ≈1106 мс;
-- `/front_api/cart.json` ≈1688 мс;
-- `my-layout.js` ≈1081 мс;
-- `core-css.css` ≈1042 мс;
-- jQuery ≈933 мс;
-- bodyScrollLock ≈1072 мс;
-- microAlert.js ≈1204 мс;
-- theme.css ≈1073 мс;
-- referer_code.js ≈687 мс;
-- Google Fonts CSS ≈629 мс;
-- WOFF2 resources ≈1332–1333 мс.
-
-Preconnects present:
-
-- `static.insales-cdn.com`;
-- `fonts.googleapis.com`;
-- `fonts.gstatic.com`;
-- `smartcaptcha.yandexcloud.net`.
-
-PageSpeed flags additional preconnects as unused:
-
-- `yastatic.net`;
-- `avatars.mds.yandex.net`;
-- `mc.yandex.ru`;
-- `ads.adfox.ru`.
-
-PageSpeed explicitly recommends using no more than the most important preconnects.
+Critical path max delay ≈ **1688 мс**.
 
 ---
 
-# 6. КЛЮЧЕВОЙ RAW TRACE FORENSICS
+# 6. ВСЕ ACTIONABLE PAGE SPEED FINDINGS
 
-## 6.1. LCP
+## 6.1. Улучшить загрузку изображений
 
-В raw trace LCP-кандидат:
+Последний mobile после удаления двух больших images всё ещё показывает ≈756,5 KiB potential savings.
 
-- `nodeId: 66`;
-- `nodeName: H1`;
-- `type: text`;
-- size ≈44 177.
+Правило для кода:
 
-`GlobalFirstContentfulPaint`, `firstContentfulPaint` и `NavigationToLargestContentfulPaint` происходят практически одновременно на **≈43,916 с**.
+- responsive dimensions;
+- modern format where InSales path supports it;
+- compression;
+- correct `width`/`height` or geometry reservation;
+- lazy-load только non-critical images;
+- LCP image не lazy.
 
-Следовательно, в этом trace LCP — **текстовый H1, а не изображение**.
+## 6.2. Unused JavaScript
 
-Это важно: нельзя объяснять 43,9 с напрямую временем загрузки hero image.
+Последний mobile: ≈656 KiB potential savings.
 
----
+Largest groups:
 
-## 6.2. `common.v2.27.9.js`
-
-Ключевой request:
-
-- старт ≈ **2,948 с**;
-- priority: **Medium**;
-- `renderBlocking: in_body_parser_blocking`;
-- initiator: HTML parser, line **5659**;
-- total ≈ **40,78 с**;
-- Waiting for server response ≈ **2,38 с**;
-- Content Download ≈ **38,40 с**;
-- compressed body ≈ **168 483 bytes / 164,5 KiB**.
-
-Главный вывод:
-
-**common.js не выполняется 40 секунд.**
-
-Он долго передаётся по сети. После получения его фактическое execution занимает порядка десятков миллисекунд. В trace `v8.parseOnBackground` с длительностью порядка 37,6 с нельзя трактовать как 37,6 с CPU blocking: `tdur` порядка десятков миллисекунд.
-
----
-
-## 6.3. HTML parser gate
-
-После долгой передачи `common.js` trace показывает возобновление ParseHTML около **43,756 с** на участке:
-
-- startLine ≈5659;
-- endLine ≈6439;
-- duration ≈66,5 ms.
-
-Это совпадает с parser-blocking характером ресурса.
-
-Причинная цепочка:
-
-```text
-3G 50 KB/s + 2 s latency
-        ↓
-одновременная загрузка нескольких ресурсов
-        ↓
-сетевой contention
-        ↓
-common.v2.27.9.js получает недостаточно bandwidth
-        ↓
-Content Download ≈38,4 s
-        ↓
-HTML parser ждёт parser-blocking script
-        ↓
-DOM продолжает формироваться только после получения common.js
-        ↓
-H1 появляется в финальной стадии
-        ↓
-FCP ≈ LCP ≈43,916 s
-```
-
-Это является основной доказательной цепочкой данного raw trace.
-
----
-
-# 7. РОЛЬ ИЗОБРАЖЕНИЙ — ЭКСПЕРИМЕНТАЛЬНО ПОДТВЕРЖДЕНА
-
-До эксперимента две изображения:
-
-- `stol-vintage.jpg` ≈2,9 MiB;
-- `opora-a178-chrome.jpg` ≈2,2 MiB.
-
-Вместе ≈ **5,1–5,2 MiB**.
-
-Они составляли большую часть исходного payload и конкурировали с parser-blocking ресурсами.
-
-После временного удаления этих двух файлов:
-
-- mobile LCP: **27,5 → 9,6 с**;
-- mobile Performance: **39 → 64**;
-- mobile TBT: **940 → 140 мс**;
-- mobile Speed Index: **8,8 → 5,0 с**;
-- desktop LCP: **5,1 → 2,0 с** в отдельном desktop run;
-- desktop Performance: **65 → 87** в отдельном desktop run.
-
-Это сильное экспериментальное подтверждение того, что **тяжёлые изображения являются существенным источником сетевой нагрузки**.
-
-Но эксперимент не доказывает, что изображения были единственным источником задержки или что именно они единолично «виноваты» в common.js. PageSpeed runs имеют вариативность, а тест изменял payload целиком. Правильная формулировка:
-
-> **Удаление двух тяжёлых изображений резко улучшает performance и подтверждает их существенный вклад в network contention. Parser-blocking common.js остаётся архитектурным узким местом и должен быть оптимизирован отдельно.**
-
----
-
-# 8. `tag.js` / YANDEX METRICA
-
-Raw trace и PageSpeed показывают реальную работу Yandex Metrica:
-
-- в старом mobile ≈727 мс CPU;
-- в desktop ≈312 мс;
-- в последнем mobile ≈237 мс main-thread;
-- в последнем desktop после image removal ≈288 мс main-thread.
-
-В raw trace `tag.js` присутствует в FunctionCall/Layout цепочках.
-
-Однако сотни миллисекунд не объясняют 43,9 секунды.
-
-**Статус:** вторичный performance contributor, не первопричина аномального 43,9-секундного LCP.
-
----
-
-# 9. IMAGE DELIVERY — ЧТО ДЕЛАТЬ В КОДЕ
-
-PageSpeed consistently показывает oversized images.
-
-### Приоритет P0
-
-1. Не возвращать два тяжёлых оригинала в исходном виде.
-2. Для `stol-vintage` и `opora-a178-chrome` использовать responsive dimensions.
-3. Использовать современный формат, если InSales path поддерживает WebP/AVIF.
-4. Размер отдаваемого файла должен соответствовать реальному display size.
-5. LCP image нельзя лениво загружать.
-6. Если hero действительно является LCP, `fetchpriority="high"` должен быть задан в исходном HTML/Liquid, а не добавлен только после DOMContentLoaded.
-7. Все non-critical images ниже fold — lazy-load, если это совместимо с InSales widgets.
-
-### Важное ограничение
-
-Не добавлять очередной JS workaround для image priority. Сначала найти реальный HTML/Liquid/widget path.
-
----
-
-# 10. THIRD-PARTY / UNUSED JS
-
-Последний mobile PageSpeed:
-
-- unused JS potential savings ≈ **656 KiB**;
 - Yandex CDN ≈156,1 KiB;
 - GTM ≈154,3 KiB;
 - Metrica ≈115,9 KiB;
@@ -528,202 +305,258 @@ PageSpeed consistently показывает oversized images.
 - InSales common.js ≈101,0 KiB;
 - SmartCaptcha ≈23,7 KiB.
 
-### План
+Не удалять системные/аналитические bundles вслепую. Сначала определить зависимости и назначение.
 
-Составить inventory:
+## 6.3. Legacy JS
 
-| Сервис | Назначение | Нужен на home? | Нужен на product? | Нужен на checkout? | Можно defer? |
-|---|---|---|---|---|---|
-| Metrica | analytics | проверить | проверить | проверить | проверить |
-| GTM | tags | проверить | проверить | проверить | проверить |
-| Yandex CDN | system/ads/widgets | проверить | проверить | проверить | проверить |
-| SmartCaptcha | captcha | обычно условно | проверить | проверить | проверить |
-| InSales common | platform core | системный | системный | системный | только после dependency test |
+≈24 KiB potential savings, главным образом SmartCaptcha polyfills/transforms.
 
-**Нельзя удалять Metrica/GTM/InSales вслепую.**
+Не переписывать чужой bundle.
 
-Также не следует механически заменять всё на `async`: `defer` и `async` имеют разное поведение и должны применяться по dependency graph.
+## 6.4. Cache
 
----
+≈147 KiB potential cache savings. Yandex Metrica resources — около 1 часа cache lifetime в отчёте; SmartCaptcha vendor — около 1 дня.
 
-# 11. CRITICAL REQUEST CHAIN
+Это secondary optimization относительно first-load LCP.
 
-PageSpeed показывает повторяющуюся критическую цепочку:
+## 6.5. Long tasks
 
-- document;
-- `common.v2.27.9.js`;
-- `/front_api/cart.json`;
-- `my-layout.js`;
-- `core-css.css`;
-- jQuery;
-- bodyScrollLock;
-- microAlert;
-- jquery.cut-list;
-- theme.css;
-- referer_code.js;
-- Google Fonts CSS/WOFF2.
+Mobile before: **14**. Mobile after: **10**. Desktop before: данные в отчёте показывают меньшую main-thread нагрузку; desktop after: **7** long tasks.
 
-Последний mobile: maximum critical-path delay ≈ **1688 мс**.
+Следующий шаг — trace attribution, а не механическое удаление JS.
 
-Последний desktop: ≈ **1658 мс**.
+## 6.6. Critical request chain
 
-Это не означает, что каждый request является прямой причиной LCP. Это карта зависимостей, которую нужно оптимизировать после Network waterfall.
+Последний mobile: max critical path ≈1688 мс.
 
----
+Последний desktop after removal: ≈1658 мс.
 
-# 12. PRECONNECT
+В цепочке участвуют document, `common.v2.27.9.js`, `/front_api/cart.json`, `my-layout.js`, `core-css.css`, jQuery, helper assets, `theme.css`, referer code и Google Fonts.
 
-PageSpeed обнаруживает больше четырёх preconnects.
+Это dependency map, а не доказательство, что каждый request непосредственно блокирует LCP.
 
-Оставлять только наиболее значимые origins после проверки фактического первого запроса.
+## 6.7. Preconnect
 
-Текущие явно используемые:
+PageSpeed предупреждает о большом количестве preconnect.
+
+Используемые origins:
 
 - `static.insales-cdn.com`;
 - `fonts.googleapis.com`;
 - `fonts.gstatic.com`;
 - `smartcaptcha.yandexcloud.net`.
 
-Найденные как unused в отчёте:
+В отчёте как unused отмечены:
 
 - `yastatic.net`;
 - `avatars.mds.yandex.net`;
 - `mc.yandex.ru`;
 - `ads.adfox.ru`.
 
----
-
-# 13. FONTS
+## 6.8. Fonts
 
 PageSpeed рекомендует `font-display: swap` или `optional`.
 
-Source audit обнаружил Google Fonts `@import` в нескольких шаблонах, минимум:
+Source audit обнаружил Google Fonts `@import` минимум в index/product/collection/cart/compare/favorite/search/blog/article/page.
 
-- index;
-- product;
-- collection;
-- cart;
-- compare;
-- favorite;
-- search;
-- blog;
-- article;
-- page.
+Следующий font pass:
 
-### План
+1. inventory families/weights;
+2. удалить неиспользуемые weights;
+3. единый loading path;
+4. проверить `font-display`;
+5. убрать fonts из ненужной critical dependency chain.
 
-1. Inventory используемых family/weights.
-2. Убрать неиспользуемые weights.
-3. Выбрать один controlled loading path.
-4. Проверить `font-display`.
-5. Убедиться, что fonts не создают критическую зависимость для первого контента.
+## 6.9. LCP discovery / priority
 
----
+PageSpeed рекомендует делать LCP resource discoverable из HTML и не использовать lazy-loading для LCP.
 
-# 14. DOM / LAYOUT / MAIN THREAD
+Source audit обнаружил, что в `product.liquid` `loading=eager` и `fetchpriority=high` для hero image добавляются после `DOMContentLoaded`. Это позднее JS-изменение не равно server-rendered initial priority hint.
+
+Не добавлять ещё один JS workaround. Найти реальный Liquid/widget HTML path.
+
+## 6.10. Render-blocking requests
+
+PageSpeed отмечает запросы, блокирующие первоначальную обработку.
+
+Raw trace даёт особенно сильное доказательство для `common.v2.27.9.js`.
+
+Нельзя переносить/делать `async` все scripts автоматически. Сначала dependency test.
+
+## 6.11. CSS / JS / DOM
+
+PageSpeed рекомендует уменьшать CSS/JS и DOM.
 
 Последний mobile:
 
-- DOM elements: **778**;
-- depth: **14**;
-- body maximum child count: **41**.
+- DOM elements **778**;
+- depth **14**;
+- maximum children **41**.
 
-PageSpeed считает DOM size worthy of review, но это не P0 само по себе.
-
-Есть forced-layout warning:
-
-- `common.v2.27.9.js` вызывает measurable layout;
-- Yandex Metrica также присутствует среди layout sources.
-
-Source audit отдельно обнаружил в `theme.js`:
-
-- global capture click listener;
-- inline style mutations;
-- body-wide `MutationObserver` с `childList:true, subtree:true`.
-
-**Статус:** P1/P2 candidate, но exact contribution MutationObserver к конкретному 343 ms Layout не доказан.
+Это повод для архитектурного review, но не P0 и не основание для массового refactor.
 
 ---
 
-# 15. H1 → H2 POST-LOAD SCRIPT
+# 7. RAW TRACE — ДОКАЗАТЕЛЬСТВО АНОМАЛЬНОГО LCP
 
-Source audit обнаружил post-load script в `layouts.layout.liquid`, который после DOMContentLoaded меняет H1 после первого на H2.
+## 7.1. LCP
 
-Проблемы:
+Raw trace:
 
-- семантика меняется после загрузки;
-- добавляется JS работа;
-- может затрагиваться markup системных widgets;
-- источник неправильной heading hierarchy остаётся скрытым.
+- LCP candidate `nodeId: 66`;
+- `nodeName: H1`;
+- `type: text`;
+- size ≈44 177.
 
-### Правильный подход
+FCP и LCP происходят практически одновременно на ≈**43,916 с**.
 
-Не лечить heading hierarchy после рендера. Сначала определить фактический источник каждого H1 в каждом template/widget и исправлять Liquid/markup source.
+Следовательно, в этом trace LCP — **текстовый H1**, а не изображение.
 
----
+## 7.2. `common.v2.27.9.js`
 
-# 16. ACCESSIBILITY — 96
+- request start ≈**2,948 с**;
+- priority **Medium**;
+- `renderBlocking: in_body_parser_blocking`;
+- initiator: HTML parser, line **5659**;
+- total ≈**40,78 с**;
+- Waiting ≈**2,38 с**;
+- Content Download ≈**38,40 с**;
+- compressed ≈**164,5 KiB**.
 
-Последний mobile и desktop: **96**.
+После получения ресурса HTML parser возобновляет обработку участка около line 5659 примерно в 43,756 с.
 
-### Подтверждённые findings
+### Правильная трактовка
 
-1. Contrast warning для `.vl-v2-why-number`.
-2. Duplicate runtime ID `textarea#order_comment` внутри quick checkout.
+`common.js` не «выполняется 40 секунд».
 
-При этом многие проверки проходят:
+Он около 40 секунд находится в сетевой/streaming доставке, а поскольку является parser-blocking, parser ждёт его окончания.
 
-- buttons have accessible names;
-- images have alt;
-- form controls have labels;
-- select labels;
-- valid ARIA roles/attributes;
-- html lang;
-- title;
-- main landmark;
-- heading sequence;
-- touch target sizing;
-- keyboard-related automated checks.
-
-Ручная проверка всё равно требуется.
+`v8.parseOnBackground` с длительностью порядка 37,6 с нельзя считать 37,6 с CPU blocking; реальное CPU time — порядка десятков миллисекунд.
 
 ---
 
-# 17. BEST PRACTICES — 96
+# 8. ИЗОБРАЖЕНИЯ — ЭКСПЕРИМЕНТАЛЬНОЕ ДОКАЗАТЕЛЬСТВО
 
-PageSpeed фиксирует:
+До удаления:
+
+- `stol-vintage.jpg` ≈2,9 MiB;
+- `opora-a178-chrome.jpg` ≈2,2 MiB;
+- суммарно ≈5,1–5,2 MiB.
+
+После удаления:
+
+### Mobile
+
+- Performance **39 → 64**;
+- LCP **27,5 → 9,6 с**;
+- TBT **940 → 140 мс**;
+- SI **8,8 → 5,0 с**;
+- payload **7377 → ≈2249 KiB**.
+
+### Desktop
+
+- Performance **65 → 87**;
+- LCP **5,1 → 2,0 с**;
+- TBT **190 → 70 мс**;
+- CLS **0 → 0**;
+- SI **2,6 → 1,8 с**;
+- payload **7275 → ≈2149 KiB**.
+
+Это сильное подтверждение того, что изображения являются существенным источником network/payload нагрузки.
+
+Но это не доказывает, что они единственная причина LCP или единственная причина медленной доставки `common.js`.
+
+---
+
+# 9. THIRD-PARTY / MAIN-THREAD
+
+Исторический mobile:
+
+- Metrica ≈727 мс;
+- InSales ≈596 мс;
+- Yandex ≈482 мс;
+- GTM ≈427 мс;
+- Yandex CDN ≈189 мс;
+- SmartCaptcha ≈85 мс.
+
+Исторический desktop:
+
+- Metrica ≈312 мс;
+- InSales ≈219 мс;
+- GTM ≈154 мс;
+- yandex.ru ≈138 мс;
+- Yandex CDN ≈118 мс;
+- SmartCaptcha ≈63 мс.
+
+После image removal mobile:
+
+- Metrica 237 мс;
+- InSales 153 мс;
+- GTM 133 мс;
+- yandex.ru 106 мс;
+- Yandex CDN 97 мс;
+- SmartCaptcha 48 мс.
+
+Third-party остаётся P1 optimization candidate, но не доказанной первопричиной 43,9 с.
+
+---
+
+# 10. SOURCE-LEVEL FINDINGS
+
+## P0/P1
+
+1. oversized images;
+2. responsive image delivery;
+3. LCP discovery/priority;
+4. parser-blocking `common.v2.27.9.js`;
+5. critical request chain;
+6. third-party/unused JS;
+7. fonts loading.
+
+## P1/P2
+
+8. `theme.js` global MutationObserver;
+9. inline style mutations;
+10. forced layout;
+11. H1→H2 post-load rewrite;
+12. accessibility contrast;
+13. duplicate `order_comment` runtime ID;
+14. GTM 404 / Metrica network error;
+15. Product schema source-of-truth.
+
+## P2
+
+16. OG dimensions;
+17. security hardening headers;
+18. 404 runtime verification;
+19. DOM/CSS architecture cleanup;
+20. category/logo image second pass.
+
+---
+
+# 11. ACCESSIBILITY / BEST PRACTICES / SEO / AGENTIC
+
+## Accessibility — 96
+
+Findings:
+
+- `.vl-v2-why-number` contrast warning;
+- duplicate `textarea#order_comment` ID in quick checkout runtime.
+
+Many automated checks pass: accessible button names, alt, labels, valid ARIA, valid lang, title, main landmark, heading sequence and touch targets.
+
+## Best Practices — 96
+
+Observed:
 
 - GTM `gtag.js` 404;
-- Yandex Metrica WebSocket `wss://mc.yandex.com/solid.ws` failed with `ERR_NAME_NOT_RESOLVED` в конкретном тесте.
+- Yandex Metrica WebSocket `wss://mc.yandex.com/solid.ws` failed with `ERR_NAME_NOT_RESOLVED` in the tested run.
 
-Это не означает автоматически, что Metrica/GTM нужно удалить. Сначала определить источник/конфигурацию и влияние.
+## SEO — 100
 
----
+Successful checks include:
 
-# 18. SECURITY HARDENING
-
-PageSpeed/source audit отмечает отсутствие:
-
-- enforced CSP;
-- HSTS `preload` directive;
-- COOP;
-- Trusted Types CSP directive.
-
-Это **hardening findings**, а не автоматически доказанные уязвимости.
-
-Перед внедрением необходимо проверить ограничения InSales на response headers и совместимость сторонних сервисов.
-
-Не внедрять CSP/HSTS/COOP вслепую.
-
----
-
-# 19. SEO — 100, НО ЭТО НЕ ФИНАЛЬНЫЙ SEO PASS
-
-PageSpeed SEO = **100**.
-
-Успешные проверки включают:
-
-- page is indexable;
+- indexability;
 - title;
 - meta description;
 - valid HTTP status;
@@ -733,372 +566,208 @@ PageSpeed SEO = **100**.
 - hreflang;
 - canonical.
 
-Manual structured-data validation всё равно рекомендуется.
+Structured data requires manual validation.
+
+## Agentic Browsing — 3/3
+
+Preserve:
+
+- accessibility tree quality;
+- `llms.txt` compliance;
+- current Agentic score.
+
+---
+
+# 12. SECURITY / HARDENING
+
+PageSpeed/source audit reports:
+
+- no enforced CSP;
+- no HSTS preload directive;
+- no COOP;
+- no Trusted Types CSP directive.
+
+These are hardening findings, not automatically proven vulnerabilities.
+
+Do not add security headers blindly. First verify InSales response-header capabilities and compatibility with all external services.
+
+---
+
+# 13. SEO / PRODUCT DATA / TRUST
 
 Source audit:
 
-- `head.liquid` содержит page-specific canonical/robots/title/description;
-- `layouts.layout.liquid` содержит BreadcrumbList и dynamic OG type;
-- `product.liquid` содержит Product JSON-LD + AggregateOffer.
+- `head.liquid` has page-specific canonical/robots/title/description;
+- `layouts.layout.liquid` has BreadcrumbList and dynamic OG type;
+- `product.liquid` has Product JSON-LD + AggregateOffer.
 
-### Product schema issue
+Data integrity issue:
 
-В schema зафиксирован minimum order **«От 100 штук»**, тогда как ранее проверенные публичные Wood pages показывали **«От 40 штук»**.
+- schema minimum order: **От 100 штук**;
+- public Wood pages previously showed: **От 40 штук**.
 
-Это нужно исправить через единый source-of-truth.
+One source-of-truth is required.
 
-Также варианты товара требуют отдельной сверки с актуальной Google Product/variant structured-data моделью. Для variant-heavy ecommerce Google рекомендует `ProductGroup`, `hasVariant`, `variesBy`, `productGroupID` там, где это соответствует реальной модели товаров.
+Google's current product-variant guidance supports `ProductGroup`, `hasVariant`, `variesBy`, `productGroupID` where the real inventory model contains variants. Validate actual output with Rich Results Test/Search Console before changing.
 
----
+Commercial/content contradictions recorded separately:
 
-# 20. OPEN GRAPH
-
-Source audit обнаружил жёсткие:
-
-- `og:image:width = 1200`;
-- `og:image:height = 360`.
-
-Они используются для разных типов страниц и могут не соответствовать реальным proportions images.
-
-**Source-level finding VERIFIED; runtime social-preview rendering NOT VERIFIED.**
+- minimum order 100 vs 40;
+- metal load claims 100–200 kg vs 500 kg+;
+- conflicting statements in `sensatsiya`;
+- A-04 title/description/material/country mismatch requiring reconciliation;
+- offer contains old `veleslight.ru`;
+- B2B positioning partially conflicts with B2C legal wording;
+- privacy wording requires legal review.
 
 ---
 
-# 21. IMAGES WITHOUT DIMENSIONS
-
-PageSpeed сообщает отсутствие явных width/height у ряда изображений.
-
-В последнем mobile отдельно отмечен `veles-light-logo.png`.
-
-Рекомендация:
-
-- задавать width/height там, где размеры известны;
-- либо использовать aspect-ratio/container reservation;
-- не допускать layout shifts.
-
-Последний mobile CLS остаётся **0,018**, desktop после image removal — **0**.
-
----
-
-# 22. CACHE
-
-PageSpeed отмечает potential cache savings ≈ **147 KiB** на повторных посещениях.
-
-Yandex Metrica resources имеют cache lifetime ≈1 час; SmartCaptcha vendor ≈1 день.
-
-Это не P0 для first-load LCP, но полезно для repeat visits.
-
----
-
-# 23. LEGACY JS
-
-PageSpeed оценивает potential savings ≈ **24 KiB**, главным образом SmartCaptcha polyfills/transforms.
-
-Это third-party concern. Не переписывать чужой bundle.
-
----
-
-# 24. ANIMATION
-
-PageSpeed не обнаружил успешного combined animation optimization proof; отдельный audit советует избегать non-composited animations.
-
-В текущем проекте анимации не являются доказанной причиной аномального LCP.
-
-Не оптимизировать их раньше image/network/main-thread bottlenecks.
-
----
-
-# 25. AGENTIC BROWSING / AI READINESS
-
-PageSpeed во всех сохранённых релевантных срезах: **3/3**.
-
-Последний mobile:
-
-- accessibility tree сформировано корректно;
-- `llms.txt` соответствует рекомендациям;
-- CLS отображается 0,018;
-- дополнительных WebMCP tools/forms нет и они отмечены как not applicable/manual coverage.
-
-Это хороший baseline и его нельзя ухудшать при последующей оптимизации.
-
----
-
-# 26. HTTP / SERVER BASELINE
-
-Последние PageSpeed успешные проверки:
-
-- HTTPS используется;
-- redirects не обнаружены;
-- server response быстрый;
-- text compression применяется;
-- valid HTTP status;
-- robots.txt valid.
-
-Последний mobile показывает server/document response порядка **52 мс** в успешном audit, поэтому первичный серверный TTFB не является главным объяснением LCP 9,6 с.
-
----
-
-# 27. SOURCE-LEVEL FINDINGS CURRENT BRANCH
-
-Независимый audit текущего GitHub tree выявил:
-
-### P0/P1
-
-1. Image payload / responsive delivery.
-2. LCP priority/discovery strategy.
-3. Parser-blocking `common.v2.27.9.js` — platform dependency requiring controlled test before change.
-4. Critical request chain.
-5. Third-party JS inventory/defer strategy.
-6. Google Fonts loading strategy.
-
-### P1/P2
-
-7. `theme.js` global MutationObserver.
-8. Post-load H1→H2 rewrite.
-9. Forced layout sources.
-10. Accessibility contrast.
-11. Duplicate quick-checkout ID.
-12. GTM 404 / Metrica network error.
-13. Product schema minimum-order inconsistency.
-14. DOM size / CSS architecture.
-
-### P2
-
-15. OG dimensions.
-16. Security hardening headers.
-17. 404 runtime verification.
-18. Logo/category image second pass.
-19. CSS cascade cleanup.
-
----
-
-# 28. COMMERCIAL / TRUST / CONTENT DATA INTEGRITY
-
-Отдельно зафиксированы реальные source/content contradictions, которые не должны смешиваться с performance:
-
-- minimum order: **100 vs 40**;
-- metal load claims: **100–200 kg vs 500 kg+** в разных материалах;
-- article `sensatsiya` содержит конфликтующие load statements;
-- A-04 product title/description/material/country требуют сверки;
-- offer использует старый домен `veleslight.ru`;
-- B2B positioning частично конфликтует с B2C legal wording;
-- privacy wording требует legal review.
-
-Это не performance bugs, но они влияют на trust, SEO и conversion и должны быть обработаны отдельным data/legal pass.
-
----
-
-# 29. ЧТО ДОКАЗАНО
+# 14. VERIFIED / PARTIALLY VERIFIED / NOT VERIFIED
 
 ## VERIFIED
 
-- LCP raw trace = H1 text.
-- FCP и LCP совпали практически в один момент ≈43,916 с в аномальном trace.
-- `common.v2.27.9.js` parser-blocking.
-- `common.js` request начинается ≈2,95 с и завершается около 43,7 с в аномальном trace.
-- Основная часть его длительности — Content Download ≈38,4 с.
-- JS не выполняется 40 секунд.
-- Две тяжёлые картинки дают ≈5,1–5,2 MiB и существенно влияют на payload.
-- Их временное удаление резко улучшило PageSpeed mobile и desktop.
-- Mobile Performance: 39 → 64 в отдельном before/after experiment.
-- Mobile LCP: 27,5 → 9,6 с.
-- Mobile TBT: 940 → 140 мс.
-- Desktop Performance: 65 → 87 в отдельном after-removal run.
-- Desktop LCP: 5,1 → 2,0 с в отдельном after-removal run.
-- Accessibility 96.
-- Best Practices 96.
-- SEO 100.
+- raw trace inspected;
+- LCP = H1 in anomalous trace;
+- FCP ≈ LCP ≈43,916 s in anomalous trace;
+- `common.js` parser-blocking;
+- `common.js` long Content Download;
+- image-removal experiment materially improves performance;
+- PageSpeed baselines recorded;
+- source-level image/priority/fonts/MutationObserver/H1/OG findings recorded;
+- Accessibility 96;
+- Best Practices 96;
+- SEO 100;
 - Agentic 3/3.
 
----
+## PARTIALLY VERIFIED
 
-# 30. ЧТО ЧАСТИЧНО ДОКАЗАНО
+- exact bandwidth share of each resource;
+- exact CPU cost of MutationObserver;
+- exact LCP contribution of H1 rewrite;
+- Product schema eligibility;
+- runtime canonical/404;
+- security header compatibility;
+- production-vs-branch runtime equivalence.
 
-- Network contention как механизм деградации — сильно подтверждён raw trace + image-removal experiment.
-- Изображения как существенный источник network contention — подтверждено экспериментом.
-- `tag.js` как дополнительная CPU/layout нагрузка — подтверждено.
-- `theme.js` MutationObserver как потенциальный hotspot — source-confirmed, exact runtime cost не доказан.
-- H1→H2 script как ненужная post-load работа — source-confirmed; его вклад в конкретный LCP не измерен.
-- Product schema eligibility — требует Rich Results/Search Console verification.
-- 404 status/indexability — source alone insufficient.
-- security headers — PageSpeed finding, но runtime policy compatibility with InSales требует отдельной проверки.
+## NOT VERIFIED
 
----
-
-# 31. ЧТО НЕ ДОКАЗАНО
-
-- Что `tag.js` является причиной 43,9 с.
-- Что MutationObserver создаёт именно 343 ms Layout.
-- Что одна конкретная картинка единолично ограничивает bandwidth `common.js`.
-- Что перенос `common.js` в конец body безопасен без dependency test.
-- Что `async` безопасен для всех current scripts.
-- Что CSP/HSTS/COOP можно включить на InSales без побочных эффектов.
-- Что текущий production runtime полностью идентичен branch runtime.
-- CrUX / real-user CWV.
+- CrUX / real-user CWV;
+- exhaustive HTTP crawl;
+- full runtime keyboard/screen-reader audit;
+- fresh independent local clone/build;
+- exact GTM/Metrica configuration;
+- exact root cause of remaining mobile LCP 9,6 s;
+- exact bandwidth percentage attributable to each concurrent resource.
 
 ---
 
-# 32. ПРАВИЛЬНЫЙ ПОРЯДОК ДАЛЬНЕЙШЕЙ РАБОТЫ
+# 15. IMPORTANT INTERNAL CONSISTENCY CHECK
 
-## STEP 0 — Freeze
+В последних PageSpeed выгрузках блок «Разбивка LCP» показывает:
 
-Зафиксировать последний PageSpeed baseline и не менять одновременно несколько причин.
+- mobile: TTFB **50 мс**, element render delay **1320 мс**, LCP element H1;
+- desktop after removal: TTFB **60 мс**, element render delay **1410 мс**, LCP element H1.
 
-## STEP 1 — Image pass
+При этом верхняя метрика LCP равна соответственно **9,6 с** и **2,0 с**.
 
-Не возвращать тяжёлые оригиналы. Сделать responsive/modern-format delivery для hero и остальных крупных images.
+Эти значения в текстовой выгрузке не складываются в общий LCP и потому **не должны использоваться для арифметического объяснения LCP без нового raw trace/скриншота breakdown**.
 
-## STEP 2 — Retest
-
-Отдельно mobile и desktop:
-
-- PageSpeed;
-- Network waterfall;
-- Performance trace;
-- visual QA.
-
-## STEP 3 — common.js dependency experiment
-
-Проверить controlled variant, в котором parser-blocking dependency устраняется/откладывается только в тестовой среде и только после анализа зависимостей.
-
-Цель: измерить реальный вклад `common.js` в FCP/LCP.
-
-## STEP 4 — Third-party pass
-
-Inventory → defer/conditional loading → retest.
-
-## STEP 5 — Fonts
-
-Consolidate Google Fonts strategy and weights.
-
-## STEP 6 — Main-thread pass
-
-Только после measurements:
-
-- `theme.js` MutationObserver;
-- DOM mutations;
-- forced layout;
-- H1 rewrite.
-
-## STEP 7 — Accessibility / SEO data pass
-
-- contrast;
-- duplicate `order_comment` ID;
-- Product schema;
-- minimum order source-of-truth;
-- canonical/404 runtime;
-- OG dimensions.
-
-## STEP 8 — Security hardening
-
-Проверить InSales response-header capabilities, затем CSP/HSTS/COOP only if compatible.
+Для causal analysis приоритет имеет raw Performance trace, Network waterfall и фактический LCP candidate.
 
 ---
 
-# 33. НЕ ДЕЛАТЬ
+# 16. FINAL BASELINES
 
-1. Не оптимизировать LCP только по одному PageSpeed score.
-2. Не считать LCP image-only проблемой.
-3. Не считать `tag.js` причиной 43 секунд.
-4. Не складывать `17,78 с render-blocking savings` с `42,9 с` element delay.
-5. Не трактовать `v8.parseOnBackground 37,6 s` как 37,6 s CPU.
-6. Не делать массовый JS/CSS refactor.
-7. Не заменять CSS/Liquid fixes на JS injection.
-8. Не менять calculator logic.
-9. Не удалять third-party services вслепую.
-10. Не использовать `async` механически.
-11. Не менять `main`.
-12. Не менять reference branch.
-13. Не считать lab score real-user performance.
+### Mobile after image removal
 
----
+**Performance 64 / FCP 3,2 с / LCP 9,6 с / TBT 140 мс / CLS 0,018 / SI 5,0 с / payload ≈2249 KiB.**
 
-# 34. TARGET BASELINE ДЛЯ СЛЕДУЮЩИХ РАБОТ
+### Desktop after image removal
 
-Текущий экспериментальный baseline после удаления двух тяжёлых изображений:
+**Performance 87 / FCP 0,8 с / LCP 2,0 с / TBT 70 мс / CLS 0 / SI 1,8 с / payload ≈2149 KiB.**
 
-### Mobile
+### Mobile before image removal
 
-- Performance **64**;
-- FCP **3,2 с**;
-- LCP **9,6 с**;
-- TBT **140 мс**;
-- CLS **0,018**;
-- Speed Index **5,0 с**;
-- payload **≈2249 KiB**.
+**Performance 39 / FCP 3,6 с / LCP 27,5 с / TBT 940 мс / CLS 0,018 / SI 8,8 с / payload ≈7377 KiB.**
 
-### Desktop
+### Desktop before image removal
 
-- Performance **87**;
-- FCP **0,8 с**;
-- LCP **2,0 с**;
-- TBT **70 мс**;
-- CLS **0**;
-- Speed Index **1,8 с**;
-- payload **≈2149 KiB**.
+**Performance 65 / FCP 0,9 с / LCP 5,1 с / TBT 190 мс / CLS 0 / SI 2,6 с / payload ≈7275 KiB.**
 
-### Важная оговорка
+### Old desktop
 
-Desktop и mobile after-removal — **разные PageSpeed запуски**, поэтому они являются двумя baseline points, а не одной синхронной A/B серией.
+**Performance 49 / FCP 0,8 с / LCP 4,7 с / TBT 540 мс / CLS 0,016 / SI 2,5 с.**
 
 ---
 
-# 35. УСПЕШНЫЕ АУДИТЫ, КОТОРЫЕ НЕЛЬЗЯ ПОТЕРЯТЬ
+# 17. NEXT IMPLEMENTATION ORDER
 
-При последующих изменениях сохранять:
-
-- HTTPS;
-- text compression;
-- no unnecessary redirects;
-- valid HTTP status;
-- valid robots.txt;
-- indexability;
-- title/meta description;
-- canonical;
-- crawlable links;
-- alt text;
-- valid ARIA;
-- accessible button names;
-- labels;
-- heading sequence;
-- main landmark;
-- valid lang;
-- valid DOCTYPE/charset;
-- no third-party cookies detected in the tested run;
-- no obsolete browser APIs detected;
-- valid source maps;
-- Agentic Browsing **3/3**;
-- `llms.txt` compliance.
+1. Keep the two heavy originals out in 2–3 MiB form.
+2. Implement responsive/modern image delivery.
+3. Set explicit image dimensions/aspect-ratio reservation.
+4. Verify LCP discovery/priority in initial HTML.
+5. Re-run PageSpeed mobile + desktop.
+6. Capture Network waterfall + Performance trace.
+7. Controlled test of `common.js` parser-blocking dependency.
+8. Third-party inventory and conditional/deferred loading.
+9. Fonts consolidation.
+10. `theme.js` / MutationObserver / forced-layout measurement.
+11. Accessibility fixes.
+12. Product schema/commercial source-of-truth reconciliation.
+13. OG dimensions / 404 runtime verification.
+14. Security hardening only after InSales header capability check.
+15. Final visual QA and Git diff.
 
 ---
 
-# 36. ФИНАЛЬНЫЙ ВЫВОД
+# 18. DO NOT REGRESS
 
-Мы прошли путь от предположения «главный виновник — Yandex tag.js» к доказательной модели.
+Do not regress:
 
-**Основная проблема аномального trace:** parser-blocking `common.v2.27.9.js` в условиях сильной сетевой конкуренции. Сам JS не выполняется десятки секунд; десятки секунд занимает его доставка, после чего HTML parser продолжает обработку.
-
-**Ключевой усилитель проблемы:** два очень тяжёлых изображения. Их временное удаление дало резкое улучшение PageSpeed и подтвердило их существенный вклад в network contention.
-
-**Остаточная проблема после image removal:** mobile LCP всё ещё **9,6 с**, а Performance **64**. Значит, оптимизация изображений — необходимая, но не последняя работа. После неё нужно отдельно исследовать parser-blocking common.js, critical chain, third-party scripts, fonts и main-thread/layout.
-
-**Самое важное:** код нельзя менять по догадке. Следующий production-safe цикл:
-
-`baseline → controlled change → PageSpeed → Network → Performance trace → visual QA → diff → history`.
-
-Этот документ является накопленной технической базой для следующих итераций.
+- calculator business logic;
+- Metal Routing;
+- accepted compare behavior;
+- responsive layout;
+- Accessibility 96 baseline;
+- SEO 100 baseline;
+- Agentic 3/3;
+- HTTPS/text compression/no unnecessary redirects;
+- canonical/robots/title/description;
+- alt text/accessibility labels;
+- user-approved compare desktop/mobile behavior.
 
 ---
 
-# 37. OFFICIAL REFERENCE MATERIAL
+# 19. OFFICIAL REFERENCE MATERIAL
 
-Для дальнейшей работы использовать актуальную документацию:
-
-- Chrome DevTools — Performance traces: https://developer.chrome.com/docs/devtools/performance/save-trace
+- Chrome DevTools Performance traces: https://developer.chrome.com/docs/devtools/performance/save-trace
 - Chrome Performance Insights: https://developer.chrome.com/docs/devtools/performance-insights/
-- web.dev — LCP: https://web.dev/articles/optimize-lcp
-- web.dev — Fetch Priority: https://web.dev/articles/fetch-priority
-- web.dev — image performance: https://web.dev/learn/performance/image-performance
-- Google Search Central — Product variants: https://developers.google.com/search/docs/appearance/structured-data/product-variants
-- OWASP — HTTP Security Headers Cheat Sheet: https://owasp.org/www-project-secure-headers/
+- web.dev LCP: https://web.dev/articles/optimize-lcp
+- web.dev Fetch Priority: https://web.dev/articles/fetch-priority
+- web.dev image performance: https://web.dev/learn/performance/image-performance
+- Google Search Central Product variants: https://developers.google.com/search/docs/appearance/structured-data/product-variants
+- OWASP HTTP Security Headers: https://owasp.org/www-project-secure-headers/
 
+---
+
+# 20. FINAL CONCLUSION
+
+### What the investigation proved
+
+The anomalous 43,9-second trace is not explained by 43,9 seconds of JavaScript execution and not explained by an image being the LCP element.
+
+The raw trace shows a **text H1 as LCP**, while `common.v2.27.9.js` is a **parser-blocking script** whose network delivery takes about **40,8 seconds**, with approximately **38,4 seconds in Content Download** under the recorded 3G conditions.
+
+The two huge images are a major network/payload burden. Their temporary removal produces a large improvement in both mobile and desktop PageSpeed results, which experimentally confirms their material contribution to network contention.
+
+### What remains
+
+The mobile result is now much better but still not acceptable as a final target: **LCP 9,6 s / Performance 64**. The remaining work is therefore clear:
+
+**image delivery → LCP discovery/priority → common.js dependency → critical chain → third-party → fonts → main-thread/layout → accessibility/SEO/security.**
+
+The project must continue using evidence, not guesses:
+
+`baseline → controlled change → PageSpeed → Network → Performance trace → visual QA → Git diff → ИСТОРИЯ_РАБОТ.md`.
+
+This document is the consolidated technical baseline for the next implementation cycle.
