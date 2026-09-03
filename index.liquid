@@ -392,48 +392,58 @@
     color: #ccc;
   }
 
-  .vl-v2-category-photo {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
+  .vl-v2-category--photo {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
   }
 
-  .vl-v2-category--photo::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.8) 100%);
-    z-index: 0;
-    transition: .3s ease;
+  .vl-v2-category-photo-frame {
+    position: relative;
+    width: 100%;
+    height: 190px;
+    background: #f7f7f5;
+    overflow: hidden;
+    border-bottom: 1px solid #000;
+  }
+
+  .vl-v2-category-photo {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center center;
   }
 
   .vl-v2-category--photo .vl-v2-category-icon {
     display: none;
   }
 
-  .vl-v2-category--photo::before {
-    color: rgba(255,255,255,.85);
-    text-shadow: 0 1px 4px rgba(0,0,0,.5);
+  .vl-v2-category-text {
+    padding: 24px 28px 28px;
   }
 
   .vl-v2-category--photo h3,
   .vl-v2-category--photo p {
-    color: #fff;
+    position: static;
+  }
+
+  .vl-v2-category--photo::before {
+    top: 14px;
+    right: 18px;
+    z-index: 1;
+    color: rgba(0,0,0,.32);
   }
 
   .vl-v2-category--photo:hover {
     background: #fff;
+    color: inherit;
+    transform: translateY(-5px);
   }
 
   .vl-v2-category--photo:hover p {
-    color: #eee;
-  }
-
-  .vl-v2-category--photo:hover::after {
-    background: linear-gradient(180deg, rgba(0,0,0,.1) 35%, rgba(0,0,0,.88) 100%);
+    color: #555;
   }
 
   /* =========================================================
@@ -1674,56 +1684,72 @@
           href="/collection/derevyannye-nozhki-dlya-mebeli"
           class="vl-v2-category vl-v2-category--photo"
           data-number="01">
-          <img
-            class="vl-v2-category-photo"
-            src="{{ 'foto_derevo.jpg' | file_url }}"
-            alt="Деревянные опоры для мебели — Veles Legs">
-          <h3>Деревянные опоры</h3>
-          <p>
-            Дуб, бук, ясень. Круглые, квадратные, резные.
-          </p>
+          <div class="vl-v2-category-photo-frame">
+            <img
+              class="vl-v2-category-photo"
+              src="{{ 'foto_derevo.jpg' | file_url }}"
+              alt="Деревянные опоры для мебели — Veles Legs">
+          </div>
+          <div class="vl-v2-category-text">
+            <h3>Деревянные опоры</h3>
+            <p>
+              Дуб, бук, ясень. Круглые, квадратные, резные.
+            </p>
+          </div>
         </a>
 
         <a
           href="/collection/metallicheskie-nozhki-dlya-mebeli"
           class="vl-v2-category vl-v2-category--photo"
           data-number="02">
-          <img
-            class="vl-v2-category-photo"
-            src="{{ 'foto_metal.jpg' | file_url }}"
-            alt="Металлические опоры для мебели — Veles Legs">
-          <h3>Металлические опоры</h3>
-          <p>
-            Стандартные и регулируемые решения для мебели.
-          </p>
+          <div class="vl-v2-category-photo-frame">
+            <img
+              class="vl-v2-category-photo"
+              src="{{ 'foto_metal.jpg' | file_url }}"
+              alt="Металлические опоры для мебели — Veles Legs">
+          </div>
+          <div class="vl-v2-category-text">
+            <h3>Металлические опоры</h3>
+            <p>
+              Стандартные и регулируемые решения для мебели.
+            </p>
+          </div>
         </a>
 
         <a
           href="/collection/new"
           class="vl-v2-category vl-v2-category--photo"
           data-number="03">
-          <img
-            class="vl-v2-category-photo"
-            src="{{ 'foto_furnitura.jpg' | file_url }}"
-            alt="Фурнитура для мебельных опор — Veles Legs">
-          <h3>Фурнитура</h3>
-          <p>
-            Крепления, заглушки, подпятники и дополнительные элементы.
-          </p>
+          <div class="vl-v2-category-photo-frame">
+            <img
+              class="vl-v2-category-photo"
+              src="{{ 'foto_furnitura.jpg' | file_url }}"
+              alt="Фурнитура для мебельных опор — Veles Legs">
+          </div>
+          <div class="vl-v2-category-text">
+            <h3>Фурнитура</h3>
+            <p>
+              Крепления, заглушки, подпятники и дополнительные элементы.
+            </p>
+          </div>
         </a>
 
         <a
           href="/collection/raboty-na-zakaz"
           class="vl-v2-category vl-v2-category--photo"
           data-number="04">
-          <img
-            class="vl-v2-category-photo"
-            src="{{ 'foto_nazakaz.jpg' | file_url }}"
-            alt="Изготовление опор под заказ — Veles Legs">
-          <h3>Под заказ</h3>
-          <p>
-            Нестандартные размеры, материалы и конструкции.
-          </p>
+          <div class="vl-v2-category-photo-frame">
+            <img
+              class="vl-v2-category-photo"
+              src="{{ 'foto_nazakaz.jpg' | file_url }}"
+              alt="Изготовление опор под заказ — Veles Legs">
+          </div>
+          <div class="vl-v2-category-text">
+            <h3>Под заказ</h3>
+            <p>
+              Нестандартные размеры, материалы и конструкции.
+            </p>
+          </div>
         </a>
 
         <a
