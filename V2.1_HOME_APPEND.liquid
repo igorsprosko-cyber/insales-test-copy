@@ -52,7 +52,7 @@
   }
 
   .vl-v2-section {
-    padding: 90px 0;
+    padding: 92px 0;
   }
 
   .vl-v2-section--gray {
@@ -62,8 +62,8 @@
   .vl-v2-eyebrow {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    margin-bottom: 18px;
+    gap: 12px;
+    margin-bottom: 20px;
     font-family: 'Montserrat', sans-serif;
     font-size: 11px;
     font-weight: 600;
@@ -115,7 +115,7 @@
   .vl-v2-hero-grid {
     display: grid;
     grid-template-columns: minmax(0, 1.15fr) minmax(320px, .85fr);
-    gap: 70px;
+    gap: 72px;
     align-items: center;
   }
 
@@ -123,8 +123,8 @@
     margin: 0;
     max-width: 760px;
     font-family: 'Playfair Display', serif;
-    font-size: clamp(54px, 8vw, 104px);
-    line-height: .9;
+    font-size: clamp(54px, 8vw, 104px) !important;
+    line-height: .9 !important;
     letter-spacing: -3px;
     text-transform: uppercase;
   }
@@ -142,7 +142,7 @@
 
   .vl-v2-hero-description {
     max-width: 650px;
-    margin: 30px 0;
+    margin: 32px 0;
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
     font-weight: 300;
@@ -194,29 +194,35 @@
 
   .vl-v2-hero-card {
     position: relative;
-    padding: 34px;
-    background: #fff;
+    padding: 0;
+    overflow: hidden;
+    background: #f7f7f5;
     border: 1px solid #000;
     box-shadow: 16px 16px 0 #000;
   }
 
-  .vl-v2-hero-card-number {
-    margin-bottom: 35px;
-    font-family: 'Playfair Display', serif;
-    font-size: 78px;
-    line-height: .8;
+  .vl-v2-hero-card-photo {
+    display: block;
+    width: 100%;
+    height: 560px;
+    min-height: 0;
+    margin: 0;
+    border: 0;
+    object-fit: cover;
+    object-position: center center;
+    background: #f7f7f5;
   }
 
   .vl-v2-hero-card strong {
     display: block;
-    margin-bottom: 10px;
+    margin: 24px 24px 12px;
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
     letter-spacing: .5px;
   }
 
   .vl-v2-hero-card p {
-    margin: 0;
+    margin: 0 24px;
     color: #555;
     font-size: 14px;
     line-height: 1.6;
@@ -226,13 +232,13 @@
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     max-width: 650px;
-    margin-top: 50px;
+    margin-top: 52px;
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
   }
 
   .vl-v2-hero-meta-item {
-    padding: 18px 12px;
+    padding: 20px 12px;
     border-right: 1px solid #000;
   }
 
@@ -254,6 +260,12 @@
     font-size: 10px;
     letter-spacing: 1px;
     text-transform: uppercase;
+  }
+
+  .vl-v2-hero-note {
+    margin: 32px 24px 24px;
+    padding-top: 24px;
+    border-top: 1px solid #000;
   }
 
   /* =========================================================
@@ -283,7 +295,7 @@
   }
 
   .vl-v2-trust-item strong {
-    margin-bottom: 7px;
+    margin-bottom: 8px;
     font-family: 'Montserrat', sans-serif;
     font-size: 14px;
   }
@@ -302,8 +314,8 @@
     display: flex;
     justify-content: space-between;
     align-items: end;
-    gap: 30px;
-    margin-bottom: 45px;
+    gap: 32px;
+    margin-bottom: 44px;
   }
 
   .vl-v2-heading-copy {
@@ -312,7 +324,7 @@
 
   .vl-v2-heading-copy p {
     max-width: 650px;
-    margin: 18px 0 0;
+    margin: 20px 0 0;
   }
 
   .vl-v2-category-grid {
@@ -327,7 +339,7 @@
     display: flex;
     flex-direction: column;
     justify-content: end;
-    padding: 30px;
+    padding: 32px;
     overflow: hidden;
     background: #fff;
     border: 1px solid #000;
@@ -380,6 +392,71 @@
     color: #ccc;
   }
 
+  .vl-v2-category--photo {
+    padding: 32px;
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+  }
+
+  .vl-v2-category-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    z-index: 0;
+  }
+
+  .vl-v2-category--photo::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.82) 100%);
+    z-index: 0;
+    transition: .3s ease;
+  }
+
+  .vl-v2-category--photo .vl-v2-category-icon {
+    display: none;
+  }
+
+  .vl-v2-category--photo h3,
+  .vl-v2-category--photo p {
+    position: relative;
+    z-index: 1;
+    color: #fff;
+  }
+
+  .vl-v2-category--photo::before {
+    color: rgba(255,255,255,.85);
+    text-shadow: 0 1px 4px rgba(0,0,0,.5);
+    z-index: 1;
+  }
+
+  .vl-v2-category--photo:hover {
+    background: transparent;
+    transform: translateY(-5px);
+  }
+
+  .vl-v2-category--photo:hover p {
+    color: #eee;
+  }
+
+  .vl-v2-category--photo:hover::after {
+    background: linear-gradient(180deg, rgba(0,0,0,.12) 30%, rgba(0,0,0,.9) 100%);
+  }
+
+  .vl-v2-category--photo:active {
+    transform: translateY(-2px) scale(.99);
+  }
+
+  .vl-v2-category--photo:active::after {
+    background: linear-gradient(180deg, rgba(0,0,0,.2) 25%, rgba(0,0,0,.94) 100%);
+  }
+
   /* =========================================================
      B2B CALCULATOR INTRO
   ========================================================= */
@@ -389,11 +466,11 @@
     grid-template-columns: .7fr 1.3fr;
     gap: 60px;
     align-items: start;
-    margin-bottom: 45px;
+    margin-bottom: 44px;
   }
 
   .vl-v2-calculator-note {
-    padding: 25px;
+    padding: 24px;
     background: #fff;
     border: 1px solid #000;
   }
@@ -433,15 +510,15 @@
   .vl-selector-tabs {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 25px;
+    gap: 12px;
+    margin-bottom: 24px;
   }
 
   .vl-tab {
     background: transparent;
     border: 1px solid #000;
     color: #000;
-    padding: 11px 25px;
+    padding: 12px 25px;
     border-radius: 30px;
     font-size: 13px;
     cursor: pointer;
@@ -480,7 +557,7 @@
     flex: 1 1 500px;
     min-width: 300px;
     background: #fff;
-    padding: 25px;
+    padding: 24px;
     border: 1px solid #000;
     border-radius: var(--vl-radius);
     text-align: left;
@@ -498,13 +575,13 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
   .vl-select-group label {
     font-weight: 500;
     font-size: 13px;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     color: #000;
   }
 
@@ -512,7 +589,7 @@
   .vl-select-group input,
   .vl-select-group textarea {
     width: 100%;
-    padding: 10px 13px;
+    padding: 12px 13px;
     border: 1px solid #000;
     border-radius: 8px;
     font-size: 14px;
@@ -520,6 +597,18 @@
     outline: none;
     color: #000;
     font-family: 'Montserrat', sans-serif;
+  }
+
+  .vl-select-group select:focus-visible,
+  .vl-select-group input:focus-visible,
+  .vl-select-group textarea:focus-visible,
+  .vl-form-block input:focus-visible,
+  .vl-form-block textarea:focus-visible,
+  .vl-tab:focus-visible,
+  .vl-action .btn-final:focus-visible,
+  .vl-form-block .send-btn:focus-visible {
+    outline: 2px solid #5E8C31;
+    outline-offset: 2px;
   }
 
   .vl-select-group textarea {
@@ -539,24 +628,24 @@
     background: #f8f8f6;
     border: 1px solid #000;
     border-radius: 10px;
-    padding: 15px;
-    margin-top: 18px;
+    padding: 16px;
+    margin-top: 20px;
     display: none;
   }
 
   .vl-calc-row {
     display: flex;
     justify-content: space-between;
-    gap: 15px;
+    gap: 16px;
     font-size: 13px;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
     color: #333;
   }
 
   .vl-calc-row.total {
     border-top: 1px solid #000;
-    padding-top: 7px;
-    margin-top: 7px;
+    padding-top: 8px;
+    margin-top: 8px;
     font-weight: 700;
     font-size: 16px;
     color: #000;
@@ -570,8 +659,8 @@
 
   .vl-calc-row.total-vat {
     border-top: 2px solid #000;
-    padding-top: 10px;
-    margin-top: 10px;
+    padding-top: 12px;
+    margin-top: 12px;
     font-weight: 900;
     font-size: 20px;
     color: #000;
@@ -583,7 +672,7 @@
   }
 
   .vl-action {
-    margin-top: 25px;
+    margin-top: 24px;
     text-align: center;
     display: flex;
     justify-content: center;
@@ -615,9 +704,9 @@
 
   .vl-form-block {
     display: none;
-    margin-top: 25px;
+    margin-top: 24px;
     background: #f9f9f9;
-    padding: 25px;
+    padding: 24px;
     border-radius: 12px;
     border: 1px solid #000;
     text-align: left;
@@ -650,7 +739,7 @@
     border-radius: 10px;
     font-size: 14px;
     line-height: 1.6;
-    margin-bottom: 15px;
+    margin-bottom: 16px;
     min-height: 280px;
     resize: vertical;
     font-family: 'Montserrat', Arial, sans-serif;
@@ -659,7 +748,7 @@
   .vl-form-block .send-btn {
     display: block;
     width: 100%;
-    padding: 14px;
+    padding: 16px;
     background: #000;
     color: #fff;
     border: none;
@@ -686,8 +775,8 @@
   .vl-v2-custom-list {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 10px;
-    margin-top: 30px;
+    gap: 12px;
+    margin-top: 32px;
   }
 
   .vl-v2-custom-item {
@@ -698,7 +787,7 @@
 
   .vl-v2-custom-item strong {
     display: block;
-    margin-bottom: 7px;
+    margin-bottom: 8px;
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
   }
@@ -709,45 +798,29 @@
     line-height: 1.5;
   }
 
+  .vl-v2-custom-cta {
+    margin-top: 32px;
+  }
+
   .vl-v2-blueprint {
-    min-height: 400px;
+    height: 380px;
+    max-width: 340px;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    background:
-      linear-gradient(rgba(0,0,0,.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,0,0,.06) 1px, transparent 1px),
-      #fafaf8;
-    background-size: 35px 35px;
+    overflow: hidden;
+    background: #fafaf8;
     border: 1px solid #000;
   }
 
-  .vl-v2-blueprint-inner {
-    width: 65%;
-    height: 250px;
-    border: 2px solid #000;
-    position: relative;
-  }
-
-  .vl-v2-blueprint-inner::before,
-  .vl-v2-blueprint-inner::after {
-    content: '';
-    position: absolute;
-    background: #000;
-  }
-
-  .vl-v2-blueprint-inner::before {
-    width: 1px;
-    height: 100%;
-    left: 50%;
-    top: 0;
-  }
-
-  .vl-v2-blueprint-inner::after {
-    height: 1px;
+  .vl-v2-blueprint-photo {
+    display: block;
     width: 100%;
-    left: 0;
-    top: 50%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    background: #fafaf8;
   }
 
   /* =========================================================
@@ -761,8 +834,8 @@
   }
 
   .vl-v2-client {
-    min-height: 135px;
-    padding: 20px;
+    min-height: 120px;
+    padding: 16px;
     border: 1px solid #000;
     display: flex;
     flex-direction: column;
@@ -792,7 +865,7 @@
   }
 
   .vl-v2-why {
-    padding: 24px;
+    padding: 20px;
     border-right: 1px solid #000;
   }
 
@@ -807,7 +880,7 @@
   }
 
   .vl-v2-why h3 {
-    margin: 12px 0 8px;
+    margin: 20px 0 10px;
     font-family: 'Montserrat', sans-serif;
     font-size: 16px;
   }
@@ -824,7 +897,7 @@
   ========================================================= */
 
   .vl-v2-final {
-    padding: 110px 20px;
+    padding: 112px 20px;
     background: #000;
     color: #fff;
     text-align: center;
@@ -866,7 +939,7 @@
   }
 
   .vl-v2-final-contacts {
-    margin-top: 35px;
+    margin-top: 36px;
     color: #aaa;
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
@@ -894,6 +967,10 @@
 
     .vl-v2-hero-card {
       max-width: 500px;
+    }
+
+    .vl-v2-hero-card-photo {
+      height: 520px;
     }
 
     .vl-v2-trust-grid {
@@ -936,7 +1013,7 @@
     }
 
     .vl-v2-section {
-      padding: 65px 0;
+      padding: 64px 0;
     }
 
     .vl-v2-hero h1 {
@@ -945,6 +1022,10 @@
 
     .vl-v2-hero-card {
       box-shadow: 8px 8px 0 #000;
+    }
+
+    .vl-v2-hero-card-photo {
+      height: 440px;
     }
 
     .vl-v2-hero-meta {
@@ -971,7 +1052,7 @@
     }
 
     .vl-v2-blueprint {
-      min-height: 300px;
+      height: 260px;
     }
 
     .vl-v2-actions {
@@ -996,7 +1077,7 @@
   }
 
   .vl-light-copy {
-    padding: 55px;
+    padding: 56px;
   }
 
   .vl-light-copy .vl-v2-eyebrow {
@@ -1012,10 +1093,11 @@
   }
 
   .vl-light-visual {
-    min-height: 360px;
+    height: 420px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
     background:
       linear-gradient(rgba(255,255,255,.06) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255,255,255,.06) 1px, transparent 1px),
@@ -1023,33 +1105,43 @@
     background-size: 46px 46px;
   }
 
-  .vl-light-brand {
-    width: 100%;
-    height: 100%;
-    min-height: 360px;
-    padding: 28px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 22px;
-  }
-
   .vl-light-photo {
     display: block;
     width: 100%;
-    max-width: 560px;
-    height: auto;
-    max-height: 430px;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    background: #111;
+  }
+
+  .vl-light-brand-row {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .vl-light-logo-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 16px;
+    background: #fff;
+    border: 1px solid #fff;
+  }
+
+  .vl-light-logo-inline {
+    display: block;
+    height: 44px;
+    width: auto;
+    max-width: 180px;
     object-fit: contain;
   }
 
-  .vl-light-logo {
-    display: block;
-    width: min(220px, 60%);
-    height: auto;
-    max-height: 70px;
-    object-fit: contain;
+  .vl-light-brand-row .vl-v2-btn:hover {
+    background: #fff !important;
+    color: #000 !important;
+    border-color: #fff !important;
   }
 
   @media (max-width: 900px) {
@@ -1060,11 +1152,16 @@
 
   @media (max-width: 600px) {
     .vl-light-copy {
-      padding: 35px 25px;
+      padding: 36px 25px;
     }
 
     .vl-light-visual {
-      min-height: 300px;
+      height: 300px;
+    }
+
+    .vl-light-brand-row {
+      justify-content: center;
+      flex-wrap: wrap;
     }
   }
 
@@ -1102,31 +1199,6 @@
     position: relative;
   }
 
-  .vl-v2 > section::before {
-    display: none !important;
-    position: absolute;
-    top: 22px;
-    left: max(24px, calc((100% - var(--vl-max)) / 2));
-    z-index: 3;
-    font-family: 'Montserrat', Arial, sans-serif;
-    font-size: 9px;
-    font-weight: 600;
-    line-height: 1;
-    letter-spacing: 2px;
-    color: #77756f;
-    text-transform: uppercase;
-    pointer-events: none;
-  }
-
-  .vl-v2 > section:nth-of-type(1)::before { content: '01 / HERO'; }
-  .vl-v2 > section:nth-of-type(2)::before { content: '02 / MATERIAL · TASK · PRODUCTION'; }
-  .vl-v2 > section:nth-of-type(3)::before { content: '03 / CATALOG'; }
-  .vl-v2 > section:nth-of-type(4)::before { content: '04 / VELES LIGHT'; }
-  .vl-v2 > section:nth-of-type(5)::before { content: '05 / CALCULATOR'; }
-  .vl-v2 > section:nth-of-type(6)::before { content: '06 / CUSTOM PRODUCTION'; }
-  .vl-v2 > section:nth-of-type(7)::before { content: '07 / B2B'; }
-  .vl-v2 > section:nth-of-type(8)::before { content: '08 / WHY VELES LEGS'; }
-
   .vl-v2-section {
     padding: 108px 0;
     border-bottom: 1px solid var(--vl-rule);
@@ -1134,6 +1206,18 @@
 
   .vl-v2-section--gray {
     background: var(--vl-gray-50);
+  }
+
+  /* Последние два блока (B2B/клиенты и "Почему Veles Legs") специально
+     ниже остальных — короче листать, особенно на мобильном. */
+  .vl-v2-section--b2b,
+  .vl-v2-section--why {
+    padding: 56px 0;
+  }
+
+  .vl-v2-section--b2b .vl-v2-heading,
+  .vl-v2-section--why .vl-v2-heading {
+    margin-bottom: 32px;
   }
 
   .vl-v2-title {
@@ -1190,8 +1274,8 @@
   }
 
   .vl-v2-hero h1 {
-    font-size: clamp(58px, 8.4vw, 112px);
-    line-height: .87;
+    font-size: clamp(58px, 8.4vw, 112px) !important;
+    line-height: .87 !important;
     letter-spacing: -4.5px;
   }
 
@@ -1204,7 +1288,7 @@
   }
 
   .vl-v2-hero-description {
-    margin: 34px 0;
+    margin: 36px 0;
     font-size: 16px;
     font-weight: 400;
     line-height: 1.75;
@@ -1224,13 +1308,9 @@
   }
 
   .vl-v2-hero-card {
-    padding: 38px;
+    padding: 40px;
     border-radius: 0;
     box-shadow: 12px 12px 0 var(--vl-black);
-  }
-
-  .vl-v2-hero-card-number {
-    font-size: 86px;
   }
 
   .vl-v2-hero-meta {
@@ -1242,18 +1322,18 @@
   }
 
   .vl-v2-trust {
-    min-height: 104px;
+    min-height: 148px;
     border-bottom: 1px solid var(--vl-rule);
     background: var(--vl-white);
   }
 
   .vl-v2-trust-grid {
-    min-height: 104px;
+    min-height: 148px;
   }
 
   .vl-v2-trust-item {
-    min-height: 104px;
-    padding: 18px 20px;
+    min-height: 148px;
+    padding: 28px 24px;
     border-right: 1px solid var(--vl-rule);
   }
 
@@ -1278,7 +1358,7 @@
 
   .vl-v2-category {
     min-height: 300px;
-    padding: 30px;
+    padding: 32px;
     border-radius: 0;
     border-color: var(--vl-black);
     transition: transform .3s ease, background-color .3s ease, color .3s ease;
@@ -1315,8 +1395,8 @@
   }
 
   .vl-v2-calculator-intro {
-    gap: 70px;
-    margin-bottom: 54px;
+    gap: 72px;
+    margin-bottom: 56px;
   }
 
   .vl-v2-calculator-note {
@@ -1350,7 +1430,7 @@
 
   .vl-tab {
     border-radius: 0;
-    padding: 11px 22px;
+    padding: 12px 22px;
     font-size: 9px;
     font-weight: 700;
     letter-spacing: 1.4px;
@@ -1371,39 +1451,40 @@
     border-radius: 0;
   }
 
-  .vl-v2 > section:nth-of-type(4) .vl-light {
+  .vl-v2-section--light .vl-light {
     border-radius: 0;
   }
 
-  .vl-v2 > section:nth-of-type(4) {
+  .vl-v2-section--light {
     background: #0c0c0b;
     color: #fff;
   }
 
-  .vl-v2 > section:nth-of-type(4) .vl-light-copy {
+  .vl-v2-section--light .vl-light-copy {
     padding: clamp(42px, 6vw, 72px);
   }
 
-  .vl-v2 > section:nth-of-type(4) .vl-v2-eyebrow::before {
+  .vl-v2-section--light .vl-v2-eyebrow::before {
     background: #fff;
   }
 
-  .vl-v2 > section:nth-of-type(4) .vl-v2-eyebrow,
-  .vl-v2 > section:nth-of-type(4) .vl-v2-title {
+  .vl-v2-section--light .vl-v2-eyebrow,
+  .vl-v2-section--light .vl-v2-title {
     color: #fff;
   }
 
-  .vl-v2 > section:nth-of-type(4) .vl-v2-text {
+  .vl-v2-section--light .vl-v2-eyebrow {
+    font-size: 13px;
+    letter-spacing: 2px;
+  }
+
+  .vl-v2-section--light .vl-v2-text {
     color: #c8c7c1;
   }
 
   @media (max-width: 900px) {
     .vl-v2-container {
       width: min(calc(100% - 36px), var(--vl-max));
-    }
-
-    .vl-v2 > section::before {
-      left: 18px;
     }
 
     .vl-v2-section {
@@ -1416,20 +1497,13 @@
       width: calc(100% - 28px);
     }
 
-    .vl-v2 > section::before {
-      top: 16px;
-      left: 14px;
-      font-size: 8px;
-      letter-spacing: 1.5px;
-    }
-
     .vl-v2-hero {
       min-height: auto;
-      padding: 86px 0 72px;
+      padding: 88px 0 72px;
     }
 
     .vl-v2-hero h1 {
-      font-size: clamp(48px, 15vw, 72px);
+      font-size: clamp(48px, 15vw, 72px) !important;
       letter-spacing: -2.8px;
     }
 
@@ -1440,7 +1514,7 @@
     }
 
     .vl-v2-section {
-      padding: 78px 0;
+      padding: 80px 0;
     }
 
     .vl-v2-trust,
@@ -1470,8 +1544,8 @@
       gap: 28px;
     }
 
-    .vl-v2 > section:nth-of-type(4) .vl-light-copy {
-      padding: 38px 24px;
+    .vl-v2-section--light .vl-light-copy {
+      padding: 40px 24px;
     }
   }
 
@@ -1532,7 +1606,10 @@
         </div>
 
         <div class="vl-v2-hero-card">
-          <div class="vl-v2-hero-card-number">VL</div>
+          <img
+            class="vl-v2-hero-card-photo"
+            src="{{ 'opora-a178-chrome.webp' | file_url }}"
+            alt="Опора мебельная А178 хром — Veles Legs">
 
           <strong>Для мебельного производства</strong>
 
@@ -1542,7 +1619,7 @@
             размеры и объём под конкретную производственную задачу.
           </p>
 
-          <div style="margin-top:30px;padding-top:25px;border-top:1px solid #000;">
+          <div class="vl-v2-hero-note">
             <strong>Собственное производство</strong>
             <p>
               Дерево и металл. Стандартные серии и изготовление по проекту.
@@ -1554,7 +1631,6 @@
     </div>
   </section>
 
-
   <!-- =======================================================
        2. TRUST STRIP
   ======================================================== -->
@@ -1565,22 +1641,22 @@
 
         <div class="vl-v2-trust-item">
           <strong>Поставки для фабрик</strong>
-          <span>Работаем с серийными заказами и регулярными поставками.</span>
+          <span>Серийные заказы и регулярные поставки.</span>
         </div>
 
         <div class="vl-v2-trust-item">
-          <strong>Оптовая цена</strong>
-          <span>Скидка автоматически учитывается при расчёте партии.</span>
+          <strong>Оптовые цены</strong>
+          <span>Расчёт скидки за объём — в конструкторе-калькуляторе.</span>
         </div>
 
         <div class="vl-v2-trust-item">
           <strong>По чертежу</strong>
-          <span>Конструкторское сопровождение нестандартных изделий.</span>
+          <span>Конструкторское сопровождение под ваш проект.</span>
         </div>
 
         <div class="vl-v2-trust-item">
           <strong>Доставка по РФ</strong>
-          <span>Отгружаем партии любого объёма транспортными компаниями.</span>
+          <span>Отгрузка партий транспортными компаниями.</span>
         </div>
 
       </div>
@@ -1617,9 +1693,12 @@
 
         <a
           href="/collection/derevyannye-nozhki-dlya-mebeli"
-          class="vl-v2-category"
+          class="vl-v2-category vl-v2-category--photo"
           data-number="01">
-          <div class="vl-v2-category-icon">🪵</div>
+          <img
+            class="vl-v2-category-photo"
+            src="{{ 'foto_derevo.webp' | file_url }}"
+            alt="Деревянные опоры для мебели — Veles Legs">
           <h3>Деревянные опоры</h3>
           <p>
             Дуб, бук, ясень. Круглые, квадратные, резные.
@@ -1628,9 +1707,12 @@
 
         <a
           href="/collection/metallicheskie-nozhki-dlya-mebeli"
-          class="vl-v2-category"
+          class="vl-v2-category vl-v2-category--photo"
           data-number="02">
-          <div class="vl-v2-category-icon">⚙️</div>
+          <img
+            class="vl-v2-category-photo"
+            src="{{ 'foto_metal.webp' | file_url }}"
+            alt="Металлические опоры для мебели — Veles Legs">
           <h3>Металлические опоры</h3>
           <p>
             Стандартные и регулируемые решения для мебели.
@@ -1639,9 +1721,12 @@
 
         <a
           href="/collection/new"
-          class="vl-v2-category"
+          class="vl-v2-category vl-v2-category--photo"
           data-number="03">
-          <div class="vl-v2-category-icon">🔩</div>
+          <img
+            class="vl-v2-category-photo"
+            src="{{ 'foto_furnitura.webp' | file_url }}"
+            alt="Фурнитура для мебельных опор — Veles Legs">
           <h3>Фурнитура</h3>
           <p>
             Крепления, заглушки, подпятники и дополнительные элементы.
@@ -1650,9 +1735,12 @@
 
         <a
           href="/collection/raboty-na-zakaz"
-          class="vl-v2-category"
+          class="vl-v2-category vl-v2-category--photo"
           data-number="04">
-          <div class="vl-v2-category-icon">🛠️</div>
+          <img
+            class="vl-v2-category-photo"
+            src="{{ 'foto_nazakaz.webp' | file_url }}"
+            alt="Изготовление опор под заказ — Veles Legs">
           <h3>Под заказ</h3>
           <p>
             Нестандартные размеры, материалы и конструкции.
@@ -1691,7 +1779,7 @@
        VELES LIGHT
   ======================================================== -->
 
-  <section class="vl-v2-section">
+  <section class="vl-v2-section vl-v2-section--light">
     <div class="vl-v2-container">
       <div class="vl-light">
 
@@ -1709,7 +1797,7 @@
             дизайнерские настольные лампы из натурального дерева.
           </p>
 
-          <div class="vl-v2-actions">
+          <div class="vl-light-brand-row">
             <a
               class="vl-v2-btn"
               href="https://veleslight.ru/"
@@ -1717,20 +1805,21 @@
               rel="noopener noreferrer">
               Перейти на Veles Light
             </a>
+
+            <span class="vl-light-logo-badge">
+              <img
+                class="vl-light-logo-inline"
+                src="{{ 'veles-light-logo.webp' | file_url }}"
+                alt="VELES LIGHT">
+            </span>
           </div>
         </div>
 
         <div class="vl-light-visual">
-          <div class="vl-light-brand">
-            <img
-              class="vl-light-photo"
-              src="{{ 'veles-light-photo.jpg' | file_url }}"
-              alt="Veles Light — деревянные настольные лампы">
-            <img
-              class="vl-light-logo"
-              src="{{ 'veles-light-logo.png' | file_url }}"
-              alt="VELES LIGHT">
-          </div>
+          <img
+            class="vl-light-photo"
+            src="{{ 'veles-light-photo.webp' | file_url }}"
+            alt="Veles Light — деревянные настольные лампы">
         </div>
 
       </div>
@@ -1836,6 +1925,7 @@
                   type="text"
                   class="wood-height-other"
                   id="wood-h-other-1"
+                  aria-label="Своя высота, мм"
                   placeholder="Введите высоту в мм"
                   style="display:none;"
                   oninput="calcWood(1)">
@@ -1930,6 +2020,7 @@
                   type="text"
                   class="wood-dim-other"
                   id="wood-dim-other-1"
+                  aria-label="Свой размер, мм"
                   placeholder="Введите размер в мм"
                   style="display:none;"
                   oninput="calcWood(1)">
@@ -1993,6 +2084,7 @@
                   type="text"
                   class="wood-bottom-dim-other"
                   id="wood-bottom-dim-other-1"
+                  aria-label="Свой нижний размер, мм"
                   placeholder="Введите размер в мм"
                   style="display:none;"
                   oninput="calcWood(1)">
@@ -2040,6 +2132,7 @@
                   type="text"
                   class="wood-tilt-other"
                   id="wood-tilt-other-1"
+                  aria-label="Свой угол наклона"
                   placeholder="Введите угол"
                   style="display:none;"
                   oninput="calcWood(1)">
@@ -2070,6 +2163,7 @@
                   type="text"
                   class="wood-color-other"
                   id="wood-color-other-1"
+                  aria-label="Свой цвет — RAL или ссылка на образец"
                   placeholder="RAL или ссылка на образец"
                   style="display:none;"
                   oninput="calcWood(1)">
@@ -2129,6 +2223,7 @@
                   type="text"
                   class="wood-base-other"
                   id="wood-base-other-1"
+                  aria-label="Своё основание — описание"
                   placeholder="Опишите основание"
                   style="display:none;"
                   oninput="calcWood(1)">
@@ -2244,7 +2339,7 @@
 
             <h4>Отправить расчёт менеджеру</h4>
 
-            <p style="font-size:13px;color:#555;text-align:center;margin-bottom:15px;">
+            <p style="font-size:13px;color:#555;text-align:center;margin-bottom:16px;">
               Менеджер проверит расчёт, подтвердит наличие
               и свяжется с вами.
             </p>
@@ -2252,25 +2347,30 @@
             <input
               type="text"
               id="wood-name"
+              aria-label="Ваше имя"
               placeholder="Ваше имя *">
 
             <input
               type="tel"
               id="wood-phone"
+              aria-label="Телефон"
               placeholder="Телефон *">
 
             <input
               type="email"
               id="wood-email"
+              aria-label="Email"
               placeholder="Email *">
 
             <input
               type="text"
               id="wood-org"
+              aria-label="Название компании"
               placeholder="Название компании">
 
             <textarea
               id="wood-comment"
+              aria-label="Комментарий к заказу"
               placeholder="Комментарий к заказу"></textarea>
 
             <button
@@ -2378,7 +2478,7 @@
 
           </div>
 
-          <div style="margin-top:30px;">
+          <div class="vl-v2-custom-cta">
             <a
               href="mailto:veles.mf@yandex.ru?subject=Изготовление опор по проекту"
               class="vl-v2-btn">
@@ -2389,7 +2489,10 @@
         </div>
 
         <div class="vl-v2-blueprint">
-          <div class="vl-v2-blueprint-inner"></div>
+          <img
+            class="vl-v2-blueprint-photo"
+            src="{{ 'stol-vintage.webp' | file_url }}"
+            alt="Стол журнальный винтаж — изготовление по проекту Veles Legs">
         </div>
 
       </div>
@@ -2403,7 +2506,7 @@
        6. CLIENTS
   ======================================================== -->
 
-  <section class="vl-v2-section vl-v2-section--gray">
+  <section class="vl-v2-section vl-v2-section--gray vl-v2-section--b2b">
 
     <div class="vl-v2-container">
 
@@ -2465,7 +2568,7 @@
        7. WHY US
   ======================================================== -->
 
-  <section class="vl-v2-section">
+  <section class="vl-v2-section vl-v2-section--why">
 
     <div class="vl-v2-container">
 
@@ -2546,28 +2649,6 @@
   </section>
 </div>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "ООО «ФК «ВЕЛЕС»",
-  "url": "https://veles-legs.ru/",
-  "telephone": [
-    "+7 499 290 52 00",
-    "+7 985 990 93 05"
-  ],
-  "email": "veles.mf@yandex.ru",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "ул. Большая Серпуховская, 43",
-    "addressLocality": "Подольск",
-    "addressRegion": "Московская область",
-    "addressCountry": "RU"
-  },
-  "taxID": "5074060050",
-  "identifier": "1185074011594"
-}
-</script>
 
 <script>
 (function () {
