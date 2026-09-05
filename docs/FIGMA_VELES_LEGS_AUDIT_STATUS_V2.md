@@ -58,3 +58,47 @@ See `docs/FIGMA_VELES_LEGS_CODE_MAP.md` for the implementation matrix covering:
 `PARTIALLY VERIFIED`: complete platform widget internals, browser/runtime DOM, computed styles, full `setup.json` inventory where retrieval was truncated.
 
 `NOT VERIFIED`: byte-level content of binary ZIP/image files and a complete local clone of every repository file.
+
+
+## 2026-09-05 — CONSOLIDATED PERFORMANCE / PRE-IMPLEMENTATION STATUS
+
+### Что синхронизировано
+
+Этот документ дополнен после сверки с текущими `ИСТОРИЯ_РАБОТ.md`, `Forensic Performance-разбор сайта VELES LEGS`, PageSpeed baseline и forensic source-pass. Он не заменяет эти документы.
+
+Подтверждённые рабочие данные:
+- mobile before image experiment: Performance 39, LCP 27,5 s, TBT 940 ms, CLS 0,018, SI 8,8 s;
+- mobile after image experiment: Performance 64, LCP 9,6 s, TBT 140 ms, CLS 0,018, SI 5,0 s;
+- desktop before image experiment: Performance 65, LCP 5,1 s, TBT 190 ms, CLS 0, SI 2,6 s;
+- desktop after image experiment: Performance 87, LCP 2,0 s, TBT 70 ms, CLS 0, SI 1,8 s;
+- raw trace: LCP = textual H1, FCP ≈ LCP ≈ 43,916 s in anomalous run;
+- `common.v2.27.9.js`: parser-blocking; dominant delay is network Content Download, not 40-second JS execution;
+- heavy images are a confirmed material network/payload factor, but not the sole proven cause;
+- `tag.js`/GTM are not established as sole LCP cause;
+- `settings_loaded` / `content-visibility:hidden` render-gate is source-verified but its causal contribution to the measured LCP remains uncorrelated.
+
+### Verification contract
+
+Before code changes, the following must remain explicit:
+
+- `VERIFIED` only with direct evidence;
+- `PARTIALLY VERIFIED` when runtime/causal correlation is incomplete;
+- `NOT VERIFIED` when evidence is absent;
+- no claim of complete byte-level/runtime audit where platform/binary/runtime evidence is unavailable.
+
+### 0-point for implementation
+
+The next implementation starts from:
+
+**`v2.3-page-standardization-final2` + current PageSpeed baselines + consolidated forensic 9.0 + `ИСТОРИЯ_РАБОТ.md` sections 17/20/30/33 + current `docs/` contracts.**
+
+The first code change must be one minimal, reversible, evidence-backed change. No mass refactor.
+
+### Mandatory protected behavior
+
+Calculator DOM/IDs/formulas/handlers/business logic, Metal Routing, cart VAT/invoice logic, accepted Compare behavior, `main`, and `V2.1_HOME_APPEND.liquid` remain protected.
+
+### Status
+
+**DOCUMENTATION + FORENSIC BASELINE: READY FOR CONTROLLED IMPLEMENTATION.**
+**Runtime code changes: NOT STARTED.**
