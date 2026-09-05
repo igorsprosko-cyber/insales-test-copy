@@ -69,3 +69,32 @@ For every shared component:
 ## Acceptance rule
 
 A Figma component becomes the canonical implementation reference only after visual and behavioral comparison against the live/test InSales runtime, not from source code alone.
+
+
+## 6. Performance verification gate
+
+The runtime QA process must include performance evidence for every performance-sensitive shared component/page.
+
+### Required correlation
+
+For the same controlled run, correlate:
+1. document/HTML timing;
+2. critical CSS timing;
+3. resource discovery;
+4. LCP resource timing where applicable;
+5. FCP;
+6. LCP and concrete LCP element;
+7. parser-blocking requests and initiators;
+8. heavy-image waterfall;
+9. font waterfall;
+10. third-party requests;
+11. main-thread activity during the causal interval.
+
+### Acceptance rules
+
+- Never infer causality from a single Lighthouse recommendation.
+- Never equate Element Render Delay with continuous JavaScript execution.
+- Never attribute the full delay to analytics merely because `tag.js` appears in Bottom-Up.
+- Never add `defer`/`async`/lazy-loading mechanically without checking runtime dependencies.
+- Performance changes require before/after measurements under comparable conditions.
+- A visual pass is not sufficient if the change alters the critical loading path.
