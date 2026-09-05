@@ -142,3 +142,32 @@ Foundations becomes `APPROVED` only when:
 - the work archive records the decision;
 - no production code was changed merely to construct the Figma system;
 - Figma metadata can be read back to confirm the expected structure.
+
+
+## 12. Performance Foundations — mandatory
+
+The Foundations layer must carry performance metadata into component definitions.
+
+### Loading semantics
+
+Every visual component containing an external resource must be classifiable as:
+- **Critical:** required for the first meaningful viewport/LCP.
+- **Deferred:** useful after first paint/interaction.
+- **Lazy:** below-the-fold or otherwise non-critical.
+- **Third-party:** analytics/marketing/platform dependency requiring separate scheduling review.
+
+### Image rules
+
+Define image role, dimensions, aspect ratio and loading priority per component. Do not apply one global `cover`, `contain`, eager/lazy or high-priority rule to every image.
+
+### Typography rules
+
+Fonts must have an explicit loading/fallback strategy. Avoid repeated font imports and do not make custom font delivery a hidden blocker for first content.
+
+### Performance tokens are not visual tokens
+
+Network priority, loading mode, execution timing and third-party scheduling are implementation metadata, not color/spacing tokens. They belong in the component handoff contract and must be verified in runtime.
+
+### Gate
+
+No Foundation token or component is considered fully approved if its visual definition is complete but its performance-sensitive resource behavior is unknown.
