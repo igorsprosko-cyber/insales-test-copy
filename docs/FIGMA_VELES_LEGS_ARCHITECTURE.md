@@ -107,3 +107,56 @@ A component/page is considered complete when:
 - desktop and mobile rendering have been checked;
 - no unrelated existing functionality has been changed;
 - the change is documented in the branch history.
+
+
+## Performance architecture — mandatory design-to-code constraint
+
+The Figma system is governed not only by visual consistency but also by the completed forensic performance findings for VELES LEGS. The canonical forensic document is **`Forensic Performance-разбор сайта VELES LEGS`** (latest consolidated version maintained in the project history). It is a required reference before any performance-sensitive implementation.
+
+### Loading law
+
+The implementation must prioritize what the visitor needs to see first and keep non-critical work off the critical rendering path:
+
+1. HTML / document response
+2. Critical CSS required for the first viewport
+3. LCP/FCP content and its required resources
+4. Minimum interaction required for the first viewport
+5. Remaining first-party JS
+6. Analytics / third-party integrations
+7. Below-the-fold images, widgets and secondary resources
+8. Background/non-critical work
+
+This is a **loading architecture rule**, not a blanket instruction to add `defer`, `async`, `lazy` or compression mechanically. Every resource must be classified by actual runtime dependency before its loading mode is changed.
+
+### Proven forensic constraints
+
+- In the investigated trace, LCP was the textual H1, not an image.
+- FCP and LCP occurred at approximately the same time in that trace.
+- `common.v2.27.9.js` was parser-blocking and its dominant delay was Content Download, not 40-second JS execution.
+- Heavy images materially competed for the constrained network in controlled experiments and remain an independent optimization target.
+- `tag.js`/GTM are not to be declared the sole cause of the anomalous LCP without causal evidence.
+- Image optimization, third-party scheduling, parser-blocking resources, fonts and critical CSS must be analyzed together as one loading system.
+- PageSpeed Insights findings are regression inputs, not isolated one-off fixes.
+- After every performance-sensitive change, run a controlled runtime trace/network check plus PageSpeed measurement under comparable conditions.
+
+### Figma handoff performance metadata
+
+Any component that contains or triggers a resource must document, where applicable:
+
+- critical / non-critical status;
+- LCP relevance;
+- expected discovery order;
+- image dimensions/aspect ratio;
+- eager/lazy policy;
+- priority policy;
+- font dependency;
+- JS dependency;
+- third-party dependency;
+- mobile/desktop differences;
+- acceptable fallback state.
+
+Figma does not implement these behaviors. It records the intended contract so the implementation can be mapped and verified without guessing.
+
+### Protected rule
+
+Do not change production loading architecture while the causal dependency of the affected resource is unknown. Do not trade runtime correctness for a synthetic Lighthouse gain. Calculator business logic, Metal Routing and other protected InSales behavior remain outside performance refactoring unless explicitly authorized and separately verified.
