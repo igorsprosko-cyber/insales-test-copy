@@ -93,3 +93,20 @@ This branch is the workspace for the Figma-driven VELES LEGS standardization eff
 ## History maintenance rule
 
 `FIGMA_VELES_LEGS_WORKLOG.md` is a living archive. Every substantive action by ChatGPT/other agents in this branch must be recorded as a new dated entry. At minimum record: task, factual findings, files created/changed, commit SHA(s), verification status, and any deferred/out-of-scope items. Keep history append-only and traceable.
+
+
+### 2026-09-05 — Forensic performance architecture reconciliation (completed)
+
+- Reconciled the Figma architecture with the completed VELES LEGS forensic performance investigation.
+- Added a mandatory loading-law section to `FIGMA_VELES_LEGS_ARCHITECTURE.md`: HTML → critical CSS → LCP/FCP content → minimum first-viewport interaction → remaining first-party JS → analytics/third-party → deferred/lazy resources → background work.
+- Explicitly recorded the forensic distinction between parser-blocking/network Content Download and JavaScript execution.
+- Added the confirmed finding that heavy images create material network contention while not being the LCP element in the investigated trace.
+- Added the rule that `tag.js`/GTM cannot be treated as the sole cause without causal evidence.
+- Added performance metadata requirements to Figma component handoff: criticality, LCP relevance, discovery order, image dimensions, loading/priority policy, fonts, JS, third parties and responsive differences.
+- Extended Foundations with performance semantics and extended Runtime QA with a forensic correlation gate.
+- No production Liquid/CSS/JS, business logic, calculator, Metal Routing, or protected reference files were changed.
+- Documentation-only change on branch `Figma-VELES-LEGS`.
+
+Verification status: **VERIFIED — repository documentation reconciliation.**
+Runtime status: **NOT RE-RUN — this task intentionally changed no runtime code.**
+Deferred: perform the actual runtime/performance gate only after code changes begin, with before/after comparable traces and PageSpeed measurements.
