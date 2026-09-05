@@ -110,3 +110,17 @@ This branch is the workspace for the Figma-driven VELES LEGS standardization eff
 Verification status: **VERIFIED — repository documentation reconciliation.**
 Runtime status: **NOT RE-RUN — this task intentionally changed no runtime code.**
 Deferred: perform the actual runtime/performance gate only after code changes begin, with before/after comparable traces and PageSpeed measurements.
+
+
+### 2026-09-05 — Final documentation synchronization / implementation zero-point
+
+- Re-read the current forensic 9.0 document, `ИСТОРИЯ_РАБОТ.md`, PageSpeed baselines and all principal `docs/FIGMA_VELES_LEGS_*.md` contracts in `v2.3-page-standardization-final2`.
+- Corrected the documentation index so `Figma-VELES-LEGS` is explicitly historical/design-workspace context and `v2.3-page-standardization-final2` is the only current code source.
+- Synchronized the Figma documentation layer with the forensic rules: critical-path loading law, image/network evidence, parser-blocking/common.js distinction, third-party scheduling rule, fonts/CSS gate, `settings_loaded` render-gate, and comparable before/after verification.
+- Added a canonical implementation sequence beginning with a baseline/safety gate and ending with final PageSpeed/Network/Performance and regression verification.
+- Recorded that the detailed PageSpeed numbers remain authoritative in `ИСТОРИЯ_РАБОТ.md` and the forensic document; `docs/` provides the reusable contracts and does not create a competing history.
+- No production Liquid/CSS/JS/business logic was changed.
+
+**Verification:** VERIFIED — repository documentation synchronization.
+**Runtime:** NOT CHANGED.
+**Next state:** implementation zero-point is ready; first code change must be minimal, reversible and evidence-backed.
