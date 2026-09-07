@@ -53,8 +53,8 @@
 - `main` не изменять без прямого отдельного разрешения.
 - `v2.3-page-standardization-final2` — текущая рабочая кодовая база.
 - `codex-ready` — подготовительная ветка; её задача не менять runtime до отдельного задания.
-- `v2.3-page-standardization` — reference/governing implementation point, не текущий код.
-- `Figma-VELES-LEGS` — архивная/экспериментальная ветка Qwen, не источник текущего production-кода.
+- `v2.3-page-standardization` — архивная историческая ветка; не источник текущего кода.
+- `Figma-VELES-LEGS` — архивная/экспериментальная ветка Qwen, не источник текущего кода.
 - Калькуляторная бизнес-логика защищена: `calcWood`, `handleWood*`, `openManagerForm`, `fillComment`, `wood-*`, `panel-wood`, `panel-metal`, цены, НДС, скидки, вес, объём, quantity/business logic.
 - Metal Routing не менять без отдельного задания.
 - Не менять `V2.1_HOME_APPEND.liquid` ради стандартизации.
@@ -182,3 +182,14 @@ Codex должен начать с:
 Codex operating contract: `AGENTS.md`  
 Figma/code map: `docs/FIGMA_VELES_LEGS_CODE_MAP.md`  
 Runtime QA contract: `docs/FIGMA_VELES_LEGS_RUNTIME_QA_PLAN.md`
+
+
+## 11. CODEX READINESS GATE — 2026-09-07
+
+- Current implementation baseline: `v2.3-page-standardization-final2` @ `26f1d6b92bf86a2d02769142aac94e304f674ede`.
+- `codex-ready` is a preparation branch only. Its preparation changes are documentation/operating-contract changes; runtime code must not be changed until a separate implementation task authorizes it.
+- `my-first-project:main` remains the architecture/style/governance source; it is not a code source for the current theme.
+- `Figma-VELES-LEGS` and `v2.3-page-standardization` are historical/archive references only.
+- Historical references to removed documents must not be treated as live dependencies.
+- Before implementation, Codex must complete inventory + dependency tracing + protected-area verification and propose the first causal change.
+- No performance claim becomes a fact without comparable runtime evidence.
