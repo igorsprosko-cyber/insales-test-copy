@@ -6,12 +6,12 @@
 **Production:** `main` — не изменять без прямого разрешения.  
 **Единый журнал:** `ИСТОРИЯ_РАБОТ.md`.  
 **Forensic evidence:** `Forensic Performance-разбор сайта VELES LEGS`.  
-**Комплексный аудит:** `СТРЕСС АНАЛИЗ.md`.
+**Комплексный аудит:** `СТРЕС АНАЛИЗ.md`.
 
 Перед любой новой работой сначала читать:
 1. `ИСТОРИЯ_РАБОТ.md` — особенно разделы **17, 20, 30, 33 и актуальную конечную точку**;
 2. `Forensic Performance-разбор сайта VELES LEGS`;
-3. `СТРЕСС АНАЛИЗ.md`;
+3. `СТРЕС АНАЛИЗ.md`;
 4. соответствующий документ из `docs/`;
 5. только затем исходный код затрагиваемого участка.
 
@@ -19,7 +19,6 @@
 
 - `docs/FIGMA_VELES_LEGS_ARCHITECTURE.md` — Figma/design-system architecture, loading law и handoff rules.
 - `docs/FIGMA_VELES_LEGS_CODE_MAP.md` — factual mapping Figma → Liquid/CSS/JS/InSales.
-- `docs/FIGMA_VELES_LEGS_AUDIT_STATUS.md` — repository audit scope.
 - `docs/FIGMA_VELES_LEGS_AUDIT_STATUS_V2.md` — consolidated repository/performance audit status and verification limits.
 - `docs/FIGMA_VELES_LEGS_FOUNDATIONS_SPEC.md` — Foundations contract.
 - `docs/FIGMA_VELES_LEGS_RUNTIME_QA_PLAN.md` — runtime + forensic verification gate.
