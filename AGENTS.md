@@ -22,7 +22,7 @@ Then inspect the actual code and current Git state. Never rely on an old commit 
 - It is forked from the current working baseline commit `26f1d6b92bf86a2d02769142aac94e304f674ede`.
 - Production `main` is protected. Never change it unless the owner explicitly authorizes it in the current task.
 - `v2.3-page-standardization-final2` is the pre-Codex working branch. Do not rewrite or force-move it as part of preparation.
-- `v2.3-page-standardization` is the reference/governing implementation point; do not treat it as the current code branch.
+- `v2.3-page-standardization` is an historical/archive branch; do not treat it as a current implementation or governing code source.
 - `Figma-VELES-LEGS` is an experimental/archive branch for Qwen testing, not a source of current production code.
 - `my-first-project:main` is the architecture/rules source, not the current implementation source.
 - Never force-push or force-move protected branches.
