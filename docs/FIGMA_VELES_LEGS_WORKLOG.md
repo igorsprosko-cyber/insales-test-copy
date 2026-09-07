@@ -4,8 +4,8 @@
 
 Repository: `igorsprosko-cyber/insales-test-copy`
 
-Base: `v2.3-page-standardization-final2`
-Working branch: `Figma-VELES-LEGS`
+Current implementation baseline: `v2.3-page-standardization-final2`
+Historical branch: `Figma-VELES-LEGS` (archive/experimental; not current implementation)
 
 ## Worklog
 
@@ -25,7 +25,7 @@ Working branch: `Figma-VELES-LEGS`
 - Cross-checked project governance/context from `my-first-project`.
 - Confirmed `foto-redaktor` is a separate support project, not part of the InSales runtime chain.
 - Created `docs/FIGMA_VELES_LEGS_CODE_MAP.md` with concrete mappings.
-- Created `docs/FIGMA_VELES_LEGS_AUDIT_STATUS.md` to record audit scope and verification limits honestly.
+- Created `docs/FIGMA_VELES_LEGS_AUDIT_STATUS.md` to record audit scope and verification limits honestly. This historical file was later superseded/removed; the consolidated current status is `docs/FIGMA_VELES_LEGS_AUDIT_STATUS_V2.md`.
 - Identified real system conflicts: `#5E8C31` vs `#76BC21`, Montserrat/Playfair vs PT Root UI/Roboto, local page styles vs global `theme.scss` rules.
 - Confirmed protected areas: `main`, `V2.1_HOME_APPEND.liquid`, calculator DOM/business logic, and platform widget behavior.
 
@@ -38,7 +38,7 @@ Working branch: `Figma-VELES-LEGS`
 
 ### 2026-08-31 — Reconciliation against governing project files
 
-- Re-read `my-first-project/AGENTS.md`, `PROJECT.md`, `ARCHITECTURE.md`, `STYLE_GUIDE.md`, `CONTRIBUTING.md`, `SITE_MAP.md`, `TASKS.md`, and `STABILITY_AUDIT.md`.
+- Re-read `my-first-project/AGENTS.md`, `PROJECT.md`, `ARCHITECTURE.md`, `STYLE_GUIDE.md`, `CONTRIBUTING.md`, `SITE_MAP.md`, `TASKS.md`, and the historical `STABILITY_AUDIT.md` (later removed from the current repository).
 - Corrected the Figma approach: Figma is a visual contract/design-system representation, not a parallel implementation architecture and not a replacement for InSales widgets/data or business logic.
 - Strengthened shared-component-first mapping for Product Card, Button, Price, Breadcrumb, Filter, Pagination, Quantity Control, Specifications, Page Frame and Shell.
 - Explicitly preserved calculator and cart VAT/invoice logic.
@@ -135,3 +135,18 @@ Deferred: perform the actual runtime/performance gate only after code changes be
 **Verification:** VERIFIED — documentation change committed to `v2.3-page-standardization-final2`.
 **Runtime:** NOT CHANGED.
 **Deferred:** execute the implementation queue only from the existing ZERO-POINT and perform the full regression gate after each causal change.
+
+
+### 2026-09-07 — Codex readiness audit / repository authority reconciliation
+
+- Audited the current `codex-ready` tree against the actual Git branch state and the two-repository authority model.
+- Confirmed current implementation baseline: `v2.3-page-standardization-final2` at `26f1d6b92bf86a2d02769142aac94e304f674ede`.
+- Confirmed `codex-ready` contains preparation/documentation changes only; no runtime Liquid/CSS/JS changes were introduced by this readiness pass.
+- Confirmed `my-first-project:main` remains the long-lived architecture/style/governance source, while `insales-test-copy` remains the current implementation repository.
+- Corrected remaining documentation language that could make `v2.3-page-standardization` or `Figma-VELES-LEGS` appear to be current implementation sources.
+- Historical references to removed documents are retained only as historical facts; current indexes/contracts point to their surviving replacements.
+- Confirmed the forensic performance document is explicitly part of the Codex start set and that runtime claims remain subject to the evidence gate.
+- Confirmed protected calculator, Metal Routing, business logic and `V2.1_HOME_APPEND.liquid` boundaries remain explicit.
+- Readiness conclusion: **READY FOR CODEX INVENTORY, NOT YET AUTHORIZED FOR RUNTIME CODE CHANGES**.
+
+**Next stage:** Codex performs repository/dependency inventory from this zero-point, produces findings and a proposed first causal change; no implementation until that inventory is reviewed.
