@@ -94,7 +94,6 @@ This branch is the workspace for the Figma-driven VELES LEGS standardization eff
 
 `FIGMA_VELES_LEGS_WORKLOG.md` is a living archive. Every substantive action by ChatGPT/other agents in this branch must be recorded as a new dated entry. At minimum record: task, factual findings, files created/changed, commit SHA(s), verification status, and any deferred/out-of-scope items. Keep history append-only and traceable.
 
-
 ### 2026-09-05 — Forensic performance architecture reconciliation (completed)
 
 - Reconciled the Figma architecture with the completed VELES LEGS forensic performance investigation.
@@ -111,7 +110,6 @@ Verification status: **VERIFIED — repository documentation reconciliation.**
 Runtime status: **NOT RE-RUN — this task intentionally changed no runtime code.**
 Deferred: perform the actual runtime/performance gate only after code changes begin, with before/after comparable traces and PageSpeed measurements.
 
-
 ### 2026-09-05 — Final documentation synchronization / implementation zero-point
 
 - Re-read the current forensic 9.0 document, `ИСТОРИЯ_РАБОТ.md`, PageSpeed baselines and all principal `docs/FIGMA_VELES_LEGS_*.md` contracts in `v2.3-page-standardization-final2`.
@@ -124,3 +122,16 @@ Deferred: perform the actual runtime/performance gate only after code changes be
 **Verification:** VERIFIED — repository documentation synchronization.
 **Runtime:** NOT CHANGED.
 **Next state:** implementation zero-point is ready; first code change must be minimal, reversible and evidence-backed.
+
+### 2026-09-07 — Post-ZERO-POINT plan correction and explicit quality backlog
+
+- Reviewed the exact current text of `ИСТОРИЯ_РАБОТ.md` §34.4–34.7 and distinguished historical plan text from later interpretation/additions.
+- Confirmed the historical plan already required Git diff cleanliness/accuracy at Stage 0 and warned against synthetic Lighthouse-only gains at Stage 4; these meanings are now preserved explicitly in the Runtime QA contract.
+- Clarified Stage 5: moving third-party resources away from the critical path does not mean mechanically loading everything at the very end; measurement correctness and actual dependencies remain mandatory.
+- Added `runtime 404 / canonical / robots` and `commercial-data consistency` as explicit Stage 7 quality backlog items because they are confirmed audit findings, while clearly labeling them as deliberate additions rather than pretending they were present in historical §34.4.
+- Updated `docs/FIGMA_VELES_LEGS_RUNTIME_QA_PLAN.md` with the corrected canonical clarification and evidence discipline.
+- No production Liquid/CSS/JS, calculator, Metal Routing, `main`, or `v2.3-page-standardization-final2` code behavior was changed by the plan correction itself.
+
+**Verification:** VERIFIED — documentation change committed to `v2.3-page-standardization-final2`.
+**Runtime:** NOT CHANGED.
+**Deferred:** execute the implementation queue only from the existing ZERO-POINT and perform the full regression gate after each causal change.
