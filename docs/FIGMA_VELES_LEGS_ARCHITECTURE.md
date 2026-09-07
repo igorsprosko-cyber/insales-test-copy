@@ -2,10 +2,10 @@
 
 ## Purpose
 
-This branch is a dedicated workspace for building the VELES LEGS visual architecture and design-system layer around the existing InSales implementation.
+This document preserves the Figma/design-system architecture established during the Figma workstream. The Figma branch is now archival/experimental; current implementation work is governed by `v2.3-page-standardization-final2` and the current project ZERO-POINT contract.
 
 Base branch: `v2.3-page-standardization-final2`
-Working branch: `Figma-VELES-LEGS`
+Historical design branch: `Figma-VELES-LEGS` (archive/experimental; not current implementation)
 
 ## Core principle
 
