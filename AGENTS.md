@@ -8,9 +8,11 @@ Before touching code, read in this order:
 2. `ZERO-POINT.md`
 3. `ИСТОРИЯ_РАБОТ.md` — use it as project history and evidence archive; do not create another history file.
 4. `Forensic Performance-разбор сайта VELES LEGS`
-5. `СТРЕСС АНАЛИЗ.md`
+5. `СТРЕС АНАЛИЗ.md`
 6. `docs/FIGMA_VELES_LEGS_INDEX.md`
 7. The specific `docs/` contract relevant to the task.
+
+Also consult the governing architecture source in `igorsprosko-cyber/my-first-project`: its `PROJECT.md`, `ARCHITECTURE.md`, `STYLE_GUIDE.md`, `SITE_MAP.md`, `TASKS.md` and `CONTRIBUTING.md` define the long-lived architecture/style context. Do not treat that repository as the current codebase.
 
 Then inspect the actual code and current Git state. Never rely on an old commit mentioned in documentation when Git shows a newer HEAD.
 
@@ -22,6 +24,7 @@ Then inspect the actual code and current Git state. Never rely on an old commit 
 - `v2.3-page-standardization-final2` is the pre-Codex working branch. Do not rewrite or force-move it as part of preparation.
 - `v2.3-page-standardization` is the reference/governing implementation point; do not treat it as the current code branch.
 - `Figma-VELES-LEGS` is an experimental/archive branch for Qwen testing, not a source of current production code.
+- `my-first-project:main` is the architecture/rules source, not the current implementation source.
 - Never force-push or force-move protected branches.
 
 ## 2. Protected functional areas
