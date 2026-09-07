@@ -15,6 +15,14 @@
 4. соответствующий документ из `docs/`;
 5. только затем исходный код затрагиваемого участка.
 
+## Источники
+
+`my-first-project:main` остаётся архитектурным и нормативным источником проекта: `PROJECT.md`, `ARCHITECTURE.md`, `STYLE_GUIDE.md`, `SITE_MAP.md`, `TASKS.md`, `CONTRIBUTING.md`, исходный `AGENTS.md` и исторический static audit.
+
+`insales-test-copy:v2.3-page-standardization-final2` — единственный источник текущей реализации темы.
+
+`codex-ready` — подготовительная ветка для Codex, созданная от актуального baseline без изменения runtime-кода.
+
 ## Baselines
 
 - `docs/FIGMA_VELES_LEGS_ARCHITECTURE.md` — Figma/design-system architecture, loading law и handoff rules.
@@ -29,22 +37,25 @@
 
 ```text
 my-first-project:main
-  ↓ project rules / architecture / style / contribution constraints
+  ↓ architecture / project rules / style / long-lived governance
 
 insales-test-copy:v2.3-page-standardization-final2
-  ↓ ONLY CURRENT CODE / CURRENT IMPLEMENTATION BASELINE
+  ↓ ONLY CURRENT CODE / CURRENT IMPLEMENTATION
+
+codex-ready
+  ↓ preparation branch for Codex; no runtime changes by default
 
 ИСТОРИЯ_РАБОТ.md
-  ↓ single project work journal / decisions / evidence index
+  ↓ project history / decisions / evidence
 
 Forensic Performance-разбор сайта VELES LEGS
-  ↓ consolidated performance evidence
+  ↓ performance evidence
 
-СТРЕСС АНАЛИЗ.md
+СТРЕС АНАЛИЗ.md
   ↓ comprehensive audit
 
 docs/
-  ↓ design-system / Figma / InSales reference / QA contracts
+  ↓ design-system / Figma / InSales / QA contracts
 
 Figma
   ↓ visual contract once explicitly approved
