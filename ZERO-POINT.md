@@ -1,11 +1,12 @@
 # ZERO-POINT — ТОМ II
 ## VELES LEGS / новая ступень проекта
 
-**Статус:** рабочий документ следующей ступени проекта  
-**Рабочая ветка:** `v2.3-page-standardization-final2`  
-**Текущий baseline commit:** `9655b25c0e03bf1cf721835351b78735d2284c9f`  
+**Статус:** рабочий документ текущей ступени проекта  
+**Текущая кодовая ветка:** `v2.3-page-standardization-final2`  
+**Текущий baseline commit:** `26f1d6b92bf86a2d02769142aac94e304f674ede`  
+**Подготовительная ветка для Codex:** `codex-ready`  
 **Production:** `main` — не изменять без прямого разрешения  
-**Дата открытия тома:** 07.09.2026
+**Дата синхронизации:** 07.09.2026
 
 ---
 
@@ -13,262 +14,171 @@
 
 `ZERO-POINT.md` — второй том рабочей книги VELES LEGS.
 
-Первый том — `ИСТОРИЯ_РАБОТ.md` — сохраняется как полная хронология выполненных работ, решений, доказательств и ошибок проекта.
+`ИСТОРИЯ_РАБОТ.md` — Том I: полная хронология, решения и evidence.  
+`ZERO-POINT.md` — Том II: текущая точка управления, правила дальнейшей работы и verified/NOT VERIFIED состояние.
 
-Том II начинается с новой ступени: **ZERO-POINT**. Его задача — не переписывать прошлое, а превратить накопленную историю в управляемый протокол дальнейшей работы.
-
-С этого момента при работе над текущей производительностью и связанными качественными задачами:
-
-**`ИСТОРИЯ_РАБОТ.md` = архив и основание проекта.**  
-**`ZERO-POINT.md` = текущая рабочая книга, план действий, доказательства, решения и результаты новой ступени.**
-
-При начале новой задачи сначала читаются оба тома: история даёт контекст, ZERO-POINT даёт текущую точку управления.
+При начале новой задачи оба тома читаются совместно.
 
 ---
 
-# 2. РОЛИ
+# 2. ИСТОЧНИКИ И ИЕРАРХИЯ
 
-## Владелец проекта — пользователь
+Главный архитектурный старт проекта находится в отдельном репозитории `igorsprosko-cyber/my-first-project`.
 
-Пользователь определяет цель, принимает бизнес-решения, предоставляет фактические runtime-результаты, когда они недоступны непосредственно из GitHub, и принимает визуальный/коммерческий результат.
+Его роль сохраняется:
+- `AGENTS.md` — исходные contributor constraints;
+- `PROJECT.md` — цели, философия и долгосрочные принципы;
+- `ARCHITECTURE.md` — архитектурные принципы;
+- `STYLE_GUIDE.md` — визуальные правила;
+- `SITE_MAP.md` — фактическая карта InSales-шаблонов и runtime-слоёв;
+- `TASKS.md` — исторический план этапов;
+- `CONTRIBUTING.md` — правила изменения исходного репозитория;
+- `scripts/static_audit.py` и `.github/workflows/main-validation.yml` — исторически созданный автоматический аудит.
 
-Пользователь не обязан самостоятельно определять технический способ исправления.
+Эти материалы **не считаются текущим кодом сайта** и не копируются механически в рабочую тему. Они используются как governing architecture/rules и как источник исходных решений. Текущая реализация всегда читается из `insales-test-copy`.
 
-## Технический исполнитель — AI
+Текущая иерархия:
 
-AI отвечает за исследование кода и репозитория, причинно-следственный анализ, выбор минимального безопасного технического изменения, работу с GitHub, проверку diff, регрессионный анализ, соблюдение защищённых границ и ведение этой рабочей книги.
-
-AI не должен выдавать гипотезу за доказанный факт. Если причинность не подтверждена — `NOT VERIFIED`.
+`my-first-project:main` → архитектура / правила / стиль  
+`insales-test-copy:v2.3-page-standardization-final2` → актуальный код  
+`ИСТОРИЯ_РАБОТ.md` → история и доказательства  
+`Forensic Performance-разбор сайта VELES LEGS` → performance evidence  
+`СТРЕС АНАЛИЗ.md` → комплексный аудит  
+`docs/` → технические контракты и карты
 
 ---
 
 # 3. НЕПРИКОСНОВЕННЫЕ ГРАНИЦЫ
 
 - `main` не изменять без прямого отдельного разрешения.
-- `v2.3-page-standardization-final2` — текущая рабочая кодовая ветка до создания нового baseline.
-- `Figma-VELES-LEGS` — отдельная тестовая/архивная ветка для экспериментов с Qwen; не использовать как источник текущего production-кода.
+- `v2.3-page-standardization-final2` — текущая рабочая кодовая база.
+- `codex-ready` — подготовительная ветка; её задача не менять runtime до отдельного задания.
+- `v2.3-page-standardization` — reference/governing implementation point, не текущий код.
+- `Figma-VELES-LEGS` — архивная/экспериментальная ветка Qwen, не источник текущего production-кода.
 - Калькуляторная бизнес-логика защищена: `calcWood`, `handleWood*`, `openManagerForm`, `fillComment`, `wood-*`, `panel-wood`, `panel-metal`, цены, НДС, скидки, вес, объём, quantity/business logic.
 - Metal Routing не менять без отдельного задания.
+- Не менять `V2.1_HOME_APPEND.liquid` ради стандартизации.
 - Не делать массовый refactor без отдельного разрешения.
 - Не заменять CSS/Liquid-решения JS injection.
-- Не удалять сторонние сервисы только по факту их существования: сначала dependency check.
-- Любое performance-изменение: **baseline → одна малая правка → retest → diff → runtime/visual QA → запись результата**.
-- Новые файлы истории вместо `ИСТОРИЯ_РАБОТ.md` не создавать. `ZERO-POINT.md` является отдельным томом по прямому решению владельца проекта.
+- Не удалять сторонние сервисы без dependency check.
 
 ---
 
-# 4. ЧТО ПЕРЕШЛО ИЗ ТОМА I
+# 4. ПОДТВЕРЖДЁННАЯ PERFORMANCE-БАЗА
 
-К новой ступени переданы следующие подтверждённые факты:
+Forensic v9.0 зафиксировал:
+- две тяжёлые картинки существенно увеличивали network payload;
+- в аномальном mobile trace LCP был текстовым H1;
+- `common.v2.27.9.js` был parser-blocking и имел большой Content Download delay;
+- `theme.js` уже defer;
+- `settings_loaded` render gate подтверждён на уровне исходников, причинное влияние runtime не доказано;
+- после image A/B mobile Performance 39→64, LCP 27,5→9,6 с, TBT 940→140 мс;
+- desktop Performance 65→87, LCP 5,1→2,0 с, TBT 190→70 мс;
+- оставшийся mobile payload около 2249 KiB, unused-JS potential около 656 KiB.
 
-### Производительность
-
-В forensic-разборе версии 9.0 зафиксированы две разные проблемы, которые нельзя смешивать:
-
-1. тяжёлые изображения существенно увеличивали network payload и ухудшали показатели;
-2. в аномальном mobile trace LCP был текстовым H1, а наиболее подозрительным критическим узлом был parser-blocking `common.v2.27.9.js` с очень поздним окончанием передачи.
-
-После удаления двух тяжёлых изображений был зафиксирован улучшенный baseline:
-
-- Mobile Performance: **39 → 64**;
-- Mobile LCP: **27,5 → 9,6 с**;
-- Mobile TBT: **940 → 140 мс**;
-- Desktop Performance: **65 → 87**;
-- Desktop LCP: **5,1 → 2,0 с**;
-- Desktop TBT: **190 → 70 мс**.
-
-Оставшийся mobile payload — около **2249 KiB**, unused JS potential — около **656 KiB**.
-
-### Render gate
-
-В исходниках подтверждён реальный механизм:
-
-`head.liquid` → `body:not(.settings_loaded) { content-visibility: hidden; }`  
-`styles.liquid` → `settings_loaded` добавляется через `onload` для `theme.css`.
-
-Это **source-level fact**, но его runtime-каузальность для FCP/LCP пока не подтверждена.
-
-### JavaScript
-
-`theme.js` уже использует `defer`.
-
-`common.v2.27.9.js` приходит через `{% widgets_assets css_js_lists %}`, поэтому нельзя произвольно считать его прямым ручным `<script>` и нельзя менять generated asset без поиска его источника и зависимости.
-
-### Third-party
-
-Yandex Metrica, InSales, GTM, SmartCaptcha и другие внешние ресурсы учитывать по реальному critical path. Правило — убрать необязательное из критического пути только там, где это безопасно для функциональности и сбора данных; не применять механическое «defer всё».
-
-### SEO / runtime / коммерческие данные
-
-Runtime 404/canonical и коммерческие данные являются отдельными проверками новой ступени.
-
-Нужно проверить фактическую совместимость:
-
-- минимального заказа;
-- доступности;
-- ценовых диапазонов;
-- B2B/B2C формулировок;
-- Product / Offer / AggregateOffer;
-- соответствия текста реальному поведению товара.
-
-Эти проверки не должны изменять цены или бизнес-логику калькулятора.
+Эти данные — evidence для дальнейшей проверки, а не разрешение на слепое изменение кода.
 
 ---
 
-# 5. ZERO-POINT — ТОЧКА СТАРТА
+# 5. ПРОТОКОЛ РАБОТЫ
 
-Перед первой новой кодовой правкой необходимо подтвердить:
+Для каждой производительной или архитектурной правки:
 
-### Git
+**baseline → гипотеза → одна сфокусированная правка → test → diff → regression QA → запись результата**.
 
-- текущая ветка = `v2.3-page-standardization-final2`;
-- HEAD = зафиксированный baseline или явно новый baseline;
-- рабочее состояние и diff проверены;
-- `main` и защищённые области не затронуты.
+Не считать гипотезу доказательством. Не подтверждённое runtime-изменение = `NOT VERIFIED`.
 
-### Runtime baseline
+Порядок анализа:
 
-До первого performance-кода нужен **свежий и однородный runtime baseline** для Mobile и Desktop.
+0. Git / safety gate  
+1. Critical Path  
+2. Image delivery / LCP  
+3. Parser-blocking / `common.v2.27.9.js` dependency  
+4. Critical CSS / `settings_loaded`  
+5. First-party JS  
+6. Third-party scheduling  
+7. Fonts  
+8. Main thread / DOM / layout  
+9. SEO / A11Y / security / commercial consistency  
+10. Visual + functional regression  
+11. Final comparable PageSpeed / Network / Performance evidence
 
-Нельзя смешивать:
-
-- разные PageSpeed runs;
-- разные throttling conditions;
-- разные версии страницы;
-- лабораторные показатели без маркировки условий.
-
-Нужно сохранить исходные evidence из Network/Performance, прежде чем менять код.
-
-### Причинный узел №1
-
-Текущая рабочая гипотеза для первой проверки:
-
-**`theme.css` → `onload` → `settings_loaded` → возможный render gate → FCP/LCP.**
-
-Связанный второй узел:
-
-**`widgets_assets` → parser-blocking `common.v2.27.9.js` → задержка критического пути.**
-
-Порядок не означает, что гипотеза автоматически истинна. Первая правка допустима только после runtime-проверки.
+Не применять механическое `defer` / `async` / `lazy`.
 
 ---
 
-# 6. РАБОЧИЙ ПРОТОКОЛ TOM II
+# 6. ПЕРЕД ПЕРВЫМ CODEX-ЗАПУСКОМ
 
-## Этап 0 — ZERO-POINT
+Codex должен начать с:
 
-1. Проверить branch / HEAD / diff.
-2. Зафиксировать свежий Mobile + Desktop baseline.
-3. Сохранить Network/Performance evidence.
-4. Выбрать один причинный узел.
-5. Определить безопасный rollback.
+1. `AGENTS.md`
+2. `ZERO-POINT.md`
+3. `ИСТОРИЯ_РАБОТ.md`
+4. `Forensic Performance-разбор сайта VELES LEGS`
+5. `СТРЕС АНАЛИЗ.md`
+6. `docs/FIGMA_VELES_LEGS_INDEX.md`
+7. нужных документов из `docs/`
 
-## Этап 1 — Critical Path
+После этого — фактический Git inventory и dependency map.
 
-Проверить:
-
-- HTML/document;
-- critical CSS;
-- `settings_loaded`;
-- LCP discovery;
-- parser-blocking;
-- инициатор и зависимости `common.v2.27.9.js`;
-- fonts;
-- waterfall тяжёлых изображений;
-- third-party overlap.
-
-## Этап 2 — Image Delivery / LCP
-
-Проверить responsive images, modern formats, размеры, reservation, discovery и priority. LCP-ресурс не переводить в lazy-load.
-
-## Этап 3 — Parser / JS
-
-Inventory JS → зависимости → defer/conditional loading только по доказательствам.
-
-## Этап 4 — CSS / Fonts / Render Gates
-
-Проверить render-blocking CSS, font strategy, `settings_loaded` и реальный visual/FOUC risk.
-
-## Этап 5 — Third-party
-
-Проверить критический путь аналитики и внешних сервисов без потери функциональности и корректности данных.
-
-## Этап 6 — Main Thread / DOM
-
-Только после network/critical-path анализа переходить к JS execution, DOM, style/layout и long tasks.
-
-## Этап 7 — Quality / SEO / A11Y / Commercial
-
-Проверить runtime 404/canonical, metadata, structured data, A11Y, содержательную и коммерческую согласованность.
-
-## Этап 8 — Regression / Release Gate
-
-Перед принятием:
-
-**diff → runtime → visual → calculator/Metal Routing regression → PageSpeed comparison → история.**
+Первый большой запуск Codex не должен сразу менять код. Он должен выдать inventory:
+- obsolete/orphan candidates;
+- duplicate CSS/JS/Liquid;
+- dependency chains;
+- performance candidates;
+- regression risks;
+- рекомендуемый порядок безопасных изменений.
 
 ---
 
-# 7. КЛЮЧЕВОЕ ПРАВИЛО ПРОЕКТА
+# 7. DEFINITION OF DONE
 
-Не оптимизировать цифру ради цифры.
+Изменение принимается только при наличии:
 
-`avoid synthetic Lighthouse-only gains` означает: не создавать лабораторное улучшение ценой ухудшения реального пользовательского опыта, функциональности, доступности, SEO или бизнес-поведения.
-
-Каждое изменение должно иметь:
-
-**Причина → доказательство → минимальная правка → измеримый результат → отсутствие регрессии.**
-
----
-
-# 8. ПЕРВЫЙ ЗАПИСЫВАЕМЫЙ ЭКСПЕРИМЕНТ
-
-Пока свежий runtime baseline не получен, код не менять.
-
-После получения baseline провести узкий A/B вокруг render gate `settings_loaded`, не затрагивая калькулятор, Metal Routing и коммерческую логику.
-
-Сравнивать минимум:
-
-- FCP;
-- LCP и LCP element;
-- TBT;
-- CLS;
-- Speed Index;
-- визуальный результат;
-- Network waterfall;
-- наличие FOUC/неоформленного первого кадра.
-
-Только после этого решать, является ли render gate первой реальной причинной точкой.
+- baseline;
+- evidence;
+- конкретного diff;
+- runtime/visual QA;
+- calculator/Metal Routing regression check;
+- SEO/A11Y/structured-data impact check по необходимости;
+- comparable performance evidence;
+- commit SHA;
+- записи в `ИСТОРИЯ_РАБОТ.md`.
 
 ---
 
-# 9. ФОРМАТ ЗАПИСИ НОВОЙ РАБОТЫ
+# 8. ТЕКУЩЕЕ СОСТОЯНИЕ ДОКУМЕНТАЦИИ
 
-Каждая новая операция в этом томе фиксируется как отдельная запись:
+После очистки репозитория удалены подтверждённо устаревшие документы/архив:
+- три старых Figma audit/map files;
+- старый `IMPLEMENTATION_REPORT.md`;
+- старый ZIP `myshop-czi161_theme_2026-08-12.zip`.
 
-### [дата] — [операция]
+Текущий индекс Figma очищен от ссылки на удалённый audit-файл.
 
-**Цель:**  
-**Baseline:**  
-**Доказательство:**  
-**Изменённые файлы:**  
-**Что НЕ изменялось:**  
-**Результат:**  
-**Regression QA:**  
-**Следующий шаг:**  
+`docs/FIGMA_VELES_LEGS_AUDIT_STATUS_V2.md` остаётся консолидированным audit status.
 
-Если результат не подтверждён — писать `NOT VERIFIED`, а не делать вывод по предположению.
+Неудалёнными намеренно остаются `велкес лого .jpg` и `лого26.jpg`: их orphan-статус ещё не доказан.
+
+---
+
+# 9. ПРАВИЛО ДВУХ РЕПОЗИТОРИЕВ
+
+`my-first-project` **не устарел как архитектурный источник**. Его исходный `AGENTS.md` при этом является более строгим режимом «не менять ничего самостоятельно» и не должен затмевать текущий рабочий контракт `insales-test-copy/AGENTS.md`, который специально подготовлен для автономного исследования и контролируемой реализации.
+
+Если документы двух репозиториев расходятся:
+
+- архитектура/стиль/долгосрочные принципы → `my-first-project`;
+- текущая реализация/фактический DOM/актуальные зависимости → `insales-test-copy`;
+- текущие запреты и safety gate → `insales-test-copy/AGENTS.md` + `ZERO-POINT.md`;
+- исторический контекст → `ИСТОРИЯ_РАБОТ.md`.
 
 ---
 
 # 10. ПЕРЕКРЁСТНАЯ ССЫЛКА
 
-Полная хронология, старые baseline, предыдущие решения и накопленные уроки находятся в:
-
-**`ИСТОРИЯ_РАБОТ.md` — Том I.**
-
-Текущая новая ступень и последующие эксперименты ведутся здесь:
-
-**`ZERO-POINT.md` — Том II.**
-
-При продолжении проекта оба тома читаются совместно.
+Полная история: `ИСТОРИЯ_РАБОТ.md`  
+Текущая точка: `ZERO-POINT.md`  
+Codex operating contract: `AGENTS.md`  
+Figma/code map: `docs/FIGMA_VELES_LEGS_CODE_MAP.md`  
+Runtime QA contract: `docs/FIGMA_VELES_LEGS_RUNTIME_QA_PLAN.md`
