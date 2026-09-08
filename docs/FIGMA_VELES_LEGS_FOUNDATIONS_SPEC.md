@@ -38,7 +38,7 @@ Purpose: canonical preparation for the Figma `00 Foundations` page and later cod
 | Error | `#F8D7DA` in theme settings | semantic error baseline |
 | Success | `#D4EDDA` in theme settings | semantic success baseline |
 
-No production accent value is to be changed until the `#5E8C31` / `#76BC21` conflict is explicitly resolved.
+The historical `#5E8C31` / `#76BC21` conflict is resolved in the current final2 source: `settings_data.json` and relevant `setup.json` values now use `#5E8C31`. Do not reopen this conflict without new evidence.
 
 ## 3. Typography
 
