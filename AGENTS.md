@@ -1,5 +1,7 @@
 # VELES LEGS — Codex Operating Contract
 
+> **STATUS: INACTIVE PREPARATION BRANCH.** This branch is not an implementation source and must not be used for current VELES LEGS work. The canonical implementation source is `v2.3-page-standardization-final2`. Do not merge, copy rules/code, or use this branch as a baseline without explicit owner authorization.
+
 ## 0. Start here
 
 Before touching code, read in this order:
@@ -18,11 +20,11 @@ Then inspect the actual code and current Git state. Never rely on an old commit 
 
 ## 1. Repository and branch safety
 
-- Current preparation branch: `codex-ready`.
+- `codex-ready` is an inactive preparation branch. Do not use it for implementation.
 - It is forked from the current working baseline commit `26f1d6b92bf86a2d02769142aac94e304f674ede`.
 - Production `main` is protected. Never change it unless the owner explicitly authorizes it in the current task.
 - `v2.3-page-standardization-final2` is the pre-Codex working branch. Do not rewrite or force-move it as part of preparation.
-- `v2.3-page-standardization` is an historical/archive branch; do not treat it as a current implementation or governing code source.
+- `v2.3-page-standardization` is deleted and must not be referenced as an existing branch.
 - `Figma-VELES-LEGS` is an experimental/archive branch for Qwen testing, not a source of current production code.
 - `my-first-project:main` is the architecture/rules source, not the current implementation source.
 - Never force-push or force-move protected branches.
