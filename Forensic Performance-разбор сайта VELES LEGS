@@ -6,7 +6,7 @@
 **Репозиторий:** `igorsprosko-cyber/insales-test-copy`  
 **Рабочая ветка:** `v2.3-page-standardization-final2`  
 **Production:** `main` — не изменять без прямого разрешения  
-**Reference:** `v2.3-page-standardization` — не изменять без прямого разрешения
+**Historical reference:** `v2.3-page-standardization` — старый архивный baseline, не источник текущего кода. Текущий код: `v2.3-page-standardization-final2`.
 
 ---
 
