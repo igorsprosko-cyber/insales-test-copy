@@ -333,3 +333,28 @@ Third-party resources are reported at more than **700 KiB** combined. Lighthouse
 **PATCH #1: LOCKED.** No production/runtime code change is authorized by this entry. This baseline must be followed by read-only causal forensic analysis before any implementation change.
 
 Historical forensic measurements for old `.jpg` assets are not transferred to current `.webp` assets as evidence. Binary/archive items that cannot be textually inspected remain **NOT VERIFIED**.
+
+
+## 2026-09-08 — READ-ONLY FORENSIC AUDIT #1: H1 RENDER GATE
+
+**Status:** READ-ONLY forensic pass completed. No production/runtime code changed. PATCH #1 remains LOCKED.
+
+### VERIFIED from current `final2` source
+1. `head.liquid` explicitly hides the document body while `body:not(.settings_loaded)` is true: `content-visibility: hidden` when supported, with `visibility: hidden` fallback.
+2. `styles.liquid` adds the `settings_loaded` class only from the `onload` handler of the stylesheet link for `theme.css`: `document.body.classList.add('settings_loaded')`.
+3. Therefore the current source contains a direct render gate coupling first visual body availability to successful `theme.css` load completion. This is a code-level VERIFIED dependency; it is not yet proof that this gate alone causes the full 8.7 s Mobile LCP.
+4. `layouts.layout.liquid` emits `{% widgets_assets css_js_lists %}` before `{% include "styles" %}`. The asset lists include page/header/footer/sidebar/outside and template-specific lists. This is the current source-level path through which InSales-generated CSS/JS assets enter the document.
+5. `theme.js` is explicitly loaded with `defer` in the current layout. Therefore a blanket recommendation to add `defer` to every script is not an accurate description of the current source state.
+6. The current repository search does **not** expose source files named `common.v2.27.9.js` or a direct `front_api/cart.json` call. Their causal relationship to the render gate therefore cannot be proven from repository source alone; they are currently runtime/Lighthouse observations.
+
+### NOT VERIFIED
+- Whether `front_api/cart.json` directly delays the `theme.css` load or the `settings_loaded` event.
+- Whether `common.v2.27.9.js` is parser-blocking in the exact current document and whether it can safely be deferred.
+- Whether the `settings_loaded` gate is the dominant cause of the 8.7 s LCP, versus only one contributor.
+- Whether removing/relaxing the gate is safe without visual regression or FOUC across the site.
+
+### Important forensic conclusion
+The strongest current source-level finding is **not** "Hero is slow" and **not** "common.js must receive defer". It is: **the site deliberately withholds body rendering until `theme.css` fires `onload` and adds `settings_loaded`.** The next audit must connect this verified source dependency to the fresh Mobile runtime waterfall before any implementation change.
+
+### Required independent Codex audit
+Codex should independently verify the runtime/source causal chain, read-only, starting from this entry and the fresh baseline entry above. It must inspect `head.liquid`, `styles.liquid`, `layouts.layout.liquid`, the current widget/asset configuration, and any discoverable source/dependency references for `common.v2.27.9.js` and `front_api/cart.json`. It must not modify code. The expected output is evidence, causal chain, uncertainty, and a minimal safe Patch #1 proposal—not an implementation.
