@@ -5,7 +5,7 @@
 This branch is a dedicated workspace for building the VELES LEGS visual architecture and design-system layer around the existing InSales implementation.
 
 Base branch: `v2.3-page-standardization-final2`
-Working branch: `Figma-VELES-LEGS`
+Historical design workspace: `Figma-VELES-LEGS` (not current implementation source)
 
 ## Core principle
 
