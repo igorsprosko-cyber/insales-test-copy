@@ -34,7 +34,7 @@ Purpose: canonical preparation for the Figma `00 Foundations` page and later cod
 | Text secondary | `#555555`, `#666666`, `#777777` | consolidate deliberately |
 | Border | `#000000` plus lighter neutral borders | semantic variants needed |
 | Accent | `#5E8C31` in project design layer | candidate canonical |
-| InSales setting accent | `#76BC21` | unresolved platform/config value |
+| InSales setting accent | `#5E8C31` | verified current final2 value |
 | Error | `#F8D7DA` in theme settings | semantic error baseline |
 | Success | `#D4EDDA` in theme settings | semantic success baseline |
 
