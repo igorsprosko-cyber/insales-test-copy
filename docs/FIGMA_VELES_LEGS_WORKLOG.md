@@ -258,7 +258,7 @@ Mode: read-only audit. No production code changed.
 
 Repositories audited at inventory/dependency level: insales-test-copy branches main, v2.3-page-standardization-final2, Figma-VELES-LEGS, codex-ready; my-first-project main.
 
-Current inventory: final2 = 55 tree entries, HEAD 94521dd9f39d8483ff8a4d662f9a03486f9a03486b3fcb36; Figma-VELES-LEGS = 57, HEAD 63857a2bc54c815a63d47f438245a75df5ac977f; codex-ready = 56, HEAD 3f63b11c449d16934c4f3b8ba3cf2d934be5a673; main = 32, HEAD f74950a8f37cef2f17525bfba4cae1ed86c5a5f3; my-first-project/main = 45, HEAD c001cd27a579ed71d20d1627f2f3a49a7f1cc739.
+Current inventory: final2 = 55 tree entries, HEAD 94521dd9f39d8483ff8a4d662f9a03486b3fcb36; Figma-VELES-LEGS = 57, HEAD 63857a2bc54c815a63d47f438245a75df5ac977f; codex-ready = 56, HEAD 3f63b11c449d16934c4f3b8ba3cf2d934be5a673; main = 32, HEAD f74950a8f37cef2f17525bfba4cae1ed86c5a5f3; my-first-project/main = 45, HEAD c001cd27a579ed71d20d1627f2f3a49a7f1cc739.
 
 Cross-repository result: the repositories are not identical copies. my-first-project is structurally an architectural/start/reference repository with AGENTS.md, PROJECT.md, ARCHITECTURE.md, STYLE_GUIDE.md, SITE_MAP.md, TASKS.md, validation script and InSales theme under templates, snippets, media and config. Its theme files are generally different from current final2 blobs. It must remain an architectural/reference source, not a current-code mirror.
 
@@ -281,3 +281,16 @@ Audit status: NOT READY FOR CODE CHANGE YET. The repository is substantially pre
 Required reconciliation: distinguish last verified code baseline from documentation HEAD; explicitly choose the first causal node using strongest evidence; update controlled sequence/specification accordingly; then issue the Codex read-only pre-implementation audit.
 
 Next step after reconciliation: bounded CODEX PRE-IMPLEMENTATION AUDIT. Patch #1 and Patch #2 remain LOCKED.
+
+
+### 2026-09-08 — STRESS AUDIT RECONCILIATION
+
+The documented process conflict identified in PASS 1 is resolved at the documentation level: the first controlled causal node is IMAGE DELIVERY because the existing image-removal experiment is the strongest direct A/B evidence. The settings_loaded render gate remains a separate forensic candidate and is not combined with Patch #1. The common.v2.27.9.js dependency remains a later node requiring fresh runtime initiator/waterfall evidence.
+
+ZERO-POINT was corrected to distinguish the last verified code baseline from later documentation-only HEADs. No production/runtime code was changed.
+
+Patch #1 remains LOCKED pending the Codex pre-implementation audit. Patch #2 remains LOCKED pending successful Patch #1 evidence and its own preconditions.
+
+### Stress-audit continuation requirement
+
+The repository stress audit is not considered an excuse to claim that every binary byte or live runtime behavior has been verified. GitHub tree/source inspection verifies repository structure and text/config source; binary archive internals and live browser/runtime behavior remain separate evidence domains. Future audit entries must preserve this distinction.
