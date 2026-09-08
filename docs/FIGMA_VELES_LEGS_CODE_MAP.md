@@ -9,7 +9,7 @@ This is the working technical map between the planned Figma system and the real 
 
 - Architecture/rules source: `igorsprosko-cyber/my-first-project`.
 - Site/code source: `igorsprosko-cyber/insales-test-copy`.
-- Working design branch: `Figma-VELES-LEGS`.
+- Historical design workspace: `Figma-VELES-LEGS` (not current implementation source).
 - Base implementation requested for audit: `v2.3-page-standardization-final2`.
 - `main` must not be changed without explicit approval.
 - `V2.1_HOME_APPEND.liquid` is a protected reference and is not to be redesigned for standardization.
