@@ -294,3 +294,32 @@ Patch #1 remains LOCKED pending the Codex pre-implementation audit. Patch #2 rem
 ### Stress-audit continuation requirement
 
 The repository stress audit is not considered an excuse to claim that every binary byte or live runtime behavior has been verified. GitHub tree/source inspection verifies repository structure and text/config source; binary archive internals and live browser/runtime behavior remain separate evidence domains. Future audit entries must preserve this distinction.
+
+
+### 2026-09-08 — STRESS AUDIT PASS 2 — source/config reconciliation
+
+Additional current-source checks completed for the full current implementation surface and InSales reference set.
+
+**Important correction found:** the previously documented accent-color conflict is stale in the current final2 source. Current `settings_data.json` uses `#5E8C31` for button/accent values, and relevant `setup.json` values also use `#5E8C31`. `theme.scss` uses `#5E8C31`. The old `#76BC21` conflict remains only as historical documentation context. Foundations/Audit Status were corrected so this is no longer treated as an unresolved current conflict.
+
+**Current source checks confirmed:**
+- `index.liquid` contains the protected calculator logic and current homepage image source surface.
+- `head.liquid` contains the source-level settings_loaded render gate.
+- `styles.liquid` attaches settings_loaded on theme.css onload.
+- layouts call InSales `widgets_assets`; generated common.js must therefore be traced through runtime initiator/dependency evidence rather than edited directly.
+- `theme.js` is a separate shared runtime file and is not the same as generated common.js.
+- product.liquid contains a post-DOMContentLoaded image priority adjustment; this is distinct from the homepage image path and must not be confused with Patch #1.
+- current `final2` source contains no accidental references to the archived Figma branch in executable Liquid/JS/SCSS.
+- the 14-file InSales reference set contains no stale branch references in the checked source text.
+
+**Two-repository role confirmed:** `my-first-project/main` is a source of long-lived architecture/rules/style and an older InSales implementation snapshot. Its `TASKS.md` and `SITE_MAP.md` still mention historical `v2.3-page-standardization`; this is not a current-code defect because that repository is explicitly non-authoritative for current implementation. It must remain clearly labeled as historical/governing context.
+
+**Codex-ready branch finding:** `codex-ready` is not the current working branch. It diverges from current final2 and contains an older documentation baseline plus an operating contract. It is useful as a preparation artifact, but it must be regenerated/synchronized from the reconciled current final2 baseline before being used for implementation. Do not implement from its stale baseline.
+
+**Figma branch finding:** `Figma-VELES-LEGS` is divergent and stale for code. Its value is historical Figma/design/reference documentation and Qwen experiment history. Do not merge its code back into final2. Its documentation has already been transferred/consolidated where needed.
+
+**Current audit decision:** documentation/process inconsistencies discovered so far have been corrected or explicitly classified. Production/runtime code remains unchanged. Patch #1 and Patch #2 remain LOCKED.
+
+**Remaining evidence gate:** live browser/runtime evidence is still required for waterfall, initiators, rendered DOM, HTTP status and actual performance. Repository inspection cannot substitute for those measurements.
+
+**Next required action:** CODEX PRE-IMPLEMENTATION AUDIT against the reconciled current final2 state; no code implementation until its findings are reviewed.
