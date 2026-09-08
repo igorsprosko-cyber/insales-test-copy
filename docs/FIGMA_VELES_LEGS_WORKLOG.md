@@ -197,3 +197,29 @@ Deferred: perform the actual runtime/performance gate only after code changes be
 **Rollback:** revert the single Patch #1 commit if the evidence shows regression, no meaningful causal improvement, or an unintended priority/resource side effect.
 
 **Handoff to Codex:** this specification is suitable as the bounded first implementation task. Codex must modify only `index.liquid`, must not redesign or refactor surrounding markup, and must stop after producing the isolated diff for verification.
+
+
+### 2026-09-08 — CONTROLLED IMPLEMENTATION SEQUENCE v2 — pre-implementation gate inserted before Patch #1
+
+**Status:** PROCESS CORRECTION. No production code changed.
+
+The previously defined sequence is corrected: **FIRST CONTROLLED PATCH #1 must NOT be applied immediately.** A mandatory independent pre-implementation audit must occur first.
+
+**Authoritative sequence from ZERO-POINT onward:**
+
+1. **ZERO-POINT LOCK** — confirm the actual working repository/branch, current HEAD, protected areas, architecture authorities, forensic conclusions, documentation hierarchy, and clean baseline. No code changes.
+2. **CODEX PRE-IMPLEMENTATION AUDIT** — Codex receives a read-only audit task. It checks the preparation itself against the actual current branch: documentation ↔ code, source paths, file names, dependencies, protected areas, forensic assumptions, Critical Path model, and the proposed Patch #1. Codex must report only concrete discrepancies, risks, stale references, missing dependencies, or contradictions. No code or documentation writes.
+3. **AUDIT REVIEW / RECONCILIATION** — ChatGPT verifies each Codex finding against the repository and existing evidence. Do not accept an agent claim automatically. Correct only confirmed inconsistencies in the plan/specification/history; do not alter production code during this gate.
+4. **PATCH #1 FINAL LOCK** — after reconciliation, freeze the exact first controlled patch specification. Record final target file, exact target elements/attributes, exclusions, baseline SHA, success criteria and rollback criteria.
+5. **FIRST CONTROLLED IMPLEMENTATION #1** — Codex may modify only the locked scope in `index.liquid`. No refactoring, optimization of unrelated resources, or changes to protected logic. Codex stops after producing the isolated diff.
+6. **DIFF GATE** — inspect the diff before accepting the commit. If scope is violated, stop and revert/reject; do not continue.
+7. **COMMIT + RUNTIME VERIFICATION** — only after the diff gate, commit the isolated change and run comparable visual/functional/performance verification. Record FCP, LCP, LCP element, image request timing/waterfall and regressions where available.
+8. **EVIDENCE DECISION** — KEEP / REVERT / REVISE based on evidence. A PageSpeed score increase alone is insufficient. The causal loading behavior must be evaluated.
+9. **WORKLOG UPDATE** — record the actual change, commit SHA, measurements, findings and decision. Only then unlock the next causal node.
+10. **NEXT NODE** — proceed to Patch #2 (responsive image delivery: `srcset/sizes`) only if Patch #1 has passed its evidence gate and the new audit does not reveal a prerequisite.
+
+**Non-negotiable rule:** one causal node → one bounded patch → diff gate → verification → documented decision → next node. Never combine independent performance changes in one experiment.
+
+**Codex role:** executor/auditor, not autonomous architect. It may identify discrepancies and propose findings, but it must not silently reinterpret ZERO-POINT, rewrite the architecture, expand scope, or make unrelated improvements.
+
+**Current immediate next action:** CODEX PRE-IMPLEMENTATION AUDIT. Patch #1 is prepared but remains LOCKED until the audit is reviewed and reconciled.
