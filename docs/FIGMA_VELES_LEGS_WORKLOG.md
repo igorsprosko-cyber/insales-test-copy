@@ -150,3 +150,26 @@ Deferred: perform the actual runtime/performance gate only after code changes be
 - Readiness conclusion: **READY FOR CODEX INVENTORY, NOT YET AUTHORIZED FOR RUNTIME CODE CHANGES**.
 
 **Next stage:** Codex performs repository/dependency inventory from this zero-point, produces findings and a proposed first causal change; no implementation until that inventory is reviewed.
+
+
+### 2026-09-07 — Final Repository/Dependency Inventory (read-only)
+
+**Scope:** `codex-ready` tree, current implementation baseline `v2.3-page-standardization-final2`, documentation authority chain, protected areas, and performance-related dependency points. **No runtime code was modified.**
+
+**Repository inventory:** current `codex-ready` tree is complete and non-truncated. It contains the current theme templates/configuration plus the consolidated documentation set, forensic performance report, ZERO-POINT, and operating contract. Historical/archival branches are not treated as current implementation sources.
+
+**Implementation surface audited:** `head.liquid`, `layouts.layout.liquid`, `styles.liquid`, `theme.scss`, `theme.js`, `index.liquid`, `product.liquid`, `collection.liquid`, `cart.liquid`, `compare.liquid`, `favorite.liquid`, `search.liquid`, `page.liquid`, `article.liquid`, `blog.liquid`, `page_404.liquid`, `V2.1_HOME_APPEND.liquid`, and JSON configuration files.
+
+**Dependency map:** page rendering flows through the layout/head/style layers into page templates; shared styling is centralized in `theme.scss`; shared runtime behavior is in `theme.js` plus platform/common dependencies documented in `docs/insales-reference/11-common-js-and-eventbus.md`. Configuration dependencies are `settings.json` → `settings_data.json`/runtime settings and `setup.json`; page-specific Liquid remains dependent on InSales objects and widgets described in the reference set.
+
+**Performance dependency points:** parser-blocking/common JS, CSS delivery, fonts, image discovery/prioritization, third-party analytics, and resource contention remain the primary investigation chain. The forensic report is the evidence source; hypotheses must not be promoted to facts without comparable runtime evidence.
+
+**Protected areas:** `V2.1_HOME_APPEND.liquid` calculator DOM/business logic, `calcWood()`, `handleWood*`, `openManagerForm()`, `fillComment()`, `wood-*` IDs, VAT/NDS logic, and Metal Routing are protected. Inventory does not authorize changes to them.
+
+**Documentation authority:** `ZERO-POINT.md` and `AGENTS.md` define the operating gate; `FIGMA_VELES_LEGS_CODE_MAP.md` defines code ownership/protected areas; `FIGMA_VELES_LEGS_ARCHITECTURE.md` defines architecture constraints; `FIGMA_VELES_LEGS_RUNTIME_QA_PLAN.md` defines verification gates; `Forensic Performance-разбор сайта VELES LEGS` contains the forensic evidence; `ИСТОРИЯ_РАБОТ.md` is the chronological record.
+
+**Open findings before implementation:** exact runtime initiators/waterfall overlap cannot be re-proven from repository source alone; runtime trace/network export remains an evidence dependency for claims requiring timing correlation. The repository can identify candidates and dependency edges, but not replace runtime measurement.
+
+**Inventory conclusion:** repository/documentation baseline is coherent enough to begin the controlled implementation phase, with one causal change at a time and a verification gate after each change. The first implementation target must be selected from the forensic dependency chain, not from cosmetic cleanup.
+
+**Next stage:** define the first implementation change as a bounded, reversible patch against `v2.3-page-standardization-final2`, with explicit pre/post verification and rollback criteria.
