@@ -39,7 +39,7 @@ See `docs/FIGMA_VELES_LEGS_CODE_MAP.md` for the implementation matrix covering:
 
 ## Major conflicts to resolve in Figma before broad refactoring
 
-1. Global CSS token accent `#5E8C31` vs InSales setting `#76BC21`.
+1. Historical accent conflict `#5E8C31` vs `#76BC21` is resolved in current final2: current settings/setup values use `#5E8C31`; keep historical conflict only as context.
 2. Global Montserrat/Playfair intent vs platform/settings PT Root UI and local Roboto imports.
 3. Global component rules vs page-local `<style>` blocks.
 4. Shared InSales product widgets vs different page wrapper styles.
