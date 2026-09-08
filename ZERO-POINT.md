@@ -278,3 +278,58 @@ Inventory JS → зависимости → defer/conditional loading тольк
 **`ZERO-POINT.md` — Том II.**
 
 При продолжении проекта оба тома читаются совместно.
+
+
+## 2026-09-08 — FRESH PERFORMANCE BASELINE / INTERMEDIATE RESULT
+
+**Status:** VERIFIED as a fresh PageSpeed Insights/Lighthouse measurement supplied for independent audit. This is an **intermediate runtime baseline**, not a final forensic conclusion and not authorization to modify production code.
+
+### Desktop
+- Performance: **88**
+- FCP: **0.8 s**
+- LCP: **1.8 s**
+- TBT: **100 ms**
+- CLS: **0**
+- Speed Index: **1.7 s**
+- LCP element: **H1 (text)**
+
+### Mobile
+- Performance: **66**
+- FCP: **3.2 s**
+- LCP: **8.7 s**
+- TBT: **90 ms**
+- CLS: **0**
+- Speed Index: **4.6 s**
+- LCP element: **H1 (text)**
+
+### Fresh critical-path evidence — Mobile
+Maximum reported critical-path delay: **1577 ms**.
+
+Observed resources:
+- `front_api/cart.json`: **1577 ms**
+- `common.v2.27.9.js`: **1148 ms**
+- `theme.css`: **1077 ms**
+- `core-css.css`: **970 ms**
+- `jquery-3.5.1.min.js`: **968 ms**
+- `my-layout.js`: **963 ms**
+
+### Fresh image evidence — Mobile
+Lighthouse reports approximately **492 KiB** potential image savings. Current `opora-a178-chrome.webp` is reported at **67.7 KiB**, with estimated savings of **58.9 KiB**. Current LCP is H1, therefore the Hero image is **not established by this baseline as the LCP element or primary bottleneck**.
+
+### Third-party / unused JavaScript evidence
+Third-party resources are reported at more than **700 KiB** combined. Lighthouse reports approximately **658 KiB** unused JavaScript. These are recorded as observed audit findings, not yet as causal findings for the H1 LCP delay.
+
+### Interim interpretation / evidence status
+- **VERIFIED:** current LCP element is H1 on Desktop and Mobile.
+- **VERIFIED:** Mobile LCP is 8.7 s; Desktop LCP is 1.8 s.
+- **VERIFIED:** the listed JS/CSS/cart resources participate in the reported Mobile critical path.
+- **VERIFIED:** current Hero asset is `.webp` and relatively small at 67.7 KiB in this audit.
+- **NOT VERIFIED:** that Hero loading is the current primary cause of LCP delay.
+- **NOT VERIFIED:** that adding `defer` to `common.v2.27.9.js` is safe or causally sufficient.
+- **NOT VERIFIED:** that `front_api/cart.json` alone causes the full LCP delay.
+- **NEXT FORENSIC TARGET:** causal chain around H1 visibility, `settings_loaded`, `front_api/cart.json`, `common.v2.27.9.js`, CSS dependencies and render-gate behavior.
+
+### Gate
+**PATCH #1: LOCKED.** No production/runtime code change is authorized by this entry. This baseline must be followed by read-only causal forensic analysis before any implementation change.
+
+Historical forensic measurements for old `.jpg` assets are not transferred to current `.webp` assets as evidence. Binary/archive items that cannot be textually inspected remain **NOT VERIFIED**.
