@@ -75,20 +75,22 @@ InSales
 
 ## Canonical implementation order
 
+This order is aligned with `ZERO-POINT.md` and is the single navigation order for the current performance work:
+
 ```text
 0. Baseline + safety gate
 1. Critical Path inventory
 2. Image delivery / LCP discovery
 3. Parser-blocking / common.js dependency
 4. Critical CSS / settings_loaded gate
-5. First-party interaction JS
-6. Analytics / third-party scheduling
-7. Fonts
-8. Main-thread / layout / DOM
-9. SEO / A11Y / security / content consistency
-10. Visual + functional regression
-11. Final PageSpeed / Network / Performance verification
+5. Analytics / third-party scheduling
+6. Main-thread / layout / DOM
+7. SEO / A11Y / security / content consistency
+8. Visual + functional regression
+9. Final PageSpeed / Network / Performance verification
 ```
+
+Fonts and first-party interaction JS are investigated within the relevant critical-path stages when evidence identifies them as causal; they are not independent mandatory stages that override the ZERO-POINT sequence.
 
 Каждый пункт выполняется только после доказательства предыдущего причинного узла и с минимальным diff.
 
