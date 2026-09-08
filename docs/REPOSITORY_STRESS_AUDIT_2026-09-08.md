@@ -48,6 +48,6 @@ Repository inspection cannot establish current browser waterfall, HTTP status, r
 
 ## 9. Decision
 
-Repository structure and authority are sufficiently understood, but documentation-navigation inconsistencies must be reconciled before the first code change. Patch #1 remains LOCKED. Patch #2 remains LOCKED until Patch #1 is accepted and Patch #2 prerequisites are verified.
+Repository structure and authority are sufficiently understood. The identified documentation-navigation inconsistencies have been reconciled without production/runtime code changes. Patch #1 remains LOCKED. Patch #2 remains LOCKED until Patch #1 is accepted and Patch #2 prerequisites are verified.
 
 **Immediate next gate:** CODEX PRE-IMPLEMENTATION AUDIT, read-only, against the reconciled `v2.3-page-standardization-final2` state.
