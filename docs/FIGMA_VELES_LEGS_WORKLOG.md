@@ -135,3 +135,24 @@ Deferred: perform the actual runtime/performance gate only after code changes be
 **Verification:** VERIFIED — documentation change committed to `v2.3-page-standardization-final2`.
 **Runtime:** NOT CHANGED.
 **Deferred:** execute the implementation queue only from the existing ZERO-POINT and perform the full regression gate after each causal change.
+
+
+### 2026-09-08 — FIRST CONTROLLED IMPLEMENTATION: pre-patch image dependency trace (read-only)
+
+**Status:** PREPARATION ONLY. No code changed.
+
+**Checked:** `index.liquid`, `styles.liquid`, `head.liquid`, `layouts.layout.liquid`, `theme.scss`, `theme.js`, plus performance architecture/runtime QA rules.
+
+**Established source chain:** homepage visual resources are emitted directly by `index.liquid` via InSales `file_url`. The hero image is `opora-a178-chrome.webp` at the first-viewport hero card (`index.liquid`, around lines 1609–1612). Six category images are emitted immediately in the following catalog section (`foto_derevo.webp`, `foto_metal.webp`, `foto_furnitura.webp`, `foto_nazakaz.webp`, `A263.webp`, `aksia.webp`). A further blueprint/product image is emitted later in the page. CSS only defines presentation/object-fit; it does not initiate the image requests.
+
+**Current loading attributes:** the homepage image tags inspected do not declare `loading`, `fetchpriority`, `srcset`, or `sizes`. Therefore browser priority is currently implicit. This is a concrete implementation candidate, not yet a confirmed causal fix.
+
+**Existing loading architecture:** `styles.liquid` includes `system_v4_fonts` and loads `theme.css` with an `onload` handler that adds `settings_loaded`; `layouts.layout.liquid` already loads `theme.js` with `defer`. The performance QA plan explicitly requires measuring `theme.css`, `settings_loaded`, LCP discovery, and image delivery before/after changes.
+
+**Critical distinction:** the forensic report referenced historical network names `stol-vintage.jpg` and `opora-a178-chrome.jpg`; the current `final2` source contains `opora-a178-chrome.webp` and other `.webp` assets. This means the old measured filenames/weights must NOT be copied into the current causal model without a fresh runtime/network measurement. The repository proves the current source URLs, but not their transferred byte sizes or exact waterfall overlap.
+
+**First controlled patch candidate:** only the homepage image-loading attributes, beginning with classification of the hero image versus below-fold category images. No image files, calculator logic, Metal Routing, shared JS, analytics, CSS architecture, or business logic are to be modified in this gate.
+
+**Pre-patch conclusion:** the exact source location for the first image-delivery intervention is now identified. The safe next action is to define the minimal attribute-only patch and its rollback/verification criteria. Do not apply the patch until the baseline state and expected behavior are explicitly recorded.
+
+**Next stage:** FIRST CONTROLLED PATCH SPEC — define the exact `index.liquid` lines/attributes to change, then apply only that bounded patch and run the mandatory performance + visual + functional gates.
