@@ -223,3 +223,61 @@ The previously defined sequence is corrected: **FIRST CONTROLLED PATCH #1 must N
 **Codex role:** executor/auditor, not autonomous architect. It may identify discrepancies and propose findings, but it must not silently reinterpret ZERO-POINT, rewrite the architecture, expand scope, or make unrelated improvements.
 
 **Current immediate next action:** CODEX PRE-IMPLEMENTATION AUDIT. Patch #1 is prepared but remains LOCKED until the audit is reviewed and reconciled.
+
+
+### 2026-09-08 — PATCH #2 SPECIFICATION — RESPONSIVE IMAGE DELIVERY (LOCKED)
+
+Status: SPECIFICATION ONLY. LOCKED. Patch #2 must not be implemented until Patch #1 has passed its evidence gate and the resulting decision is recorded as KEEP/REVISE. No production code changed by this specification.
+
+Purpose: reduce unnecessary image transfer and improve resource selection across viewport sizes without combining this work with image priority, CSS, JS or third-party changes.
+
+Preconditions before implementation:
+1. Patch #1 must be verified first.
+2. Inventory actual image source URLs and any InSales widget-generated sources.
+3. Establish intrinsic dimensions and available responsive variants from real evidence. Do not invent widths or URLs.
+4. Verify whether the current InSales asset/file_url mechanism supports reliable responsive variants for these exact assets. If not proven, stop as NOT VERIFIED.
+5. Determine actual rendered widths for desktop and mobile before choosing sizes values.
+
+Potential scope: one homepage image-delivery surface in index.liquid, only for image elements for which responsive source selection is demonstrably supported. Hero and six category images remain separate candidates; do not assume one contract fits all.
+
+Allowed change, only if evidence supports it: add correct srcset and matching sizes using real available variants. Preserve the existing source as fallback where required. Do not alter business data, CSS layout, image art direction or unrelated resources.
+
+Explicitly excluded: image recompression, new image assets, CSS, preload, fetchpriority changes, loading-policy changes, JS, fonts, third-party scripts, calculator, Metal Routing, VAT/NDS, product/business logic and other templates.
+
+Success evidence: browser selects an appropriately sized resource for the actual viewport; transferred bytes decrease or resource efficiency improves without visual degradation; no layout shift, broken image, 404 or crop regression; waterfall confirms intended source selection.
+
+Verification: same controlled viewport/network conditions before and after. Record selected image URL, intrinsic/rendered dimensions, transferred bytes, FCP, LCP/LCP element, CLS, request timing and visual result. PageSpeed score alone is insufficient.
+
+Rollback: revert the isolated Patch #2 change if source selection is unreliable, bytes do not improve meaningfully, visual quality/cropping changes, or any regression appears.
+
+Unlock condition: only after Patch #1 evidence is accepted and all Patch #2 preconditions are verified. Until then Patch #2 is documentation-only and LOCKED.
+
+### 2026-09-08 — GENERAL REPOSITORY / DEPENDENCY STRESS AUDIT — PASS 1
+
+Mode: read-only audit. No production code changed.
+
+Repositories audited at inventory/dependency level: insales-test-copy branches main, v2.3-page-standardization-final2, Figma-VELES-LEGS, codex-ready; my-first-project main.
+
+Current inventory: final2 = 55 tree entries, HEAD 94521dd9f39d8483ff8a4d662f9a03486f9a03486b3fcb36; Figma-VELES-LEGS = 57, HEAD 63857a2bc54c815a63d47f438245a75df5ac977f; codex-ready = 56, HEAD 3f63b11c449d16934c4f3b8ba3cf2d934be5a673; main = 32, HEAD f74950a8f37cef2f17525bfba4cae1ed86c5a5f3; my-first-project/main = 45, HEAD c001cd27a579ed71d20d1627f2f3a49a7f1cc739.
+
+Cross-repository result: the repositories are not identical copies. my-first-project is structurally an architectural/start/reference repository with AGENTS.md, PROJECT.md, ARCHITECTURE.md, STYLE_GUIDE.md, SITE_MAP.md, TASKS.md, validation script and InSales theme under templates, snippets, media and config. Its theme files are generally different from current final2 blobs. It must remain an architectural/reference source, not a current-code mirror.
+
+Confirmed stale-reference findings:
+1. ZERO-POINT.md calls 9655b25c0e03bf1cf721835351b78735d2284c9f the current baseline, while actual current branch HEAD is later. 9655b25 is the prior documentation baseline; wording should distinguish last verified code baseline from current documentation HEAD before implementation.
+2. FIGMA architecture/code-map/worklog headers retain the historical statement that Figma-VELES-LEGS is the working branch. In current final2 these documents are reference/history material, not current branch authority.
+3. The forensic file contains a historical reference to v2.3-page-standardization as a reference branch, while current policy says final2 is the only current code source. This must be marked historical or corrected before being used operationally.
+4. my-first-project/main contains historical V2.3 references in TASKS.md and SITE_MAP.md, including v2.3-page-standardization. This is compatible with its architectural-origin role, but it must not be used as current branch authority.
+
+Critical process finding: there is a real sequencing conflict. ZERO-POINT section 5/8 describes the first causal experiment as theme.css → settings_loaded → render gate, while the current Worklog sequence has Patch #1 as homepage image loading. This must be reconciled before Codex is allowed to change code. No production code was changed to resolve it.
+
+Branch comparison finding: current final2 is materially different from main and the archived Figma branch. final2 no longer contains the old theme ZIP present in main/Figma, consistent with prior cleanup. Figma remains non-authoritative and must not be merged or copied back into current code merely to synchronize it.
+
+Protected architecture check: current documentation consistently identifies calculator logic, Metal Routing, VAT/NDS and related business behavior as protected. Patch #1 and Patch #2 do not include those areas.
+
+Runtime limitation: GitHub source inspection cannot prove current browser waterfall, HTTP status, runtime widget output or PageSpeed behavior. Those remain runtime gates.
+
+Audit status: NOT READY FOR CODE CHANGE YET. The repository is substantially prepared, but stale baseline wording and, more importantly, the ZERO-POINT versus Worklog first-causal-node conflict must be reconciled before the Codex pre-implementation audit can authorize Patch #1.
+
+Required reconciliation: distinguish last verified code baseline from documentation HEAD; explicitly choose the first causal node using strongest evidence; update controlled sequence/specification accordingly; then issue the Codex read-only pre-implementation audit.
+
+Next step after reconciliation: bounded CODEX PRE-IMPLEMENTATION AUDIT. Patch #1 and Patch #2 remain LOCKED.
