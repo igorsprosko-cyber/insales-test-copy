@@ -1,10 +1,12 @@
 # ZERO-POINT — ТОМ II
+
+> **STATUS: INACTIVE PREPARATION COPY.** This copy belongs to `codex-ready` and is not the governing ZERO-POINT for current work. The governing document is the `ZERO-POINT.md` on `v2.3-page-standardization-final2`.
 ## VELES LEGS / новая ступень проекта
 
 **Статус:** рабочий документ текущей ступени проекта  
 **Текущая кодовая ветка:** `v2.3-page-standardization-final2`  
 **Текущий baseline commit:** `26f1d6b92bf86a2d02769142aac94e304f674ede`  
-**Подготовительная ветка для Codex:** `codex-ready`  
+**Подготовительная ветка для Codex:** `codex-ready` — INACTIVE; not an implementation source and not a governing-rules source.  
 **Production:** `main` — не изменять без прямого разрешения  
 **Дата синхронизации:** 07.09.2026
 
