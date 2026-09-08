@@ -4,8 +4,8 @@
 
 Repository: `igorsprosko-cyber/insales-test-copy`
 
-Base: `v2.3-page-standardization-final2`
-Working branch: `Figma-VELES-LEGS`
+Current implementation base: `v2.3-page-standardization-final2`
+Figma workstream branch: `Figma-VELES-LEGS` (historical/workstream context only; not current code authority)
 
 ## Worklog
 
@@ -68,13 +68,13 @@ Working branch: `Figma-VELES-LEGS`
 
 ### Important documentation inconsistency discovered
 
-`ZERO-POINT.md` still records an older `Текущий HEAD документации` value (`4a8b7b8b...`) while later documentation-only commits exist in the current branch, including the worklog sequence updates. This is a documentation metadata staleness issue, not a production-code change. The operational rule is to treat the actual current branch HEAD as authoritative and the recorded historical code baseline separately.
+`ZERO-POINT.md` had recorded an older documentation HEAD value. It has now been reconciled: the actual current branch HEAD is authoritative, while the recorded code baseline remains separate. This was documentation-only and did not change production/runtime code.
 
-The top of `FIGMA_VELES_LEGS_WORKLOG.md` also says `Working branch: Figma-VELES-LEGS`. That is historically correct for the Figma workstream but can be misread as the current implementation branch. The canonical current-code statement elsewhere in the documentation remains `v2.3-page-standardization-final2`.
+The top of `FIGMA_VELES_LEGS_WORKLOG.md` now explicitly labels `Figma-VELES-LEGS` as historical/workstream context. The current implementation authority is `v2.3-page-standardization-final2`.
 
 ### Another real consistency issue
 
-`docs/FIGMA_VELES_LEGS_INDEX.md` contains a canonical implementation order that differs in detail from the newer ZERO-POINT controlled sequence (notably placement of first-party interaction JS and fonts). This does not change code, but it is a potential agent-navigation hazard. The newer ZERO-POINT / controlled implementation sequence must govern performance work until the index is explicitly reconciled.
+`docs/FIGMA_VELES_LEGS_INDEX.md` previously contained a slightly different implementation order. It has now been reconciled to the ZERO-POINT controlled sequence so that performance work has one canonical navigation order.
 
 ### Original architecture repository findings
 
@@ -127,12 +127,22 @@ The historical forensic conclusions remain useful as evidence from their origina
 
 ### C. Required reconciliation before Patch #1 unlock
 
-1. Reconcile the stale ZERO-POINT documentation HEAD metadata with the actual current documentation commit.
-2. Explicitly mark the Figma worklog branch header as historical/workstream context, not current code authority.
-3. Reconcile the implementation-order wording in `docs/FIGMA_VELES_LEGS_INDEX.md` with ZERO-POINT's controlled sequence.
-4. Then run CODEX PRE-IMPLEMENTATION AUDIT.
+1. ✓ Reconciled ZERO-POINT branch HEAD metadata with the actual current branch HEAD; code baseline remains separately identified.
+2. ✓ Marked the Figma worklog branch header as historical/workstream context, not current code authority.
+3. ✓ Reconciled `docs/FIGMA_VELES_LEGS_INDEX.md` implementation order with ZERO-POINT's controlled sequence.
+4. Next: run CODEX PRE-IMPLEMENTATION AUDIT.
 5. Only after audit review and a fresh runtime baseline may Patch #1 be unlocked.
 
 **Current gate:** PATCH #1 LOCKED pending pre-implementation audit. PATCH #2 LOCKED pending successful Patch #1 verification.
 
-**Next stage:** reconcile the three documentation-navigation inconsistencies above, record the reconciliation, then issue the short CODEX PRE-IMPLEMENTATION AUDIT task. No production code changes before that gate.
+**Next stage:** CODEX PRE-IMPLEMENTATION AUDIT. No production/runtime code changes before that gate.
+
+### 2026-09-08 — DOCUMENTATION NAVIGATION RECONCILIATION
+
+**Status:** completed; documentation only. Production/runtime code was not changed.
+
+**Confirmed changes:** ZERO-POINT HEAD metadata, Figma worklog branch labeling, and Figma index implementation order were reconciled to `v2.3-page-standardization-final2` as the only current implementation source.
+
+**Explicit limitations preserved:** `workspace (1).tar` remains NOT VERIFIED internally; historical forensic `.jpg` measurements are not transferred to current `.webp` assets without fresh runtime evidence; `codex-ready` is not a current baseline; `Figma-VELES-LEGS` is not a code source and is not synchronized back to `final2`.
+
+**Current gate:** PATCH #1 LOCKED; PATCH #2 LOCKED; production/runtime code unchanged.
