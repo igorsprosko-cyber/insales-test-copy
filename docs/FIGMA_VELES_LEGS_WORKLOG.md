@@ -156,3 +156,44 @@ Deferred: perform the actual runtime/performance gate only after code changes be
 **Pre-patch conclusion:** the exact source location for the first image-delivery intervention is now identified. The safe next action is to define the minimal attribute-only patch and its rollback/verification criteria. Do not apply the patch until the baseline state and expected behavior are explicitly recorded.
 
 **Next stage:** FIRST CONTROLLED PATCH SPEC — define the exact `index.liquid` lines/attributes to change, then apply only that bounded patch and run the mandatory performance + visual + functional gates.
+
+
+### 2026-09-08 — FIRST CONTROLLED PATCH SPEC #1 — homepage image loading attributes
+
+**Status:** SPECIFICATION ONLY. No runtime code changed.
+
+**Scope:** one file only — `index.liquid`. One causal node only — browser loading/priority of homepage images. No image assets, CSS, JS, analytics, calculator, Metal Routing, VAT/NDS or shared templates are included.
+
+**Patch A — first-viewport hero image:**
+- Target: `vl-v2-hero-card-photo`, source `opora-a178-chrome.webp`.
+- Add explicit `loading="eager"`.
+- Add explicit `fetchpriority="high"`.
+- Do not alter `src`, `alt`, class, markup structure or CSS.
+- Rationale: this image belongs to the first-viewport hero card and must not be accidentally treated as a deferred image. The priority declaration is an implementation hypothesis to be validated by the before/after waterfall and LCP discovery timing; it is not claimed as a proven performance fix.
+
+**Patch B — below-fold category images:**
+- Targets: the six `vl-v2-category-photo` images immediately following the hero/trust content: `foto_derevo.webp`, `foto_metal.webp`, `foto_furnitura.webp`, `foto_nazakaz.webp`, `A263.webp`, `aksia.webp`.
+- Add `loading="lazy"` to each.
+- Do not add `fetchpriority="low"` in this first patch; browser lazy-loading already changes discovery behavior and we want one bounded intervention rather than stacking multiple priority mechanisms.
+- Do not alter URLs, alt text, classes, surrounding markup or CSS.
+
+**Intentionally NOT included in Patch #1:** `srcset`, `sizes`, explicit width/height, image recompression/conversion, preload, CSS background images, fonts, `theme.js`, `common.js`, GTM, tag.js, or any other template.
+
+**Why dimensions are deferred:** repository inspection establishes the image URLs but does not establish reliable intrinsic dimensions for these assets. Do not invent dimensions. A later responsive-image gate may add them after asset/runtime evidence is available.
+
+**Baseline requirement before applying:** preserve the current clean baseline and record the exact pre-change commit SHA. The patch must be applied as a single isolated commit containing only the specified `index.liquid` attribute changes.
+
+**Verification gate after Patch #1:**
+1. Confirm only the intended `index.liquid` lines changed in Git diff.
+2. Confirm calculator, Metal Routing, VAT/NDS and protected markup are byte/behaviorally untouched by the patch.
+3. Run comparable desktop/mobile visual checks for hero and category sections.
+4. Run comparable performance measurement and inspect Network waterfall for hero/category image discovery and transfer timing.
+5. Record FCP, LCP, LCP element, image request start/end, and whether the hero request is discovered before/after the relevant render milestones.
+6. Check for new 404s, broken images, layout shift or visual regression.
+7. Keep or revert based on measured evidence; do not proceed to another causal node until the result is recorded.
+
+**Success criterion:** the patch is considered successful only if it improves or clearly stabilizes the intended loading behavior without functional/visual regression. A PageSpeed score increase alone is insufficient; the waterfall/LCP evidence is required.
+
+**Rollback:** revert the single Patch #1 commit if the evidence shows regression, no meaningful causal improvement, or an unintended priority/resource side effect.
+
+**Handoff to Codex:** this specification is suitable as the bounded first implementation task. Codex must modify only `index.liquid`, must not redesign or refactor surrounding markup, and must stop after producing the isolated diff for verification.
