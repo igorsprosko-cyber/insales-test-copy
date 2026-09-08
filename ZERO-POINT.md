@@ -3,7 +3,9 @@
 
 **Статус:** рабочий документ следующей ступени проекта  
 **Рабочая ветка:** `v2.3-page-standardization-final2`  
-**Текущий baseline commit:** `9655b25c0e03bf1cf721835351b78735d2284c9f`  
+**Последний проверенный code baseline:** `9655b25c0e03bf1cf721835351b78735d2284c9f`  
+**Текущий HEAD документации:** `4a8b7b8b8050ad65a45b0c1c31ee7f1ce175fe0e`  
+**Важно:** между code baseline и текущим HEAD зафиксированы только документационные изменения; production/runtime code не менялся.  
 **Production:** `main` — не изменять без прямого разрешения  
 **Дата открытия тома:** 07.09.2026
 
@@ -139,17 +141,18 @@ Runtime 404/canonical и коммерческие данные являются 
 
 Нужно сохранить исходные evidence из Network/Performance, прежде чем менять код.
 
-### Причинный узел №1
+### Причинный узел №1 — IMAGE DELIVERY / LCP RESOURCE LOADING
 
-Текущая рабочая гипотеза для первой проверки:
+Первым контролируемым узлом выбран image delivery, потому что именно здесь уже имеется прямое A/B-доказательство существенного влияния тяжёлых изображений на payload и PageSpeed/LCP baseline. Это не доказывает, что изображения являются единственной причиной оставшегося LCP.
 
-**`theme.css` → `onload` → `settings_loaded` → возможный render gate → FCP/LCP.**
+Текущий locked Patch #1 проверяет только загрузочную политику конкретных homepage images. Он не меняет формат/размер самих assets и не смешивается с responsive delivery.
 
-Связанный второй узел:
+### Следующие кандидаты, пока НЕ разрешённые к изменению
 
-**`widgets_assets` → parser-blocking `common.v2.27.9.js` → задержка критического пути.**
+1. **`theme.css` → `onload` → `settings_loaded` → render gate → FCP/LCP** — source-level факт, runtime-каузальность не доказана.
+2. **`widgets_assets` → parser-blocking `common.v2.27.9.js`** — доказанный critical-path suspect из historical trace, но текущий initiator/waterfall должен быть проверен свежим runtime evidence.
 
-Порядок не означает, что гипотеза автоматически истинна. Первая правка допустима только после runtime-проверки.
+Порядок основан на качестве уже имеющегося evidence. Ни один кандидат не считается доказанной первопричиной только по source inspection.
 
 ---
 
@@ -225,7 +228,7 @@ Inventory JS → зависимости → defer/conditional loading тольк
 
 Пока свежий runtime baseline не получен, код не менять.
 
-После получения baseline провести узкий A/B вокруг render gate `settings_loaded`, не затрагивая калькулятор, Metal Routing и коммерческую логику.
+После получения baseline выполнить только разрешённый Patch #1 image-loading experiment. Render-gate `settings_loaded` остаётся отдельным последующим forensic node и не смешивается с Patch #1.
 
 Сравнивать минимум:
 
