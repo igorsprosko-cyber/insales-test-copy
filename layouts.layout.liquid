@@ -20,6 +20,10 @@
     <link rel="preconnect" href="https://smartcaptcha.yandexcloud.net">
     <!-- ===== КОНЕЦ ===== -->
 
+    <!-- ===== PATCH #1: PRELOAD theme.css (раннее обнаружение ресурса) ===== -->
+    <link rel="preload" href="{{ 'theme.css' | asset_url }}" as="style">
+    <!-- ===== КОНЕЦ PATCH #1 ===== -->
+
     <!-- ===== МИКРОРАЗМЕТКА ХЛЕБНЫХ КРОШЕК (BreadcrumbList) ===== -->
     <script type="application/ld+json">
     {
