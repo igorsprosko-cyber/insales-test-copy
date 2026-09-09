@@ -358,3 +358,119 @@ The strongest current source-level finding is **not** "Hero is slow" and **not**
 
 ### Required independent Codex audit
 Codex should independently verify the runtime/source causal chain, read-only, starting from this entry and the fresh baseline entry above. It must inspect `head.liquid`, `styles.liquid`, `layouts.layout.liquid`, the current widget/asset configuration, and any discoverable source/dependency references for `common.v2.27.9.js` and `front_api/cart.json`. It must not modify code. The expected output is evidence, causal chain, uncertainty, and a minimal safe Patch #1 proposal—not an implementation.
+
+
+# 2026-09-09 — CONSOLIDATED PERFORMANCE FORENSIC CONCLUSION
+
+**Status:** ANALYTICAL GATE COMPLETED — no production/runtime code changed. **PATCH #1 remains LOCKED.**
+
+## 1. Evidence set
+
+This conclusion reconciles four independent evidence streams available to the project:
+
+1. **Fresh PSI/Lighthouse baseline (08.09.2026):** current Mobile LCP 8.7 s, Desktop LCP 1.8 s; LCP element is H1 on both; Mobile critical-path report includes `cart.json`, `common.v2.27.9.js`, CSS and `my-layout.js`.
+2. **Chrome/DevTools + raw Performance Trace investigation:** historical Slow 3G/CPU experiment recorded H1 LCP/FCP ≈43.9 s and `common.v2.27.9.js` as parser-blocking with ≈40.8 s total request delay, predominantly ≈38.4 s Content Download; removal of two very large JPG images reduced a Mobile PSI LCP from 27.5 s to 10.0 s in that experiment.
+3. **Independent Codex source/runtime forensic verification:** independently rechecked the render gate, `settings_loaded`, `widgets_assets`, the cart widget scope and the absence of repository-local `common.v2.27.9.js` / direct `front_api/cart.json` source. It did not promote the cart/common causal hypothesis to fact.
+4. **My independent repository forensic analysis:** independently confirmed the same source-level render gate and asset ordering and identified the same boundary between repository-controlled code and platform-generated runtime assets.
+
+## 2. Consolidated VERIFIED findings
+
+### A. The current problem is real and primarily Mobile
+- Current Mobile LCP: **8.7 s**.
+- Current Desktop LCP: **1.8 s**.
+- Current LCP element: **H1 (text)** on both.
+- CLS remains **0** and TBT is low (**90 ms Mobile / 100 ms Desktop** in the fresh baseline).
+
+Therefore the project should not treat the Hero image as the LCP element or assume that main-thread execution is the dominant current LCP mechanism.
+
+### B. There is a real body render gate in current source
+Current source establishes:
+
+`theme.css onload` → add `settings_loaded` → body becomes visible.
+
+`head.liquid` hides `body:not(.settings_loaded)` using `content-visibility: hidden` with a `visibility: hidden` fallback. This is a direct source-level dependency and is the strongest currently proven render-path control point.
+
+### C. Platform-generated JavaScript has historically been capable of blocking parsing
+The raw historical trace independently establishes `common.v2.27.9.js` as `renderBlocking: in_body_parser_blocking`, initiator `parser`, with ≈40.8 s transfer time under the tested network conditions. This is **VERIFIED for that trace/condition**, not automatically for today's exact runtime.
+
+### D. Network contention from large images was experimentally demonstrated
+The removal experiment reduced Mobile LCP from **27.5 s to 10.0 s**. This is strong experimental evidence that page payload/network competition materially affected the earlier mobile result. After WebP conversion and asset optimization, the current Mobile LCP is **8.7 s**, confirming substantial improvement but not complete resolution.
+
+### E. The repository does not control the observed `common.js` / `cart.json` source directly
+Neither `common.v2.27.9.js` nor a direct `front_api/cart.json` call was found in the repository source. The `cart_2` widget inspected by Codex is associated with the cart page, not the homepage. The homepage header cart code found in the repository only adds an accessibility label and does not itself issue `cart.json`.
+
+## 3. What the combined evidence DOES NOT prove
+
+The evidence does **not** justify any of these statements as established facts:
+
+- `front_api/cart.json` is the cause of the current 8.7 s LCP;
+- `common.v2.27.9.js` is currently consuming the same ≈40.8 s as in the historical trace;
+- `common.js` should simply receive `defer`;
+- removing or weakening `settings_loaded` is safe;
+- `theme.css` is the sole or dominant cause of the current LCP;
+- adding `preload` to `theme.css` will necessarily improve LCP.
+
+The report's old JPG measurements must remain historical evidence; they are not silently transferred to the current WebP assets.
+
+## 4. Consolidated causal model
+
+The best-supported model is:
+
+**Current:**
+
+HTML / generated assets
+→ network and platform resource scheduling
+→ `theme.css` completion
+→ `settings_loaded`
+→ body visibility
+→ H1 becomes eligible/visible
+→ LCP
+
+**Historical stress case:**
+
+large JPG payloads + slow network
+→ severe network contention
+→ parser-blocking `common.v2.27.9.js` suffers very long download
+→ document parsing/render progression is delayed
+→ H1 LCP/FCP becomes extremely late
+
+The two models are compatible. They establish **network/critical-path pressure as a major contributor**, while the current render gate is a **verified mechanism that can convert delayed CSS completion into delayed body visibility**. The exact current causal contribution of each platform-generated resource remains unquantified.
+
+## 5. Decisions for implementation
+
+### Decision 1 — Do NOT apply blanket JS `defer`
+Already-deferred `theme.js` and platform-generated `common.js` must not be treated identically. The generated asset needs dependency-aware handling.
+
+### Decision 2 — Do NOT remove/relax `settings_loaded` yet
+The gate is a strong suspect/control point, but visual/FOUC safety and current runtime causality are not sufficiently established for an implementation change.
+
+### Decision 3 — Image optimization remains valid work, but not the whole answer
+The experimental evidence justifies continuing responsive image sizing/delivery improvements for oversized assets, while keeping the current LCP identification (H1) in mind.
+
+### Decision 4 — `theme.css` preload is a candidate, not an approved patch
+It is minimal and reversible, but must be treated as a hypothesis. It should only be implemented if the project chooses a controlled experiment and accepts the risk of changing request priority. No approval is granted by this record alone.
+
+## 6. FINAL FORENSIC VERDICT
+
+**Primary current diagnosis:** Mobile performance is constrained by the **network/critical rendering path**, not by H1 computation or a single heavy LCP image. The strongest source-level mechanism is the deliberate `theme.css` → `settings_loaded` render gate. Historical runtime evidence additionally proves that platform-generated parser-blocking `common.js` can become a severe bottleneck under constrained bandwidth, while the image-removal experiment proves that oversized page assets can materially amplify that network problem.
+
+**What is NOT established:** which single resource is the dominant cause of the present 8.7 s LCP, and whether changing `theme.css`, `common.js`, `cart.json`, or the render gate would produce the safest/best result.
+
+**Therefore:** the investigation has reached a sufficiently strong forensic conclusion to select a controlled first experiment, but **not** to justify a broad performance refactor.
+
+## 7. NEXT CONTROLLED STEP
+
+The next implementation must be **one small, reversible, evidence-labelled experiment**. Before touching code, record the exact current code baseline and protected zones. Then test the smallest candidate against the fresh Mobile/Desktop baseline, with immediate rollback available.
+
+**Preferred experiment candidate:** current `theme.css` request-path optimization (e.g. preload) only if the exact generated HTML confirms that the preload will not create a duplicate/conflicting request. Otherwise stop and select the next candidate from the measured waterfall.
+
+Acceptance gate:
+- Mobile LCP must improve materially or the hypothesis is rejected;
+- Mobile FCP must not regress materially;
+- CLS must remain **0**;
+- Desktop LCP must not materially regress;
+- no visual/FOUC regression;
+- calculator and Metal Routing must remain unchanged and functional;
+- diff must contain only the intended minimal change.
+
+**No multi-variable optimization in Patch #1.**
