@@ -154,22 +154,6 @@
 {% include "system_favicon" %}
 
 <!-- ========================================== -->
-<!-- СТИЛИ (для предотвращения FOUC)            -->
-<!-- ========================================== -->
-<style media="screen">
-  @supports (content-visibility: hidden) {
-    body:not(.settings_loaded) {
-      content-visibility: hidden;
-    }
-  }
-  @supports not (content-visibility: hidden) {
-    body:not(.settings_loaded) {
-      visibility: hidden;
-    }
-  }
-</style>
-
-<!-- ========================================== -->
 <!-- СИСТЕМНЫЕ ВКЛЮЧЕНИЯ INSALES                -->
 <!-- ========================================== -->
 {%- include "system_seo_description" -%}
